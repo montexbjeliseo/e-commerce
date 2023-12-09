@@ -10,6 +10,7 @@ import { ProductCreatePage } from "./pages/Products/ProductCreate"
 import { ProductEditPage } from "./pages/Products/ProductEdit"
 import { CartPage } from "./pages/CartPage"
 import { NotFoundPage } from "./pages/NotFound"
+import { AboutPage } from "./pages/About"
 
 function App() {
 
@@ -27,6 +28,7 @@ function App() {
             <Route path="/products/create" element={<ProductCreatePage />} />
             <Route path="/products/edit/:id" element={<ProductEditPage />} />
             <Route path="/cart-detail" element={<CartPage />} />
+            <Route path="/about" element={<AboutPage />} />
             <Route path="*" element={<NotFoundPage />} />
           </Route>
         </Routes>
