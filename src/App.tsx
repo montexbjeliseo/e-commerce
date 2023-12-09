@@ -11,28 +11,34 @@ import { ProductEditPage } from "./pages/Products/ProductEdit"
 import { CartPage } from "./pages/CartPage"
 import { NotFoundPage } from "./pages/NotFound"
 import { AboutPage } from "./pages/About"
+import { QueryClient, QueryClientProvider } from "react-query"
+
+
+const queryClient = new QueryClient();
 
 function App() {
 
   return (
     <>
-      <BrowserRouter>
-        <Routes>
-          <Route element={<Layout />}>
-            <Route path="/" element={<HomePage />} />
-            <Route path="/login" element={<LoginPage />} />
-            <Route path="/register" element={<RegisterPage />} />
-            <Route path="/categories" element={<CategoriesPage />} />
-            <Route path="/products" element={<ProductsPage />} />
-            <Route path="/products/:id" element={<ProductDetailPage />} />
-            <Route path="/products/create" element={<ProductCreatePage />} />
-            <Route path="/products/edit/:id" element={<ProductEditPage />} />
-            <Route path="/cart-detail" element={<CartPage />} />
-            <Route path="/about" element={<AboutPage />} />
-            <Route path="*" element={<NotFoundPage />} />
-          </Route>
-        </Routes>
-      </BrowserRouter>
+      <QueryClientProvider client={queryClient}>
+        <BrowserRouter>
+          <Routes>
+            <Route element={<Layout />}>
+              <Route path="/" element={<HomePage />} />
+              <Route path="/login" element={<LoginPage />} />
+              <Route path="/register" element={<RegisterPage />} />
+              <Route path="/categories" element={<CategoriesPage />} />
+              <Route path="/products" element={<ProductsPage />} />
+              <Route path="/products/:id" element={<ProductDetailPage />} />
+              <Route path="/products/create" element={<ProductCreatePage />} />
+              <Route path="/products/edit/:id" element={<ProductEditPage />} />
+              <Route path="/cart-detail" element={<CartPage />} />
+              <Route path="/about" element={<AboutPage />} />
+              <Route path="*" element={<NotFoundPage />} />
+            </Route>
+          </Routes>
+        </BrowserRouter>
+      </QueryClientProvider>
     </>
   )
 }
