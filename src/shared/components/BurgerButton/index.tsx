@@ -54,13 +54,14 @@ const NavIcon = styled.div`
 `;
 
 type Props = {
-    handleClick: () => void
+    open: boolean;
+    handleClick: () => void;
 }
 
-export const BurgerButton: React.FC<Props> = ({handleClick}) => {
+export const BurgerButton: React.FC<Props> = ({handleClick, open}) => {
     return (
         <NavIcon>
-            <div className="icon nav-icon-5" onClick={handleClick}>
+            <div className={`icon nav-icon-5 ${open ? 'open' : ''}`} onClick={handleClick}>
                 <span></span>
                 <span></span>
                 <span></span>

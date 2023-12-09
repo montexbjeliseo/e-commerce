@@ -14,19 +14,18 @@ export const Navbar = () => {
             <div className="wrap">
                 <div className="brand-name">E-commerce</div>
                 <div className="toggle-show-links-button">
-                    <BurgerButton handleClick={() => setToggleShowLinks(!toggleShowLinks)}/>
+                    <BurgerButton open={toggleShowLinks} handleClick={() => setToggleShowLinks(!toggleShowLinks)}/>
                 </div>
                 <nav className={toggleShowLinks ? "show-links" : ""}>
                     <ul>
-                        <li><Link to="/">Home</Link></li>
-                        <li><Link to="/categories">Categories</Link></li>
-                        <li><Link to="/products">Products</Link></li>
-                        <li><Link to="/about">About</Link></li>
+                        <li><Link onClick={() => setToggleShowLinks(false)} to="/">Home</Link></li>
+                        <li><Link onClick={() => setToggleShowLinks(false)} to="/categories">Categories</Link></li>
+                        <li><Link onClick={() => setToggleShowLinks(false)} to="/products">Products</Link></li>
                         <li>
                             <SearchInput />
                         </li>
-                        <li className="cart-link"><Link to="/cart-detail"><img src={CartIcon} alt="Cart icon" /></Link></li>
-                        <li className="login-link"><Link to="/login">Login</Link></li>
+                        <li className="cart-link"><Link onClick={() => setToggleShowLinks(false)} to="/cart-detail"><img src={CartIcon} alt="Cart icon" /></Link></li>
+                        <li className="login-link"><Link onClick={() => setToggleShowLinks(false)} to="/login">Login</Link></li>
                     </ul>
                 </nav>
                 
