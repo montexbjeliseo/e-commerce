@@ -1,8 +1,17 @@
+:root {
+    --break-point-xs: 0;
+    --break-point-sm: 576px;
+    --break-point-md: 768px;
+    --break-point-lg: 992px;
+    --break-point-xl: 1200px;
+    --break-point-xxl: 1400px;
+}
+
 * {
     margin: 0;
     padding: 0;
 }
 
 .container {
-    max-width: 1200px;
+    max-width: var(--break-point-xl);
 }

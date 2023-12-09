@@ -1,22 +1,21 @@
 .header {
-    display: flex;
     width: 100%;
     height: 60px;
-    flex-shrink: 0;
-    align-items: center;
-    justify-content: center;
     border-bottom: 1px solid #111;
     font-family: Public Sans;
     font-style: normal;
     font-size: 24px;
+    box-sizing: border-box;
 }
 
 .wrap {
     display: flex;
-    width: 100%;
-    max-width: 1200px;
     justify-content: space-between;
     align-items: center;
+    max-width: 1200px;
+    height: 100%;
+    margin: auto;
+    box-sizing: border-box;
 }
 
 .header nav ul {
@@ -24,12 +23,12 @@
     list-style: none;
     list-style-type: none;
     gap: 10px;
+    box-sizing: border-box;
 }
 
 .header nav ul li a {
     text-decoration: none;
     color: #111;
-    /* font-weight: bolder; */
 }
 
 .link-group {
@@ -57,4 +56,53 @@
 
 .search-form {
     padding-left: 20px;
+}
+
+.cart-link,
+.login-link {
+    align-self: self-end;
+}
+
+
+
+@media (min-width: 1080px) {
+    .toggle-show-links-button {
+        display: none;
+    }
+}
+
+@media screen and (max-width: 1080px) {
+    .header {
+        min-height: 60px;
+        height: 60px;
+    }
+    .header .wrap {
+        justify-content: space-between;
+        width: 100%;
+    }
+    .header nav {
+        display: none;
+    }
+
+    
+    .header nav.show-links {
+        display: flex;
+        position: absolute;
+        top: 60px;
+        left: 0;
+        right: 0;
+        background: #fff;
+        padding: 0 10px;
+    }
+
+    .header nav.show-links ul {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        
+    }
+    .header nav.show-links ul .cart-link,
+    .header nav.show-links ul .login-link {
+        align-self: self-start;
+    }
 }
