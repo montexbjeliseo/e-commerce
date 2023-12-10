@@ -6,6 +6,7 @@ import { ErrorMessage } from "../../shared/components/ErrorMessage";
 import { CheckboxInput } from "../../shared/components/CheckboxInput";
 import { Category, Product } from "../../types";
 import { ProductList } from "../../shared/components/ProductList";
+import { PriceRangeInput } from "../../shared/components/PriceRangeInput";
 
 
 export const ProductsPage = () => {
@@ -32,6 +33,9 @@ export const ProductsPage = () => {
         )
     }
 
+    const minPrice = Math.min(...(products as Product[]).map((product) => product.price));
+    const maxPrice = Math.max(...(products as Product[]).map((product) => product.price));
+
     return (
         <>
             <section className="container center">
@@ -39,11 +43,8 @@ export const ProductsPage = () => {
                 <div className="product-container">
                     <aside>
                         <h2>Filters</h2>
-                        <ul>
-                            <li>title</li>
-                            <li>price range</li>
-                            <li>category</li>
-                        </ul>
+                        <h3>Title</h3>
+                        <input type="text" name="title" id="" placeholder="Product title" />
                         <h3>Categories</h3>
                         <ul className="filter-category-list">
                             {(categories as Category[]).map((category) => (
@@ -52,6 +53,8 @@ export const ProductsPage = () => {
                                 </li>
                             ))}
                         </ul>
+                        <h3>Price</h3>
+                        <PriceRangeInput min={minPrice} max={maxPrice} />
                     </aside>
                     <main>
                         <ProductList products={products as Product[]} />
