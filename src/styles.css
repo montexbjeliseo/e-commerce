@@ -5,6 +5,9 @@
     --break-point-lg: 992px;
     --break-point-xl: 1200px;
     --break-point-xxl: 1400px;
+    --btn-primary: #0D0D0D;
+    --btn-primary-hover: #272727;
+    --btn-primary-active: #fff;
 }
 
 * {
@@ -13,5 +16,42 @@
 }
 
 .container {
+    margin: auto;
     max-width: var(--break-point-xl);
+    font-family: Public Sans;
+}
+
+.title {
+    color: #333;
+    padding-top: 20px;
+    padding-bottom: 10px;
+    font-weight: lighter;
+}
+
+.btn {
+    display: inline-flex;
+    padding: 12px;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0;
+    cursor: pointer;
+}
+
+.btn-primary {
+    background-color: var(--btn-primary);
+    color: #fff;
+}
+
+.btn-primary:hover {
+    background-color: var(--btn-primary-hover);
+}
+
+.btn-primary:active {
+    background-color: var(--btn-primary-active);
+    color: #000;
+}
+
+.text-input, select {
+    padding: 12px;
+    outline: none;
 }

@@ -1,0 +1,23 @@
+.product-container {
+    display: grid;
+    width: 100%;
+    grid-template-columns: repeat(4, 1fr);
+}
+
+/* .product-container aside {
+} */
+
+.product-container main {
+    grid-column: 2 / 5;
+}
+
+
+
+.filter-category-list {
+    list-style: none;
+    list-style-type: none;
+}
+
+.filter-category-list li {
+    padding: 5px 0;
+}
