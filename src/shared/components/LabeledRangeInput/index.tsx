@@ -15,7 +15,7 @@ export const LabeledRangeInput: React.FC<LabeledRangeInputProps> = ({ input_name
     
     return (
         <>
-            <p><label htmlFor={rangeInputId}>{label}: {value}</label></p>
+            <p><label htmlFor={rangeInputId}>{label}: ${value}</label></p>
             <input
                 type="range"
                 name={input_name}

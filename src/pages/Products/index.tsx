@@ -43,18 +43,22 @@ export const ProductsPage = () => {
                 <div className="product-container">
                     <aside>
                         <h2>Filters</h2>
-                        <h3>Title</h3>
-                        <input type="text" name="title" id="" placeholder="Product title" />
-                        <h3>Categories</h3>
-                        <ul className="filter-category-list">
-                            {(categories as Category[]).map((category) => (
-                                <li key={category.id}>
-                                    <CheckboxInput name="category" value={category.id} label={category.name} />
-                                </li>
-                            ))}
-                        </ul>
-                        <h3>Price</h3>
-                        <PriceRangeInput min={minPrice} max={maxPrice} />
+                        <form action="" method="get">
+                            <h3>Title</h3>
+                            <input className="text-input" type="text" name="title" id="" placeholder="Product title" />
+                            <h3>Categories</h3>
+                            <ul className="filter-category-list">
+                                {(categories as Category[]).map((category) => (
+                                    <li key={category.id}>
+                                        <CheckboxInput name="category" value={category.id} label={category.name} />
+                                    </li>
+                                ))}
+                            </ul>
+                            <h3>Price</h3>
+                            <PriceRangeInput min={minPrice} max={maxPrice} />
+                            <button className="btn btn-primary" type="reset">Clear filters</button>
+                        </form>
+
                     </aside>
                     <main>
                         <ProductList products={products as Product[]} />
