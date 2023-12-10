@@ -1,9 +1,11 @@
 import { useReducer } from "react";
 import { LabeledRangeInput } from "../LabeledRangeInput";
+import { PriceRange } from "../../../types";
 
 type PriceRangeInputProps = {
     min: number;
     max: number;
+    rangeValue: PriceRange;
     handleChange?: (min: number, max: number) => void;
 };
 
@@ -23,9 +25,9 @@ function priceRangeReducer(state: any, action: any) {
     }
 }
 
-export const PriceRangeInput: React.FC<PriceRangeInputProps> = ({ min, max }) => {
+export const PriceRangeInput: React.FC<PriceRangeInputProps> = ({ min, max, rangeValue }) => {
 
-    const [priceRange, dispatch] = useReducer(priceRangeReducer, { min, max });
+    const [priceRange, dispatch] = useReducer(priceRangeReducer, rangeValue);
 
     const handleMinChange = (newMinValue: number) => {
         const clampedMinValue = Math.min(newMinValue, priceRange.max);
@@ -33,7 +35,6 @@ export const PriceRangeInput: React.FC<PriceRangeInputProps> = ({ min, max }) =>
     };
 
     const handleMaxChange = (newMaxValue: number) => {
-        console.log(newMaxValue)
         const clampedMaxValue = Math.max(newMaxValue, priceRange.min);
         dispatch({ type: ActionType.SET_MAX, payload: clampedMaxValue });
     };

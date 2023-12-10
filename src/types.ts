@@ -12,3 +12,15 @@ export type Product = {
     category: Category;
     images: string[];
 }
+
+export type PriceRange = {
+    min: number;
+    max: number;
+}
+
+export type ProductFilters = {
+    price_min: number;
+    price_max: number;
+    categoryId?: number;
+    title?: string;
+}

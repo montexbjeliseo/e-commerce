@@ -29,7 +29,7 @@
 }
 
 .btn {
-    display: flex;
+    display: inline-flex;
     padding: 12px;
     justify-content: center;
     align-items: center;
@@ -51,7 +51,7 @@
     color: #000;
 }
 
-.text-input {
+.text-input, select {
     padding: 12px;
     outline: none;
 }
