@@ -1,0 +1,7 @@
+.form-container {
+    max-width: 456px;
+    margin: auto;
+    padding: 30px;
+    background-color: var(--bg-secondary);
+    margin-top: 3.5rem;
+}

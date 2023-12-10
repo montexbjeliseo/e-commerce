@@ -1,7 +1,13 @@
+import { LoginForm } from "../../../shared/components/LoginForm"
+import "./styles.css"
+
 export const LoginPage = () => {
     return (
-        <div>
-            <h1>Login</h1>
+        <div className="container">
+            <div className="form-container">
+                <h1 className="title center">Welcome back!</h1>
+                <LoginForm />
+            </div>
         </div>
     )
 }
