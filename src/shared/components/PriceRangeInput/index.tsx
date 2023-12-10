@@ -1,4 +1,5 @@
-import { useId, useReducer } from "react";
+import { useReducer } from "react";
+import { LabeledRangeInput } from "../LabeledRangeInput";
 
 type PriceRangeInputProps = {
     min: number;
@@ -24,48 +25,38 @@ function priceRangeReducer(state: any, action: any) {
 
 export const PriceRangeInput: React.FC<PriceRangeInputProps> = ({ min, max }) => {
 
-    const minPriceRangeInputId = useId();
-    const maxPriceRangeInputId = useId();
-
     const [priceRange, dispatch] = useReducer(priceRangeReducer, { min, max });
 
-    const handleMinChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const newMinValue = parseInt(event.target.value, 10);
+    const handleMinChange = (newMinValue: number) => {
         const clampedMinValue = Math.min(newMinValue, priceRange.max);
         dispatch({ type: ActionType.SET_MIN, payload: clampedMinValue });
     };
 
-    const handleMaxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const newMaxValue = parseInt(event.target.value, 10);
+    const handleMaxChange = (newMaxValue: number) => {
+        console.log(newMaxValue)
         const clampedMaxValue = Math.max(newMaxValue, priceRange.min);
         dispatch({ type: ActionType.SET_MAX, payload: clampedMaxValue });
     };
 
     return (
         <div>
-            <p>
-                <label htmlFor={minPriceRangeInputId}>Min: {priceRange.min}</label>
-            </p>
-            <input
-                type="range"
-                name="pricemin"
-                id={minPriceRangeInputId}
-                min={min}
-                max={max}
-                value={priceRange.min}
-                onChange={handleMinChange}
-            />
 
-            <p><label htmlFor={maxPriceRangeInputId}>Max: {priceRange.max}</label></p>
-            <input
-                type="range"
-                name="pricemax"
-                id={maxPriceRangeInputId}
-                min={min}
-                max={max}
-                value={priceRange.max}
-                onChange={handleMaxChange}
-            />
+            <LabeledRangeInput
+            input_name="minprice"
+            label="Min" 
+            min={min} 
+            max={max} 
+            value={priceRange.min} 
+            handleChange={handleMinChange}/>
+
+            <LabeledRangeInput 
+            input_name="maxprice"
+            label="Max" 
+            min={min} 
+            max={max} 
+            value={priceRange.max} 
+            handleChange={handleMaxChange} />
+
         </div>
     );
 };
