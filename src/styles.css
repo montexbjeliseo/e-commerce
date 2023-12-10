@@ -13,5 +13,14 @@
 }
 
 .container {
+    margin: auto;
     max-width: var(--break-point-xl);
+    font-family: Public Sans;
+}
+
+.title {
+    color: #333;
+    padding-top: 20px;
+    padding-bottom: 10px;
+    font-weight: lighter;
 }

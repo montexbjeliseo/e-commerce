@@ -1,10 +1,12 @@
 export const QUERY_KEYS = {
-    CATEGORIES: 'categories'
+    CATEGORIES: 'categories',
+    PRODUCTS: 'products'
 };
 
 export const API_ENDPOINTS = {
     BASE_URL: 'https://api.escuelajs.co/api/v1',
-    CATEGORIES: 'https://api.escuelajs.co/api/v1/categories'
+    CATEGORIES: 'https://api.escuelajs.co/api/v1/categories',
+    PRODUCTS: 'https://api.escuelajs.co/api/v1/products'
 };
 
 export const IMAGE_PLACEHOLDER = { 
