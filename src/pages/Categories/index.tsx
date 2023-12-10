@@ -4,13 +4,7 @@ import { ErrorMessage } from "../../shared/components/ErrorMessage";
 import { Loading } from "../../shared/components/Loading";
 import { API_ENDPOINTS, IMAGE_PLACEHOLDER, QUERY_KEYS } from "../../constants";
 import { Link } from "react-router-dom";
-
-
-type Category = {
-    id: number;
-    name: string;
-    image: string;
-}
+import { Category } from "../../types";
 
 export const CategoriesPage = () => {
 

@@ -1,37 +1,32 @@
 import { useQuery } from "react-query";
-import { API_ENDPOINTS, IMAGE_PLACEHOLDER, QUERY_KEYS } from "../../constants";
+import { API_ENDPOINTS, QUERY_KEYS } from "../../constants";
 import "./styles.css"
 import { Loading } from "../../shared/components/Loading";
 import { ErrorMessage } from "../../shared/components/ErrorMessage";
-import { Link } from "react-router-dom";
+import { CheckboxInput } from "../../shared/components/CheckboxInput";
+import { Category, Product } from "../../types";
+import { ProductList } from "../../shared/components/ProductList";
 
-type Product = {
-    id: number;
-    title: string;
-    price: number;
-    description: string;
-    category: {
-        id: number;
-        name: string;
-        image: string;
-    },
-    images: string[]
-}
 
 export const ProductsPage = () => {
 
-    const { data, isLoading, isError } = useQuery(QUERY_KEYS.PRODUCTS, () => {
+    const { data: products, isLoading: isLoadingProducts, isError: isErrorProducts } = useQuery(QUERY_KEYS.PRODUCTS, () => {
         const response = fetch(API_ENDPOINTS.PRODUCTS);
         return response.then((res) => res.json());
     });
 
-    if (isLoading) {
+    const { data: categories, isLoading: isLoadingCategories, isError: isErrorCategories } = useQuery(QUERY_KEYS.CATEGORIES, () => {
+        const response = fetch(API_ENDPOINTS.CATEGORIES);
+        return response.then((res) => res.json());
+    })
+
+    if (isLoadingCategories || isLoadingProducts) {
         return (
             <Loading />
         )
     }
 
-    if (isError) {
+    if (isErrorCategories || isErrorProducts) {
         return (
             <ErrorMessage />
         )
@@ -49,23 +44,17 @@ export const ProductsPage = () => {
                             <li>price range</li>
                             <li>category</li>
                         </ul>
+                        <h3>Categories</h3>
+                        <ul className="filter-category-list">
+                            {(categories as Category[]).map((category) => (
+                                <li key={category.id}>
+                                    <CheckboxInput name="category" value={category.id} label={category.name} />
+                                </li>
+                            ))}
+                        </ul>
                     </aside>
                     <main>
-                        <div className="product-list">
-                            {(data as Product[]).map((product) => (
-                                <div key={product.id} className="product-card">
-                                    <img src={product.images[0]} alt={product.title} title={product.title}  onError={(e) => e.currentTarget.src = IMAGE_PLACEHOLDER.IMAGE_300} />
-                                    <p className="product-title">{product.title}</p>
-                                    <p>${product.price}</p>
-                                    <div className="overlay">
-                                        <Link to={`/products/${product.id}`} title={product.title}>
-                                            View Details
-                                        </Link>
-                                    </div>
-
-                                </div>
-                            ))}
-                        </div>
+                        <ProductList products={products as Product[]} />
                     </main>
                 </div>
             </section>
