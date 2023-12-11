@@ -34,3 +34,27 @@ export const fetchProducts = async (filters: ProductFilters) => {
   const data = await response.json();
   return data;
 };
+
+export const login = async (email: string, password: string) => {
+  const response = await fetch(`${API_ENDPOINTS.LOGIN}`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ email, password }),
+  });
+  const data = await response.json();
+  return data;
+}
+
+export const register = async (name: string, email: string, password: string) => {
+  const response = await fetch(`${API_ENDPOINTS.REGISTER}`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ name, email, password, avatar: 'https://picsum.photos/800' }),
+  });
+  const data = await response.json();
+  return data;
+}

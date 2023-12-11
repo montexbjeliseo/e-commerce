@@ -81,17 +81,22 @@
     }
 
     .cart-link,
-    .login-link {
+    .login-link,
+    .register-link {
         float: right;
         position: absolute;
     }
 
     .cart-link {
-        right: 100px;
+        right: 160px;
     }
 
     .login-link {
-        right: 10px;
+        right: 0;
+    }
+
+    .register-link {
+        right: 70px;
     }
 }
 

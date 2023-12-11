@@ -1,0 +1,39 @@
+.login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    max-width: 456px;
+    margin: auto;
+}
+
+.form-title {
+    color: var(--colors-grey-grey-2, #A9ABBD);
+    /* Paragraph 03 */
+    font-family: Public Sans;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 26px;
+    /* 162.5% */
+    letter-spacing: -0.2px;
+}
+
+.form-options {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    color: var(--text-secondary);
+    font-feature-settings: 'clig' off, 'liga' off;
+    font-family: Public Sans;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    letter-spacing: -0.3px;
+}
+
+.form-options a {
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-weight: 700;
+}

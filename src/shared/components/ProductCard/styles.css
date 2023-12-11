@@ -24,6 +24,10 @@
     position: relative;
 }
 
+.product-card .overlay {
+    display: none;
+}
+
 .product-card:hover .overlay {
     position: absolute;
     top: 0;

@@ -1,18 +1,33 @@
 :root {
+    /* Break points */
     --break-point-xs: 0;
     --break-point-sm: 576px;
     --break-point-md: 768px;
     --break-point-lg: 992px;
     --break-point-xl: 1200px;
     --break-point-xxl: 1400px;
+
+    /* Button colors */
     --btn-primary: #0D0D0D;
     --btn-primary-hover: #272727;
     --btn-primary-active: #fff;
+
+    /* Text colors */
+    --text-primary: #111111;
+    --text-secondary: #979797;
+
+    /* Background colors */
+    --bg-primary: #EFF2F6;
+    --bg-secondary: #fff;
 }
 
 * {
     margin: 0;
     padding: 0;
+}
+
+body {
+    background-color: var(--bg-primary);
 }
 
 .container {
@@ -54,4 +69,8 @@
 .text-input, select {
     padding: 12px;
     outline: none;
+}
+
+.search-input {
+    background-color: transparent;
 }

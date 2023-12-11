@@ -6,7 +6,10 @@ export const QUERY_KEYS = {
 export const API_ENDPOINTS = {
     BASE_URL: 'https://api.escuelajs.co/api/v1',
     CATEGORIES: 'https://api.escuelajs.co/api/v1/categories',
-    PRODUCTS: 'https://api.escuelajs.co/api/v1/products'
+    PRODUCTS: 'https://api.escuelajs.co/api/v1/products',
+    
+    LOGIN: 'https://api.escuelajs.co/api/v1/auth/login',
+    REGISTER: 'https://api.escuelajs.co/api/v1/users/',
 };
 
 export const IMAGE_PLACEHOLDER = { 
@@ -16,6 +19,7 @@ export const IMAGE_PLACEHOLDER = {
 export const APP_ROUTES = {
     HOME: '/',
     LOGIN: '/login',
+    LOGOUT: '/logout',
     REGISTER: '/register',
     CATEGORIES: '/categories',
     PRODUCTS: '/products',
@@ -24,4 +28,13 @@ export const APP_ROUTES = {
     PRODUCT_EDIT: '/products/edit/:id',
     CART: '/cart-detail',
     ABOUT: '/about'
+}
+
+export const ERROR = {
+    NETWORK_ERROR: 'Network Error',
+    UNAUTHORIZED: 401
+}
+
+export const AUTH_LOCAL_STORAGE = {
+    ACCESS_TOKEN: 'accessToken'   
 }

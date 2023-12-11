@@ -19,8 +19,6 @@ export const ProductFilterForm: React.FC<ProductFilterFormProps> = ({ categories
         e.preventDefault();
         const formData = Object.fromEntries(new FormData(e.target as HTMLFormElement));
 
-        console.log("ProductFilterForm::handleSubmit::formData", formData);
-
         const newFilters: ProductFilters = {} as ProductFilters;
 
         if (formData.title) {
@@ -35,8 +33,6 @@ export const ProductFilterForm: React.FC<ProductFilterFormProps> = ({ categories
         if (formData.categoryId) {
             newFilters.categoryId = parseInt(formData.categoryId as string);
         }
-
-        console.log("ProductFilterForm::handleSubmit::newFilters", newFilters);
 
         handleFilterChange(newFilters);
     }

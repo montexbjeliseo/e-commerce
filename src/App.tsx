@@ -1,8 +1,8 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom"
 import { Layout } from "./shared/components/Layout"
 import { HomePage } from "./pages/Home"
-import { LoginPage } from "./pages/Auth/Login"
-import { RegisterPage } from "./pages/Auth/Register"
+import { LoginPage } from "./pages/Auth/LoginPage"
+import { RegisterPage } from "./pages/Auth/RegisterPage"
 import { CategoriesPage } from "./pages/Categories"
 import { ProductsPage } from "./pages/Products"
 import { ProductDetailPage } from "./pages/Products/ProductDetails"
@@ -13,6 +13,8 @@ import { NotFoundPage } from "./pages/NotFound"
 import { AboutPage } from "./pages/About"
 import { QueryClient, QueryClientProvider } from "react-query"
 import { APP_ROUTES } from "./constants"
+import { AuthProvider } from "./contexts/AuthProvider"
+import { LogoutPage } from "./pages/Auth/LogoutPage"
 
 
 const queryClient = new QueryClient();
@@ -22,23 +24,26 @@ function App() {
   return (
     <>
       <QueryClientProvider client={queryClient}>
-        <BrowserRouter>
-          <Routes>
-            <Route element={<Layout />}>
-              <Route path={APP_ROUTES.HOME} element={<HomePage />} />
-              <Route path={APP_ROUTES.LOGIN} element={<LoginPage />} />
-              <Route path={APP_ROUTES.REGISTER} element={<RegisterPage />} />
-              <Route path={APP_ROUTES.CATEGORIES} element={<CategoriesPage />} />
-              <Route path={APP_ROUTES.PRODUCTS} element={<ProductsPage />} />
-              <Route path={APP_ROUTES.PRODUCT_DETAILS} element={<ProductDetailPage />} />
-              <Route path={APP_ROUTES.PRODUCT_CREATE} element={<ProductCreatePage />} />
-              <Route path={APP_ROUTES.PRODUCT_EDIT} element={<ProductEditPage />} />
-              <Route path={APP_ROUTES.CART} element={<CartPage />} />
-              <Route path={APP_ROUTES.ABOUT} element={<AboutPage />} />
-              <Route path="*" element={<NotFoundPage />} />
-            </Route>
-          </Routes>
-        </BrowserRouter>
+        <AuthProvider>
+          <BrowserRouter>
+            <Routes>
+              <Route element={<Layout />}>
+                <Route path={APP_ROUTES.HOME} element={<HomePage />} />
+                <Route path={APP_ROUTES.LOGIN} element={<LoginPage />} />
+                <Route path={APP_ROUTES.LOGOUT} element={<LogoutPage />} />
+                <Route path={APP_ROUTES.REGISTER} element={<RegisterPage />} />
+                <Route path={APP_ROUTES.CATEGORIES} element={<CategoriesPage />} />
+                <Route path={APP_ROUTES.PRODUCTS} element={<ProductsPage />} />
+                <Route path={APP_ROUTES.PRODUCT_DETAILS} element={<ProductDetailPage />} />
+                <Route path={APP_ROUTES.PRODUCT_CREATE} element={<ProductCreatePage />} />
+                <Route path={APP_ROUTES.PRODUCT_EDIT} element={<ProductEditPage />} />
+                <Route path={APP_ROUTES.CART} element={<CartPage />} />
+                <Route path={APP_ROUTES.ABOUT} element={<AboutPage />} />
+                <Route path="*" element={<NotFoundPage />} />
+              </Route>
+            </Routes>
+          </BrowserRouter>
+        </AuthProvider>
       </QueryClientProvider>
     </>
   )

@@ -2,7 +2,7 @@ import { useQuery } from "react-query";
 import "./styles.css";
 import { ErrorMessage } from "../../shared/components/ErrorMessage";
 import { Loading } from "../../shared/components/Loading";
-import { API_ENDPOINTS, IMAGE_PLACEHOLDER, QUERY_KEYS } from "../../constants";
+import { API_ENDPOINTS, APP_ROUTES, IMAGE_PLACEHOLDER, QUERY_KEYS } from "../../constants";
 import { Link } from "react-router-dom";
 import { Category } from "../../types";
 
@@ -31,7 +31,7 @@ export const CategoriesPage = () => {
             <ul className="categories">
                 {(data as Category[]).map((category) => (
                     <li key={category.id} className="category-card">
-                        <Link to={`/products?category_id=${category.id}`}>
+                        <Link to={`${APP_ROUTES.PRODUCTS}?category_id=${category.id}`}>
                             <p>{category.name}</p>
                             <img onError={(e) => e.currentTarget.src = IMAGE_PLACEHOLDER.IMAGE_300} src={category.image} alt={category.name} title={category.name} width={300} height={300} />
                         </Link>
