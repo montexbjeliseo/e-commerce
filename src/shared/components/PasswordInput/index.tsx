@@ -7,7 +7,7 @@ export const PasswordInput = () => {
     return (
         <>
             <label htmlFor={passwordInputId}>Password</label>
-            <input className="text-input" type="password" placeholder="Password" name="password" id={passwordInputId} />
+            <input required={true} className="text-input" type="password" placeholder="Password" name="password" id={passwordInputId} />
         </>
     )
 }

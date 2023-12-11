@@ -6,7 +6,9 @@ export const QUERY_KEYS = {
 export const API_ENDPOINTS = {
     BASE_URL: 'https://api.escuelajs.co/api/v1',
     CATEGORIES: 'https://api.escuelajs.co/api/v1/categories',
-    PRODUCTS: 'https://api.escuelajs.co/api/v1/products'
+    PRODUCTS: 'https://api.escuelajs.co/api/v1/products',
+    
+    LOGIN: 'https://api.escuelajs.co/api/v1/auth/login',
 };
 
 export const IMAGE_PLACEHOLDER = { 

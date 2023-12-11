@@ -1,12 +1,25 @@
 import { PasswordInput } from "../PasswordInput";
-import { UsernameInput } from "../UsernameInput";
+import { EmailInput } from "../EmailInput";
 import "./styles.css";
 
-export const LoginForm = () => {
+type LoginFormProps = {
+    handleFormSubmit?: (email: string, password: string) => void
+}
+
+export const LoginForm: React.FC<LoginFormProps> = ({ handleFormSubmit }) => {
+
+    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        const formData = Object.fromEntries(new FormData(e.target as HTMLFormElement));
+        if(handleFormSubmit) {
+            handleFormSubmit(formData['email'] as string, formData['password'] as string);
+        }
+    }
+
     return (
-        <form className="form login-form" action="">
-            <p className="form-title">Login with username and password</p>
-            <UsernameInput />
+        <form className="form login-form" onSubmit={handleSubmit}>
+            <p className="form-title">Login with email</p>
+            <EmailInput />
             <PasswordInput />
             <div className="form-options">
                 <div>
