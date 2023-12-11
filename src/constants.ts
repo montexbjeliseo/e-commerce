@@ -9,6 +9,7 @@ export const API_ENDPOINTS = {
     PRODUCTS: 'https://api.escuelajs.co/api/v1/products',
     
     LOGIN: 'https://api.escuelajs.co/api/v1/auth/login',
+    REGISTER: 'https://api.escuelajs.co/api/v1/users/',
 };
 
 export const IMAGE_PLACEHOLDER = { 
