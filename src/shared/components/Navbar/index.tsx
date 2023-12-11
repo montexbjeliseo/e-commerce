@@ -39,7 +39,7 @@ export const Navbar = () => {
                             </Link>
                         </li>
                         {
-                            auth.isAuthenticated ? (
+                            auth.isAuthenticated() ? (
                                 <>
                                     <li className="register-link"><a onClick={() => setToggleShowLinks(false)} href="#">Profile</a></li>
                                     <li className="login-link"><Link onClick={() => setToggleShowLinks(false)} to={APP_ROUTES.LOGOUT}>Logout</Link></li>

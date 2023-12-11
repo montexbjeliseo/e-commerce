@@ -4,7 +4,7 @@ import "./styles.css"
 import { Loading } from "../../../shared/components/Loading"
 import { useEffect, useState } from "react"
 import { useAuth } from "../../../contexts/AuthProvider"
-import { ERROR } from "../../../constants"
+import { APP_ROUTES, ERROR } from "../../../constants"
 
 export const LoginPage = () => {
 
@@ -27,7 +27,7 @@ export const LoginPage = () => {
         setError("");
 
         auth.login(email, password, () => {
-            navigate("/");
+            navigate(APP_ROUTES.HOME);
             setIsLoading(false);
         }, (error) => {
             if (error === ERROR.NETWORK_ERROR) {
@@ -42,8 +42,8 @@ export const LoginPage = () => {
     }
 
     useEffect(() => {
-        if (auth.isAuthenticated) {
-            navigate("/");
+        if (auth.isAuthenticated()) {
+            navigate(APP_ROUTES.HOME);
         }
     }, []);
 
@@ -59,7 +59,7 @@ export const LoginPage = () => {
                     <Loading />
                 </div>
             </div>
-            <p className="text-create-account">Don't have an account? <Link to="/register">Register</Link></p>
+            <p className="text-create-account">Don't have an account? <Link to={APP_ROUTES.REGISTER}>Register</Link></p>
 
         </div>
 

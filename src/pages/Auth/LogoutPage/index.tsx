@@ -1,6 +1,8 @@
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../../contexts/AuthProvider";
 import styled from "styled-components";
+import { APP_ROUTES } from "../../../constants";
+import { useEffect } from "react";
 
 const ButtonsContainer = styled.div`
     display: flex;
@@ -15,8 +17,14 @@ export const LogoutPage = () => {
 
     const handleClickLogout = () => {
         auth.logout();
-        navigate("/");
+        navigate(APP_ROUTES.HOME);
     }
+
+    useEffect(() => {
+        if(!auth.isAuthenticated()){
+            navigate(APP_ROUTES.HOME);
+        }
+    }, []);
 
     return (
         <div className="container">

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useAuth } from "../../../contexts/AuthProvider";
 import { RegisterForm } from "../../../shared/components/RegisterForm"
-import { ERROR } from "../../../constants";
+import { APP_ROUTES, ERROR } from "../../../constants";
 import { useNavigate } from "react-router-dom";
 import { Loading } from "../../../shared/components/Loading";
 
@@ -36,7 +36,7 @@ export const RegisterPage = () => {
 
         auth.register(name, email, password, () => {
             auth.login(email, password, () => {
-                navigate("/");
+                navigate(APP_ROUTES.HOME);
                 setIsLoading(false);
             }, handleError);
         }, handleError)
@@ -44,9 +44,11 @@ export const RegisterPage = () => {
 
     useEffect(() => {
 
-        if (auth.isAuthenticated) {
-            navigate("/");
+        if (auth.isAuthenticated()) {
+            navigate(APP_ROUTES.HOME);
         }
+
+        console.log(auth.isAuthenticated());
 
     }, []);
 
