@@ -8,7 +8,7 @@ import { ERROR } from "../../../constants"
 
 export const LoginPage = () => {
 
-    // !May be use reducer here
+    // !May be better to use reducer here
 
     const [isLoading, setIsLoading] = useState(false);
 
