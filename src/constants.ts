@@ -19,6 +19,7 @@ export const IMAGE_PLACEHOLDER = {
 export const APP_ROUTES = {
     HOME: '/',
     LOGIN: '/login',
+    LOGOUT: '/logout',
     REGISTER: '/register',
     CATEGORIES: '/categories',
     PRODUCTS: '/products',
