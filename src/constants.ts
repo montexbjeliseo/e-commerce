@@ -27,3 +27,9 @@ export const APP_ROUTES = {
     CART: '/cart-detail',
     ABOUT: '/about'
 }
+
+export const ERROR = {
+    NETWORK_ERROR: 'Network Error',
+    UNAUTHORIZED: 401,
+
+}
