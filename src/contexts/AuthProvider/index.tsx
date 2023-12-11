@@ -1,6 +1,6 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import { login as request_login, register as request_register } from "../../api";
-import { ERROR } from "../../constants";
+import { AUTH_LOCAL_STORAGE, ERROR } from "../../constants";
 
 type AuthContextType = {
     isAuthenticated: boolean,
@@ -22,6 +22,15 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
     const [accessToken, setAccessToken] = useState("");
 
+    useEffect(() => {
+        const localToken = localStorage.getItem(AUTH_LOCAL_STORAGE.ACCESS_TOKEN) || "";
+        if (localToken !== "") {
+            setIsAuthenticated(true);
+            setAccessToken(localToken);
+        }
+        
+    }, []);
+
     const login = (email: string, password: string, next: () => void, error: (error: any) => void) => {
         request_login(email, password).then((response) => {
             if (response.statusCode >= 400) {
@@ -30,6 +39,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
             } else {
                 setIsAuthenticated(true);
                 setAccessToken(response.access_token);
+                localStorage.setItem(AUTH_LOCAL_STORAGE.ACCESS_TOKEN, response.access_token);
                 next();
             }
         }).catch(() => {
@@ -55,6 +65,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     const logout = () => {
         setIsAuthenticated(false);
         setAccessToken("");
+        localStorage.removeItem(AUTH_LOCAL_STORAGE.ACCESS_TOKEN);
     }
 
     return (

@@ -1,6 +1,5 @@
 import { Link } from "react-router-dom";
 import "./index.css";
-import { SearchInput } from "../SearchInput";
 import CartIcon from "../../../assets/icons/cart.svg";
 import { useState } from "react";
 import { BurgerButton } from "../BurgerButton";
@@ -32,7 +31,7 @@ export const Navbar = () => {
                             <Link onClick={() => setToggleShowLinks(false)} to={APP_ROUTES.PRODUCTS}>Products</Link>
                         </li>
                         <li>
-                            <SearchInput />
+                            {/* <SearchInput /> */}
                         </li>
                         <li className="cart-link">
                             <Link onClick={() => setToggleShowLinks(false)} to={APP_ROUTES.CART}>
@@ -42,8 +41,8 @@ export const Navbar = () => {
                         {
                             auth.isAuthenticated ? (
                                 <>
-                                    <li className="register-link"><a href="#">Profile</a></li>
-                                    <li className="login-link"><Link to={APP_ROUTES.LOGOUT}>Logout</Link></li>
+                                    <li className="register-link"><a onClick={() => setToggleShowLinks(false)} href="#">Profile</a></li>
+                                    <li className="login-link"><Link onClick={() => setToggleShowLinks(false)} to={APP_ROUTES.LOGOUT}>Logout</Link></li>
                                 </>
                             ) : (
                                 <>

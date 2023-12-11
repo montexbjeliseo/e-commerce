@@ -32,6 +32,9 @@ export const APP_ROUTES = {
 
 export const ERROR = {
     NETWORK_ERROR: 'Network Error',
-    UNAUTHORIZED: 401,
+    UNAUTHORIZED: 401
+}
 
+export const AUTH_LOCAL_STORAGE = {
+    ACCESS_TOKEN: 'accessToken'   
 }
