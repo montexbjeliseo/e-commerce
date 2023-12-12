@@ -11,17 +11,17 @@ const ButtonsContainer = styled.div`
 `
 
 export const LogoutPage = () => {
-    const auth = useAuth();
+    const { isAuthenticated, logout } = useAuth();
 
     const navigate = useNavigate();
 
     const handleClickLogout = () => {
-        auth.logout();
+        logout();
         navigate(APP_ROUTES.HOME);
     }
 
     useEffect(() => {
-        if(!auth.isAuthenticated()){
+        if(!isAuthenticated){
             navigate(APP_ROUTES.HOME);
         }
     }, []);

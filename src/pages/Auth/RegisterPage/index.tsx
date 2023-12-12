@@ -13,7 +13,7 @@ export const RegisterPage = () => {
 
     const [ error, setError ] = useState("");
 
-    const auth = useAuth();
+    const { isAuthenticated, register, login } = useAuth();
 
     const navigate = useNavigate();
 
@@ -34,8 +34,8 @@ export const RegisterPage = () => {
             setIsError(true);
         }
 
-        auth.register(name, email, password, () => {
-            auth.login(email, password, () => {
+        register(name, email, password, () => {
+            login(email, password, () => {
                 navigate(APP_ROUTES.HOME);
                 setIsLoading(false);
             }, handleError);
@@ -44,11 +44,11 @@ export const RegisterPage = () => {
 
     useEffect(() => {
 
-        if (auth.isAuthenticated()) {
+        if (isAuthenticated) {
             navigate(APP_ROUTES.HOME);
         }
 
-        console.log(auth.isAuthenticated());
+        console.log(isAuthenticated);
 
     }, []);
 
