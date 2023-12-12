@@ -8,7 +8,7 @@ import { APP_ROUTES } from "../../../constants";
 
 export const Navbar = () => {
 
-    const auth = useAuth();
+    const { isAuthenticated } = useAuth();
 
     const [toggleShowLinks, setToggleShowLinks] = useState(false);
 
@@ -39,7 +39,7 @@ export const Navbar = () => {
                             </Link>
                         </li>
                         {
-                            auth.isAuthenticated() ? (
+                            isAuthenticated ? (
                                 <>
                                     <li className="register-link"><a onClick={() => setToggleShowLinks(false)} href="#">Profile</a></li>
                                     <li className="login-link"><Link onClick={() => setToggleShowLinks(false)} to={APP_ROUTES.LOGOUT}>Logout</Link></li>

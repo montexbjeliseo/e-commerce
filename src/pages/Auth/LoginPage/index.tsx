@@ -18,7 +18,7 @@ export const LoginPage = () => {
 
     const navigate = useNavigate();
 
-    const auth = useAuth();
+    const { isAuthenticated, login } = useAuth();
 
     const handleLoginFormSubmit = (email: string, password: string) => {
 
@@ -26,7 +26,7 @@ export const LoginPage = () => {
         setIsError(false);
         setError("");
 
-        auth.login(email, password, () => {
+        login(email, password, () => {
             navigate(APP_ROUTES.HOME);
             setIsLoading(false);
         }, (error) => {
@@ -42,7 +42,7 @@ export const LoginPage = () => {
     }
 
     useEffect(() => {
-        if (auth.isAuthenticated()) {
+        if (isAuthenticated) {
             navigate(APP_ROUTES.HOME);
         }
     }, []);
