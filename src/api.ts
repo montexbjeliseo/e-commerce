@@ -8,6 +8,14 @@ type APIProductFilters = {
     title?: string;
 }
 
+export const fetchProductById = async (id: number) => {
+  const response = await fetch(`${API_ENDPOINTS.PRODUCTS}/${id}`);
+  if(!response.ok) {
+    throw new Error('Product not found');
+  }
+  return response.json();
+}
+
 export const fetchProducts = async (filters: ProductFilters) => {
   const { price_min, price_max, categoryId, title } = filters;
 
