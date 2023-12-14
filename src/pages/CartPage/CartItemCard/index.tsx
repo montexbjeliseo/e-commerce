@@ -59,10 +59,11 @@ img {
 `;
 
 type Props = {
-    item: CartItem
+    item: CartItem;
+    handleRemove: (id: number) => void;
 }
 
-export const CartItemCard: React.FC<Props> = ({ item }) => {
+export const CartItemCard: React.FC<Props> = ({ item, handleRemove }) => {
     return (
         <CartItemCardContainer>
             <div className="image">
@@ -73,7 +74,7 @@ export const CartItemCard: React.FC<Props> = ({ item }) => {
                 <p>Quantity: {item.quantity}</p>
                 <p className="price">${item.product.price}</p>
             </div>
-            <button className="btn-remove" type="button">Remove</button>
+            <button className="btn-remove" type="button" onClick={() => handleRemove(item.product.id)}>Remove</button>
         </CartItemCardContainer>
     )
 }

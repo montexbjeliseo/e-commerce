@@ -5,7 +5,7 @@ import "./styles.css";
 
 export const CartPage = () => {
 
-    const { items } = useCart();
+    const { items, removeItem } = useCart();
 
     return (
         <main className="container pt-3">
@@ -16,7 +16,10 @@ export const CartPage = () => {
                     <ul>
                         {items.map((item) => (
                             <li key={item.product.id}>
-                                <CartItemCard item={item} />
+                                <CartItemCard
+                                    item={item}
+                                    handleRemove={removeItem}
+                                />
                             </li>
                         ))}
                     </ul>
