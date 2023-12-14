@@ -5,12 +5,15 @@ import { useState } from "react";
 import { BurgerButton } from "../BurgerButton";
 import { useAuth } from "../../../contexts/AuthProvider";
 import { APP_ROUTES } from "../../../constants";
+import { useCart } from "../../../contexts/CartProvider";
 
 export const Navbar = () => {
 
     const { isAuthenticated } = useAuth();
 
     const [toggleShowLinks, setToggleShowLinks] = useState(false);
+
+    const { items } = useCart();
 
     return (
         <header className="header">
@@ -35,7 +38,7 @@ export const Navbar = () => {
                         </li>
                         <li className="cart-link">
                             <Link onClick={() => setToggleShowLinks(false)} to={APP_ROUTES.CART}>
-                                <img src={CartIcon} alt="Cart icon" />
+                                <img src={CartIcon} alt="Cart icon" /> <sup>{items.length}</sup>
                             </Link>
                         </li>
                         {
