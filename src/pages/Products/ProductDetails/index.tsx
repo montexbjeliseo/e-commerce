@@ -8,6 +8,7 @@ import "./styles.css";
 import { Carousel } from "../../../shared/components/Carousel";
 import { QuantityInput } from "../../../shared/components/QuantityInput";
 import { useState } from "react";
+import { useCart } from "../../../contexts/CartProvider";
 
 export const ProductDetailPage = () => {
 
@@ -17,12 +18,27 @@ export const ProductDetailPage = () => {
 
     const [quantity, setQuantity] = useState(1);
 
+    const { items, addItem } = useCart();
+
     const incrementQuantity = () => {
         setQuantity(quantity + 1);
     }
 
     const decrementQuantity = () => {
         setQuantity(Math.max(quantity - 1, 1));
+    }
+
+    const handleAddToCart = () => {
+
+        if (quantity === 0) {
+            return;
+        }
+
+        addItem(data.id, data, quantity);
+    }
+
+    const isProductInCart = () => {
+        return items.some((item) => item.product_id === data.id);
     }
 
     if (isLoading) {
@@ -36,8 +52,6 @@ export const ProductDetailPage = () => {
             <ErrorMessage />
         )
     }
-
-    console.log(data);
 
     return (
         <div className="container">
@@ -57,7 +71,7 @@ export const ProductDetailPage = () => {
                         onChange={(e) => setQuantity(parseInt(e.target.value, 10))}
                     />
                     <div>
-                        <button className="btn btn-primary" type="button">Add to cart $ {data.price * quantity}</button> <button className="btn btn-cta" type="button">Buy now</button>
+                        <button disabled={isProductInCart()} className="btn btn-primary" type="button" onClick={handleAddToCart}>{isProductInCart() ? 'Is already in cart' : 'Add to cart $' + data.price * quantity}</button> <button className="btn btn-cta" type="button">Buy now</button>
                     </div>
                 </div>
             </div>

@@ -24,3 +24,9 @@ export type ProductFilters = {
     categoryId?: number;
     title?: string;
 }
+
+export type CartItem = {
+    product_id: number;
+    product: Product;
+    quantity: number;
+}

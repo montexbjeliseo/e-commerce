@@ -52,6 +52,13 @@ body {
     cursor: pointer;
 }
 
+.btn:disabled,
+.btn:disabled:hover {
+    cursor: not-allowed;
+    background-color: #979797;
+    color: #fff;
+}
+
 .btn-primary {
     background-color: var(--btn-primary);
     color: #fff;
