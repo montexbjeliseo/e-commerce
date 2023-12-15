@@ -10,7 +10,11 @@ const UList = styled.ul`
     gap: 18px;
 `;
 
-export const CartItemList = () => {
+type Props = {
+    allowRemove?: boolean;
+}
+
+export const CartItemList: React.FC<Props> = ({ allowRemove }) => {
     const { items, removeItem } = useCart();
     
     return (
@@ -19,6 +23,7 @@ export const CartItemList = () => {
                 <li key={item.product.id}>
                     <CartItemCard
                         item={item}
+                        allowRemove={allowRemove}
                         handleRemove={removeItem}
                     />
                 </li>

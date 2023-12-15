@@ -60,10 +60,12 @@ img {
 
 type Props = {
     item: CartItem;
-    handleRemove: (id: number) => void;
+    handleRemove?: (id: number) => void;
+    allowRemove?: boolean;
 }
 
-export const CartItemCard: React.FC<Props> = ({ item, handleRemove }) => {
+
+export const CartItemCard: React.FC<Props> = ({ item, handleRemove, allowRemove }) => {
     return (
         <CartItemCardContainer>
             <div className="image">
@@ -74,7 +76,17 @@ export const CartItemCard: React.FC<Props> = ({ item, handleRemove }) => {
                 <p>Quantity: {item.quantity}</p>
                 <p className="price">${item.product.price}</p>
             </div>
-            <button className="btn-remove" type="button" onClick={() => handleRemove(item.product.id)}>Remove</button>
+            {
+                handleRemove && allowRemove && (
+                    <button
+                        className="btn-remove"
+                        type="button"
+                        onClick={() => handleRemove(item.product.id)}>
+                        Remove
+                    </button>
+                )
+            }
+
         </CartItemCardContainer>
     )
 }
