@@ -16,6 +16,9 @@ import { APP_ROUTES } from "./constants"
 import { AuthProvider } from "./contexts/AuthProvider"
 import { LogoutPage } from "./pages/Auth/LogoutPage"
 import { CartProvider } from "./contexts/CartProvider"
+import { CheckoutAddressPage } from "./pages/CheckoutPage/Address"
+import { CheckoutShippingPage } from "./pages/CheckoutPage/Shipping"
+import { CheckoutPaymentPage } from "./pages/CheckoutPage/Payment"
 
 
 const queryClient = new QueryClient();
@@ -41,6 +44,9 @@ function App() {
                   <Route path={APP_ROUTES.PRODUCT_EDIT} element={<ProductEditPage />} />
                   <Route path={APP_ROUTES.CART} element={<CartPage />} />
                   <Route path={APP_ROUTES.ABOUT} element={<AboutPage />} />
+                  <Route path={APP_ROUTES.CHECKOUT_ADDRESS} element={<CheckoutAddressPage />} />
+                  <Route path={APP_ROUTES.CHECKOUT_SHIPPING} element={<CheckoutShippingPage />} />
+                  <Route path={APP_ROUTES.CHECKOUT_PAYMENT} element={<CheckoutPaymentPage />} />
                   <Route path="*" element={<NotFoundPage />} />
                 </Route>
               </Routes>

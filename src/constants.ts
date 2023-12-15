@@ -27,7 +27,10 @@ export const APP_ROUTES = {
     PRODUCT_CREATE: '/products/create',
     PRODUCT_EDIT: '/products/edit/:id',
     CART: '/cart-detail',
-    ABOUT: '/about'
+    ABOUT: '/about',
+    CHECKOUT_ADDRESS: '/checkout/address',
+    CHECKOUT_SHIPPING: '/checkout/shipping',
+    CHECKOUT_PAYMENT: '/checkout/payment',
 }
 
 export const ERROR = {
