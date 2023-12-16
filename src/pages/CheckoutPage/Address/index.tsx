@@ -5,6 +5,8 @@ import { useNavigate } from "react-router-dom";
 import { APP_ROUTES } from "../../../constants";
 import { CheckoutSteps } from "../components/Steps";
 import { PreviewCartItem } from "../PreviewCartItem";
+import { useShopping } from "../../../contexts/ShoppingProvider";
+import { AddressInfoType } from "../../../types";
 
 const Container = styled.section`
     display: grid;
@@ -49,14 +51,17 @@ const Container = styled.section`
 
 export const CheckoutAddressPage = () => {
 
+    const { saveAddressInfo } = useShopping();
+
     const navigate = useNavigate();
 
     const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+        
         event.preventDefault();
 
-        const formData = new FormData(event.target as HTMLFormElement);
+        const formData = Object.fromEntries(new FormData(event.target as HTMLFormElement));
 
-        console.log(Object.fromEntries(formData))
+        saveAddressInfo(formData as AddressInfoType);
 
         navigate(APP_ROUTES.CHECKOUT_SHIPPING);
     }

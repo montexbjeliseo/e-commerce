@@ -19,6 +19,7 @@ import { CartProvider } from "./contexts/CartProvider"
 import { CheckoutAddressPage } from "./pages/CheckoutPage/Address"
 import { CheckoutShippingPage } from "./pages/CheckoutPage/Shipping"
 import { CheckoutPaymentPage } from "./pages/CheckoutPage/Payment"
+import { ShoppingProvider } from "./contexts/ShoppingProvider"
 
 
 const queryClient = new QueryClient();
@@ -30,6 +31,7 @@ function App() {
       <QueryClientProvider client={queryClient}>
         <AuthProvider>
           <CartProvider>
+            <ShoppingProvider>
             <BrowserRouter>
               <Routes>
                 <Route element={<Layout />}>
@@ -51,6 +53,7 @@ function App() {
                 </Route>
               </Routes>
             </BrowserRouter>
+            </ShoppingProvider>
           </CartProvider>
         </AuthProvider>
       </QueryClientProvider>

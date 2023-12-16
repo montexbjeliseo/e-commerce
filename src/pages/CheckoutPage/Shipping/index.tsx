@@ -58,7 +58,7 @@ export const CheckoutShippingPage = () => {
                             <li>
                                 <Label>
                                     <p>
-                                        <input type="radio" name="shipping" id="" defaultChecked value={"1"} />
+                                        <input type="radio" name="shipping" id="" defaultChecked={true} value={"1"} />
                                     </p>
                                     <p>
                                         <strong>UPS/USPS Surepost</strong>

@@ -2,7 +2,11 @@ import styled from "styled-components";
 import { CheckoutSteps } from "../components/Steps";
 import { PreviewCartItem } from "../PreviewCartItem";
 import { CheckboxInput } from "../../../shared/components/CheckboxInput";
-import { FormEvent } from "react";
+import { FormEvent, useReducer, useState } from "react";
+
+import genericCardIcon from '../../../assets/icons/generic-card.png';
+
+import * as CardValidator from 'card-validator';
 
 const Container = styled.div`
     display: grid;
@@ -14,6 +18,27 @@ const Container = styled.div`
         flex-direction: column;
         gap: 18px;
 
+        .card-number {
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        .card-icon {
+            position: absolute;
+            right: 10px;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            user-select: none;
+        }
+
+        .card-icon img {
+            width: 40px;
+            height: 40px;
+            user-select: none;
+        }
+
         .cols-3 {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -22,11 +47,113 @@ const Container = styled.div`
     }
 `;
 
+type CreditCard = {
+    cardHolder: string;
+    cardNumber: string,
+    cardCVV: string,
+    cardExpiryMonth: string,
+    cardExpiryYear: string,
+
+    cardHolderValidation?: {
+        isValid: boolean,
+        isPotentiallyValid: boolean
+    },
+    cardNumberValidation?: {
+        isValid: boolean,
+        isPotentiallyValid: boolean,
+        card: any
+    },
+    cardMonthValidation?: {
+        isPotentiallyValid: boolean,
+        isValid: boolean,
+        isValidForThisYear: boolean
+    },
+    cardYearValidation?: {
+        isValid: boolean,
+        isPotentiallyValid: boolean,
+        isCurrentYear: boolean
+    },
+    cardCVVValidation?: {
+        isValid: boolean,
+        isPotentiallyValid: boolean
+    }
+}
+
+const INITIAL_STATE: CreditCard = {
+    cardHolder: '',
+    cardNumber: '',
+    cardCVV: '',
+    cardExpiryMonth: '',
+    cardExpiryYear: ''
+}
+
+enum ACTION_TYPES {
+    setCardHolder = 'setCardHolder',
+    setCardNumber = 'setCardNumber',
+    setCardCVV = 'setCardCVV',
+    setCardExpiryMonth = 'setCardExpiryMonth',
+    setCardExpiryYear = 'setCardExpiryYear'
+}
+
+type ActionType = {
+    type: ACTION_TYPES,
+    payload: string
+}
+
+const checkCardReducer = (state: CreditCard, action: ActionType): CreditCard => {
+    switch (action.type) {
+        case ACTION_TYPES.setCardHolder:
+            return {
+                ...state,
+                cardHolder: action.payload,
+                cardHolderValidation: CardValidator.cardholderName(action.payload)
+            }
+        case ACTION_TYPES.setCardNumber:
+            return {
+                ...state,
+                cardNumber: action.payload,
+                cardNumberValidation: CardValidator.number(action.payload)
+            };
+        case ACTION_TYPES.setCardCVV:
+            return {
+                ...state,
+                cardCVV: action.payload,
+                cardCVVValidation: CardValidator.cvv(action.payload)
+            };
+        case ACTION_TYPES.setCardExpiryMonth:
+            return {
+                ...state,
+                cardExpiryMonth: action.payload,
+                cardMonthValidation: CardValidator.expirationMonth(action.payload)
+            };
+        case ACTION_TYPES.setCardExpiryYear:
+            return {
+                ...state,
+                cardExpiryYear: action.payload,
+                cardYearValidation: CardValidator.expirationYear(action.payload)
+            };
+    }
+    return state;
+}
+
+
 export const CheckoutPaymentPage = () => {
+
+    const [creditCard, dispatch] = useReducer(checkCardReducer, INITIAL_STATE as CreditCard);
+
+    const [shopSuccess, setShopSuccess] = useState(false);
 
     const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        console.log("Finalzing order...");
+        if (
+            creditCard.cardHolderValidation?.isValid &&
+            creditCard.cardNumberValidation?.isValid &&
+            creditCard.cardMonthValidation?.isValid &&
+            creditCard.cardYearValidation?.isValid &&
+            creditCard.cardCVVValidation?.isValid
+        ) {
+            setShopSuccess(true);
+        }
     }
 
     return (
@@ -35,17 +162,39 @@ export const CheckoutPaymentPage = () => {
             <Container>
                 <section>
                     <CheckoutSteps position={3} />
+                    <div>
+                        {shopSuccess ? <h2>Thank you for your order!</h2> : <h2>Payment</h2>}
+                    </div>
                     <form onSubmit={handleSubmit}>
-                        <input className="text-input" type="text" name="card_holder" id="" placeholder="Card Holder" />
-                        <input className="text-input" type="text" name="card_number" id="" placeholder="Card Number" />
+                        <input
+                            className="text-input"
+                            type="text"
+                            name="card_holder"
+                            id=""
+                            placeholder="Card Holder"
+                            value={creditCard.cardHolder}
+                            onChange={(e) => dispatch({ type: ACTION_TYPES.setCardHolder, payload: e.currentTarget.value })}
+                        />
+                        <div className="card-number">
+                            <input
+                                className="text-input"
+                                type="text"
+                                name="card_number"
+                                placeholder="Card Number"
+                                value={creditCard.cardNumber}
+                                onChange={(e) => dispatch({ type: ACTION_TYPES.setCardNumber, payload: e.currentTarget.value })} />
+                            <div className="card-icon">
+                                <img src={genericCardIcon} alt="" />
+                            </div>
+                        </div>
 
                         <div className="cols-3">
-                            <input className="text-input cols-3" type="number" name="month" id="" placeholder="Month" />
-                            <input className="text-input cols-3" type="number" name="year" id="" placeholder="Year" />
-                            <input className="text-input cols-3" type="text" name="cvv" id="" placeholder="CVV" />
+                            <input className="text-input cols-3" type="text" name="month" id="" placeholder="MM" value={creditCard.cardExpiryMonth} onChange={(e) => dispatch({ type: ACTION_TYPES.setCardExpiryMonth, payload: e.currentTarget.value })} maxLength={2} />
+                            <input className="text-input cols-3" type="text" name="year" id="" placeholder="YY" value={creditCard.cardExpiryYear} onChange={(e) => dispatch({ type: ACTION_TYPES.setCardExpiryYear, payload: e.currentTarget.value })} maxLength={2} />
+                            <input className="text-input cols-3" type="text" name="cvv" id="" placeholder="CVV" value={creditCard.cardCVV} onChange={(e) => dispatch({ type: ACTION_TYPES.setCardCVV, payload: e.currentTarget.value })} maxLength={3} />
                         </div>
                         <div>
-                        <CheckboxInput name="terms" label="I agree with terms and conditions" value={"true"}/>
+                            <CheckboxInput name="terms" label="I agree with terms and conditions" value={"true"} />
                         </div>
                         <button className="btn btn-primary">Pay with card</button>
                     </form>
