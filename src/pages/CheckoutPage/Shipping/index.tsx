@@ -4,6 +4,7 @@ import { PreviewCartItem } from "../PreviewCartItem";
 import { FormEvent } from "react";
 import { useNavigate } from "react-router-dom";
 import { APP_ROUTES } from "../../../constants";
+import { useShopping } from "../../../contexts/ShoppingProvider";
 
 const Container = styled.div`
     display: grid;
@@ -39,12 +40,17 @@ const Label = styled.label`
 
 export const CheckoutShippingPage = () => {
 
+    const { saveShippingInfo, shippingMethods } = useShopping();
+
     const navigate = useNavigate();
 
     const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+        const formData = Object.fromEntries(new FormData(e.target as HTMLFormElement));
+        const shipping = parseInt(formData.shipping as string);
+        if (Number.isNaN(shipping)) return;
+        saveShippingInfo(shippingMethods.find((method: any) => method.id === shipping));
         navigate(APP_ROUTES.CHECKOUT_PAYMENT);
-        console.log("Shipping")
     }
 
     return (
@@ -55,28 +61,20 @@ export const CheckoutShippingPage = () => {
                     <CheckoutSteps position={2} />
                     <form onSubmit={handleSubmit}>
                         <ul className="options">
-                            <li>
-                                <Label>
-                                    <p>
-                                        <input type="radio" name="shipping" id="" defaultChecked={true} value={"1"} />
-                                    </p>
-                                    <p>
-                                        <strong>UPS/USPS Surepost</strong>
-                                        <br /> 4-7 business days
-                                    </p>
-                                </Label>
-                            </li>
-                            <li>
-                                <Label>
-                                    <p>
-                                        <input type="radio" name="shipping" id="" value={"2"} />
-                                    </p>
-                                    <p>
-                                        <strong>UPS Ground Shipping</strong>
-                                        <br />
-                                        3-5 business days</p>
-                                </Label>
-                            </li>
+                            {shippingMethods && shippingMethods.map(method => (
+                                <li key={method.id}>
+                                    <Label>
+                                        <p>
+                                            <input type="radio" name="shipping" id="" value={method.id} />
+                                        </p>
+                                        <p>
+                                            <strong>{method.name}</strong>
+                                            <br />
+                                            {method.description}
+                                        </p>
+                                    </Label>
+                                </li>
+                            ))}
                         </ul>
                         <button className="btn btn-primary">Continue</button>
                     </form>

@@ -2,11 +2,16 @@ import styled from "styled-components";
 import { CheckoutSteps } from "../components/Steps";
 import { PreviewCartItem } from "../PreviewCartItem";
 import { CheckboxInput } from "../../../shared/components/CheckboxInput";
-import { FormEvent, useReducer, useState } from "react";
+import { FormEvent, useEffect, useReducer, useState } from "react";
 
 import genericCardIcon from '../../../assets/icons/generic-card.png';
 
 import * as CardValidator from 'card-validator';
+import { useShopping } from "../../../contexts/ShoppingProvider";
+import { OrderInfoType } from "../../../types";
+import { useCart } from "../../../contexts/CartProvider";
+import { useNavigate } from "react-router-dom";
+import { APP_ROUTES } from "../../../constants";
 
 const Container = styled.div`
     display: grid;
@@ -139,12 +144,22 @@ const checkCardReducer = (state: CreditCard, action: ActionType): CreditCard => 
 
 export const CheckoutPaymentPage = () => {
 
+    const { addressInfo, shippingInfo, addOrder, isAddressInfoValid, isShippingInfoValid } = useShopping();
+
+    const { items, clear: clearCart } = useCart();
+
     const [creditCard, dispatch] = useReducer(checkCardReducer, INITIAL_STATE as CreditCard);
 
     const [shopSuccess, setShopSuccess] = useState(false);
 
+    const navigate = useNavigate();
+
     const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+
+
+        // const formData = Object.fromEntries(new FormData(e.target as HTMLFormElement));
+
         if (
             creditCard.cardHolderValidation?.isValid &&
             creditCard.cardNumberValidation?.isValid &&
@@ -152,9 +167,30 @@ export const CheckoutPaymentPage = () => {
             creditCard.cardYearValidation?.isValid &&
             creditCard.cardCVVValidation?.isValid
         ) {
+            const newOrder = {
+                address: addressInfo,
+                shipping: shippingInfo,
+                payment: creditCard,
+                items: items,
+                date: new Date(),
+                arrival: new Date()
+            } as OrderInfoType;
+            addOrder(newOrder);
+            clearCart();
             setShopSuccess(true);
         }
     }
+
+    useEffect(() => {
+        if(items.length === 0) {
+            navigate(APP_ROUTES.CART);
+        } else if (!isAddressInfoValid()) {
+            navigate(APP_ROUTES.CHECKOUT_ADDRESS);
+        } else if (!isShippingInfoValid()) {
+            navigate(APP_ROUTES.CHECKOUT_SHIPPING);
+        }
+
+    }, []);
 
     return (
         <main className="container p-3">
@@ -165,39 +201,43 @@ export const CheckoutPaymentPage = () => {
                     <div>
                         {shopSuccess ? <h2>Thank you for your order!</h2> : <h2>Payment</h2>}
                     </div>
-                    <form onSubmit={handleSubmit}>
-                        <input
-                            className="text-input"
-                            type="text"
-                            name="card_holder"
-                            id=""
-                            placeholder="Card Holder"
-                            value={creditCard.cardHolder}
-                            onChange={(e) => dispatch({ type: ACTION_TYPES.setCardHolder, payload: e.currentTarget.value })}
-                        />
-                        <div className="card-number">
+                    {shopSuccess ? (
+                        <p className="success-message">Your order has been placed! We will send you a confirmation email shortly.</p>
+                    ) : (
+                        <form onSubmit={handleSubmit}>
                             <input
                                 className="text-input"
                                 type="text"
-                                name="card_number"
-                                placeholder="Card Number"
-                                value={creditCard.cardNumber}
-                                onChange={(e) => dispatch({ type: ACTION_TYPES.setCardNumber, payload: e.currentTarget.value })} />
-                            <div className="card-icon">
-                                <img src={genericCardIcon} alt="" />
+                                name="card_holder"
+                                id=""
+                                placeholder="Card Holder"
+                                value={creditCard.cardHolder}
+                                onChange={(e) => dispatch({ type: ACTION_TYPES.setCardHolder, payload: e.currentTarget.value })}
+                            />
+                            <div className="card-number">
+                                <input
+                                    className="text-input"
+                                    type="text"
+                                    name="card_number"
+                                    placeholder="Card Number"
+                                    value={creditCard.cardNumber}
+                                    onChange={(e) => dispatch({ type: ACTION_TYPES.setCardNumber, payload: e.currentTarget.value })} />
+                                <div className="card-icon">
+                                    <img src={genericCardIcon} alt="" />
+                                </div>
                             </div>
-                        </div>
 
-                        <div className="cols-3">
-                            <input className="text-input cols-3" type="text" name="month" id="" placeholder="MM" value={creditCard.cardExpiryMonth} onChange={(e) => dispatch({ type: ACTION_TYPES.setCardExpiryMonth, payload: e.currentTarget.value })} maxLength={2} />
-                            <input className="text-input cols-3" type="text" name="year" id="" placeholder="YY" value={creditCard.cardExpiryYear} onChange={(e) => dispatch({ type: ACTION_TYPES.setCardExpiryYear, payload: e.currentTarget.value })} maxLength={2} />
-                            <input className="text-input cols-3" type="text" name="cvv" id="" placeholder="CVV" value={creditCard.cardCVV} onChange={(e) => dispatch({ type: ACTION_TYPES.setCardCVV, payload: e.currentTarget.value })} maxLength={3} />
-                        </div>
-                        <div>
-                            <CheckboxInput name="terms" label="I agree with terms and conditions" value={"true"} />
-                        </div>
-                        <button className="btn btn-primary">Pay with card</button>
-                    </form>
+                            <div className="cols-3">
+                                <input className="text-input cols-3" type="text" name="month" id="" placeholder="MM" value={creditCard.cardExpiryMonth} onChange={(e) => dispatch({ type: ACTION_TYPES.setCardExpiryMonth, payload: e.currentTarget.value })} maxLength={2} />
+                                <input className="text-input cols-3" type="text" name="year" id="" placeholder="YY" value={creditCard.cardExpiryYear} onChange={(e) => dispatch({ type: ACTION_TYPES.setCardExpiryYear, payload: e.currentTarget.value })} maxLength={2} />
+                                <input className="text-input cols-3" type="text" name="cvv" id="" placeholder="CVV" value={creditCard.cardCVV} onChange={(e) => dispatch({ type: ACTION_TYPES.setCardCVV, payload: e.currentTarget.value })} maxLength={3} />
+                            </div>
+                            <div>
+                                <CheckboxInput name="terms" label="I agree with terms and conditions" value={"true"} />
+                            </div>
+                            <button className="btn btn-primary">Pay with card</button>
+                        </form>
+                    )}
                 </section>
                 <PreviewCartItem />
             </Container>
