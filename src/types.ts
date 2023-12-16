@@ -30,3 +30,31 @@ export type CartItem = {
     product: Product;
     quantity: number;
 }
+
+export type AddressInfoType = {
+    address: string;
+    apartment: string;
+    city: string;
+    country: string;
+    first_name: string;
+    last_name: string;
+    optional?: string;
+    zipcode: string;
+}
+
+export type ShippingInfoType = {
+    shipping: string;
+}
+
+export type PaymentInfoType = {
+    
+}
+
+export type OrderInfoType = {
+    address: AddressInfoType;
+    shipping: ShippingInfoType;
+    payment: PaymentInfoType;
+    items: CartItem[];
+    date: Date;
+    arrival: Date;
+}

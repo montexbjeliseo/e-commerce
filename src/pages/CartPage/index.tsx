@@ -1,11 +1,23 @@
-import { useCart } from "../../contexts/CartProvider";
+import { useNavigate } from "react-router-dom";
 import { Accordion } from "../../shared/components/Accordion";
-import { CartItemCard } from "./CartItemCard";
+import { CartItemList } from "../../shared/components/CartItemList";
+import { OrderSummaryPreview } from "../../shared/components/OrderSummaryPreview";
 import "./styles.css";
+import { APP_ROUTES } from "../../constants";
+import { useCart } from "../../contexts/CartProvider";
 
 export const CartPage = () => {
 
-    const { items, removeItem } = useCart();
+    const navigate = useNavigate();
+
+    const { items } = useCart();
+
+    const handleClick = () => {
+        if (items.length === 0) {
+            return;
+        }
+        navigate(APP_ROUTES.CHECKOUT_ADDRESS)
+    }
 
     return (
         <main className="container pt-3">
@@ -13,16 +25,7 @@ export const CartPage = () => {
             <section className="cart-page-container">
                 <section>
                     <p className="section-caption">Not ready to checkout? Continue shopping</p>
-                    <ul>
-                        {items.map((item) => (
-                            <li key={item.product.id}>
-                                <CartItemCard
-                                    item={item}
-                                    handleRemove={removeItem}
-                                />
-                            </li>
-                        ))}
-                    </ul>
+                    <CartItemList allowRemove={true} />
                     <div className="pt-3 order-information">
                         <h2>Order information</h2>
                         <Accordion
@@ -47,14 +50,8 @@ export const CartPage = () => {
                 </section>
                 <aside className="cart-page-aside">
                     <h2>Order summary</h2>
-                    <label>Cupon code: <br />
-                        <input className="text-input" type="text" placeholder="Enter cupon code here..." />
-                    </label>
-                    <p>Subtotal: ${items.reduce((acc, item) => acc + item.quantity * item.product.price, 0)}</p>
-                    <p>Shipping: <span>Calculated at checkout</span></p>
-                    <hr />
-                    <p>Total: ${items.reduce((acc, item) => acc + item.quantity * item.product.price, 0)}</p>
-                    <button className="btn btn-primary">Checkout</button>
+                    <OrderSummaryPreview />
+                    <button onClick={handleClick} className="btn btn-primary" disabled={items.length === 0}>Checkout</button>
                 </aside>
             </section>
 

@@ -19,12 +19,12 @@ export const Carousel: React.FC<CarouselProps> = ({ images }) => {
     return (
         <>
             <div className="slideshow-container">
-                
+
                 {images.map((image, index) => (
-                    <div className={`mySlides fade ${index === currentIndex ? 'active' : ''}`}>
-                    <div className="numbertext">{`${currentIndex + 1} / ${images.length}`}</div>
-                    <img src={image} />
-                </div>
+                    <div key={index} className={`mySlides fade ${index === currentIndex ? 'active' : ''}`}>
+                        <div className="numbertext">{`${currentIndex + 1} / ${images.length}`}</div>
+                        <img src={image} />
+                    </div>
                 ))}
 
                 <a className="prev" onClick={handlePrev}>&#10094;</a>

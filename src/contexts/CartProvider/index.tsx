@@ -5,6 +5,7 @@ type CartContextType = {
     items: CartItem[];
     addItem: (product_id: number, product: Product, quantity: number) => void;
     removeItem: (product_id: number) => void;
+    clear: () => void;
 }
 
 const CartContext = createContext<CartContextType>({} as CartContextType);
@@ -37,12 +38,16 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
         setItems(items.filter((item) => item.product_id !== product_id));
     }
 
+    const clear = () => {
+        setItems([]);
+    }
+
     useEffect(() => {
         saveCart();
     }, [items]);
 
     return (
-        <CartContext.Provider value={{items, addItem, removeItem}}>
+        <CartContext.Provider value={{items, addItem, removeItem, clear}}>
             {children}
         </CartContext.Provider>
     )

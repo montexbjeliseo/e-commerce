@@ -27,7 +27,10 @@ export const APP_ROUTES = {
     PRODUCT_CREATE: '/products/create',
     PRODUCT_EDIT: '/products/edit/:id',
     CART: '/cart-detail',
-    ABOUT: '/about'
+    ABOUT: '/about',
+    CHECKOUT_ADDRESS: '/checkout/address',
+    CHECKOUT_SHIPPING: '/checkout/shipping',
+    CHECKOUT_PAYMENT: '/checkout/payment',
 }
 
 export const ERROR = {
@@ -38,3 +41,16 @@ export const ERROR = {
 export const AUTH_LOCAL_STORAGE = {
     ACCESS_TOKEN: 'accessToken'   
 }
+
+export const DEFAULT_SHIPPING_METHODS = [
+    {
+        id: 1,
+        name: 'UPS/USPS Surepost',
+        description: '5-10 business days'
+    },
+    {
+        id: 2,
+        name: 'FedEx',
+        description: '2-5 business days'
+    }
+];
