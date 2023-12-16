@@ -1,7 +1,7 @@
 import styled from "styled-components"
 import { CheckoutSteps } from "../components/Steps";
 import { PreviewCartItem } from "../PreviewCartItem";
-import { FormEvent } from "react";
+import { FormEvent, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { APP_ROUTES } from "../../../constants";
 import { useShopping } from "../../../contexts/ShoppingProvider";
@@ -40,7 +40,7 @@ const Label = styled.label`
 
 export const CheckoutShippingPage = () => {
 
-    const { saveShippingInfo, shippingMethods } = useShopping();
+    const { saveShippingInfo, shippingMethods, isAddressInfoValid } = useShopping();
 
     const navigate = useNavigate();
 
@@ -53,6 +53,12 @@ export const CheckoutShippingPage = () => {
         navigate(APP_ROUTES.CHECKOUT_PAYMENT);
     }
 
+    useEffect(() => {
+        if(!isAddressInfoValid()){
+            navigate(APP_ROUTES.CHECKOUT_ADDRESS);
+        }
+    }, []);
+
     return (
         <main className="container p-3">
             <h1>Checkout Address</h1>
@@ -61,11 +67,11 @@ export const CheckoutShippingPage = () => {
                     <CheckoutSteps position={2} />
                     <form onSubmit={handleSubmit}>
                         <ul className="options">
-                            {shippingMethods && shippingMethods.map(method => (
+                            {shippingMethods && shippingMethods.map((method, index) => (
                                 <li key={method.id}>
                                     <Label>
                                         <p>
-                                            <input type="radio" name="shipping" id="" value={method.id} />
+                                            <input type="radio" name="shipping" id="" value={method.id} defaultChecked={index === 0} />
                                         </p>
                                         <p>
                                             <strong>{method.name}</strong>

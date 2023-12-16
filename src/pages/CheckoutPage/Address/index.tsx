@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { FormEvent } from "react";
+import { FormEvent, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { APP_ROUTES } from "../../../constants";
 import { CheckoutSteps } from "../components/Steps";
@@ -7,6 +7,7 @@ import { PreviewCartItem } from "../PreviewCartItem";
 import { useShopping } from "../../../contexts/ShoppingProvider";
 import { AddressInfoType } from "../../../types";
 import { SwitchInput } from "../../../shared/components/SwitchInput";
+import { useCart } from "../../../contexts/CartProvider";
 
 const Container = styled.section`
     display: grid;
@@ -53,6 +54,8 @@ export const CheckoutAddressPage = () => {
 
     const { saveAddressInfo } = useShopping();
 
+    const { items } = useCart();
+
     const navigate = useNavigate();
 
     const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
@@ -65,6 +68,12 @@ export const CheckoutAddressPage = () => {
 
         navigate(APP_ROUTES.CHECKOUT_SHIPPING);
     }
+
+    useEffect(() => {
+        if (items.length === 0) {
+            navigate(APP_ROUTES.CHECKOUT_ADDRESS);
+        }
+    }, [])
 
     return (
         <main className="container p-3">
