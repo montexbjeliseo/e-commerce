@@ -1,6 +1,6 @@
 import styled from "styled-components"
 import { CheckoutSteps } from "../components/Steps";
-import { PreviewCartItem } from "../PreviewCartItem";
+import { PreviewCartItem } from "../../../shared/components/PreviewCartItem";
 import { FormEvent, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { APP_ROUTES } from "../../../constants";

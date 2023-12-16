@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { CheckoutSteps } from "../components/Steps";
-import { PreviewCartItem } from "../PreviewCartItem";
+import { PreviewCartItem } from "../../../shared/components/PreviewCartItem";
 import { CheckboxInput } from "../../../shared/components/CheckboxInput";
 import { FormEvent, useEffect, useReducer, useState } from "react";
 

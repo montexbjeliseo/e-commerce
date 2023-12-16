@@ -1,6 +1,6 @@
 import styled from "styled-components";
-import { CartItemList } from "../../../shared/components/CartItemList"
-import { OrderSummaryPreview } from "../../../shared/components/OrderSummaryPreview";
+import { CartItemList } from "../CartItemList"
+import { OrderSummaryPreview } from "../OrderSummaryPreview";
 
 const Container = styled.aside`
     display: flex;

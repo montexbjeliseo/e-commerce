@@ -3,7 +3,7 @@ import { FormEvent, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { APP_ROUTES } from "../../../constants";
 import { CheckoutSteps } from "../components/Steps";
-import { PreviewCartItem } from "../PreviewCartItem";
+import { PreviewCartItem } from "../../../shared/components/PreviewCartItem";
 import { useShopping } from "../../../contexts/ShoppingProvider";
 import { AddressInfoType } from "../../../types";
 import { SwitchInput } from "../../../shared/components/SwitchInput";

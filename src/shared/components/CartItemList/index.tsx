@@ -16,18 +16,24 @@ type Props = {
 
 export const CartItemList: React.FC<Props> = ({ allowRemove }) => {
     const { items, removeItem } = useCart();
-    
+
     return (
-        <UList>
-            {items.map((item) => (
-                <li key={item.product.id}>
-                    <CartItemCard
-                        item={item}
-                        allowRemove={allowRemove}
-                        handleRemove={removeItem}
-                    />
-                </li>
-            ))}
-        </UList>
+        <>
+            {items && items.length > 0 ? (
+                <UList>
+                    {items.map((item) => (
+                        <li key={item.product.id}>
+                            <CartItemCard
+                                item={item}
+                                allowRemove={allowRemove}
+                                handleRemove={removeItem}
+                            />
+                        </li>
+                    ))}
+                </UList>
+            ) : (
+                <p className="text-muted"><i>Your cart is empty</i></p>
+            )}
+        </>
     )
 }
