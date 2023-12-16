@@ -3,9 +3,6 @@ import { CheckoutSteps } from "../components/Steps";
 import { PreviewCartItem } from "../../../shared/components/PreviewCartItem";
 import { CheckboxInput } from "../../../shared/components/CheckboxInput";
 import { FormEvent, useEffect, useReducer, useState } from "react";
-
-import genericCardIcon from '../../../assets/icons/generic-card.png';
-
 import * as CardValidator from 'card-validator';
 import { useShopping } from "../../../contexts/ShoppingProvider";
 import { OrderInfoType } from "../../../types";
@@ -13,6 +10,8 @@ import { useCart } from "../../../contexts/CartProvider";
 import { useNavigate } from "react-router-dom";
 import { APP_ROUTES } from "../../../constants";
 import { ValidableField } from "../../../shared/components/ValidableField";
+import { CreditCardIcon } from "../../../shared/components/CreditCardIcon";
+import { CheckIcon } from "../../../shared/components/CheckIcon";
 
 const Container = styled.div`
     display: grid;
@@ -50,26 +49,6 @@ const Container = styled.div`
             grid-template-columns: repeat(3, 1fr);
             gap: 18px;
         }
-
-        .validable-field {
-            display: flex;
-            flex-direction: column;
-            position: relative;
-            .validation-icon {
-                position: absolute;
-                right: 10px;
-                height: 100%;
-                display: flex;
-                align-items: center;
-                user-select: none;
-                img {
-                    width: 40px;
-                    height: 40px;
-                    user-select: none;
-                }
-            }
-        }
-
     }
 `;
 
@@ -177,7 +156,6 @@ export const CheckoutPaymentPage = () => {
     const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
-
         // const formData = Object.fromEntries(new FormData(e.target as HTMLFormElement));
 
         if (
@@ -241,7 +219,15 @@ export const CheckoutPaymentPage = () => {
                                     value={creditCard.cardNumber}
                                     onChange={(e) => dispatch({ type: ACTION_TYPES.setCardNumber, payload: e.currentTarget.value })} />
                                 <div className="card-icon">
-                                    <img src={genericCardIcon} alt="" />
+                                    
+                                    <CreditCardIcon
+                                        number={creditCard.cardNumber}
+                                    />
+                                    <CheckIcon
+                                        checked={
+                                            creditCard.cardNumberValidation?.isValid || false
+                                        }
+                                    />
                                 </div>
                             </div>
 
