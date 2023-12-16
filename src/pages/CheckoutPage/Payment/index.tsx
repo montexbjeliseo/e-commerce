@@ -12,6 +12,7 @@ import { OrderInfoType } from "../../../types";
 import { useCart } from "../../../contexts/CartProvider";
 import { useNavigate } from "react-router-dom";
 import { APP_ROUTES } from "../../../constants";
+import { ValidableField } from "../../../shared/components/ValidableField";
 
 const Container = styled.div`
     display: grid;
@@ -49,6 +50,26 @@ const Container = styled.div`
             grid-template-columns: repeat(3, 1fr);
             gap: 18px;
         }
+
+        .validable-field {
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            .validation-icon {
+                position: absolute;
+                right: 10px;
+                height: 100%;
+                display: flex;
+                align-items: center;
+                user-select: none;
+                img {
+                    width: 40px;
+                    height: 40px;
+                    user-select: none;
+                }
+            }
+        }
+
     }
 `;
 
@@ -138,7 +159,6 @@ const checkCardReducer = (state: CreditCard, action: ActionType): CreditCard => 
                 cardYearValidation: CardValidator.expirationYear(action.payload)
             };
     }
-    return state;
 }
 
 
@@ -182,7 +202,7 @@ export const CheckoutPaymentPage = () => {
     }
 
     useEffect(() => {
-        if(items.length === 0) {
+        if (items.length === 0) {
             navigate(APP_ROUTES.CART);
         } else if (!isAddressInfoValid()) {
             navigate(APP_ROUTES.CHECKOUT_ADDRESS);
@@ -205,14 +225,12 @@ export const CheckoutPaymentPage = () => {
                         <p className="success-message">Your order has been placed! We will send you a confirmation email shortly.</p>
                     ) : (
                         <form onSubmit={handleSubmit}>
-                            <input
-                                className="text-input"
-                                type="text"
+                            <ValidableField
                                 name="card_holder"
-                                id=""
                                 placeholder="Card Holder"
                                 value={creditCard.cardHolder}
                                 onChange={(e) => dispatch({ type: ACTION_TYPES.setCardHolder, payload: e.currentTarget.value })}
+                                isValid={creditCard.cardHolderValidation?.isValid && creditCard.cardHolder.length > 5 ? true : false}
                             />
                             <div className="card-number">
                                 <input
@@ -228,9 +246,41 @@ export const CheckoutPaymentPage = () => {
                             </div>
 
                             <div className="cols-3">
-                                <input className="text-input cols-3" type="text" name="month" id="" placeholder="MM" value={creditCard.cardExpiryMonth} onChange={(e) => dispatch({ type: ACTION_TYPES.setCardExpiryMonth, payload: e.currentTarget.value })} maxLength={2} />
-                                <input className="text-input cols-3" type="text" name="year" id="" placeholder="YY" value={creditCard.cardExpiryYear} onChange={(e) => dispatch({ type: ACTION_TYPES.setCardExpiryYear, payload: e.currentTarget.value })} maxLength={2} />
-                                <input className="text-input cols-3" type="text" name="cvv" id="" placeholder="CVV" value={creditCard.cardCVV} onChange={(e) => dispatch({ type: ACTION_TYPES.setCardCVV, payload: e.currentTarget.value })} maxLength={3} />
+                                <ValidableField
+                                    name="month"
+                                    placeholder="MM"
+                                    value={creditCard.cardExpiryMonth}
+                                    onChange={
+                                        (e) => dispatch(
+                                            {
+                                                type: ACTION_TYPES.setCardExpiryMonth,
+                                                payload: e.currentTarget.value
+                                            })
+                                    }
+                                    isValid={
+                                        creditCard.cardMonthValidation?.isValid &&
+                                            creditCard.cardExpiryMonth.length === 2 ? true : false}
+                                />
+                                <ValidableField
+                                    name="year"
+                                    placeholder="YY"
+                                    value={creditCard.cardExpiryYear}
+                                    onChange={(e) => dispatch({ type: ACTION_TYPES.setCardExpiryYear, payload: e.currentTarget.value })}
+                                    isValid={
+                                        ((creditCard.cardYearValidation?.isValid &&
+                                            !creditCard.cardYearValidation?.isCurrentYear) ||
+                                            (creditCard.cardYearValidation?.isValid &&
+                                                creditCard.cardYearValidation?.isCurrentYear &&
+                                                creditCard.cardMonthValidation?.isValidForThisYear)) &&
+                                            creditCard.cardExpiryYear.length === 2 ? true : false}
+                                />
+                                <ValidableField
+                                    name="cvv"
+                                    placeholder="CVV"
+                                    value={creditCard.cardCVV}
+                                    onChange={(e) => dispatch({ type: ACTION_TYPES.setCardCVV, payload: e.currentTarget.value })}
+                                    isValid={creditCard.cardCVVValidation?.isValid && creditCard.cardCVV.length === 3 ? true : false}
+                                />
                             </div>
                             <div>
                                 <CheckboxInput name="terms" label="I agree with terms and conditions" value={"true"} />
