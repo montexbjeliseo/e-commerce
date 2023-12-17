@@ -1,6 +1,14 @@
 import { useReducer } from "react";
 import { LabeledRangeInput } from "../LabeledRangeInput";
 import { PriceRange } from "../../../types";
+import styled from "styled-components";
+
+
+const Container = styled.div`
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+`;
 
 type PriceRangeInputProps = {
     min: number;
@@ -40,7 +48,7 @@ export const PriceRangeInput: React.FC<PriceRangeInputProps> = ({ min, max, rang
     };
 
     return (
-        <div>
+        <Container>
 
             <LabeledRangeInput
             input_name="minprice"
@@ -58,6 +66,6 @@ export const PriceRangeInput: React.FC<PriceRangeInputProps> = ({ min, max, rang
             value={priceRange.max} 
             handleChange={handleMaxChange} />
 
-        </div>
+        </Container>
     );
 };

@@ -1,12 +1,31 @@
-import { Product } from "../../../types"
+import { Product, ProductFilters } from "../../../types"
 import "./styles.css";
 import { ProductCard } from "../ProductCard";
+import { fetchProducts } from "../../../api";
+import { QUERY_KEYS } from "../../../constants";
+import { useQuery } from "react-query";
+import { Loading } from "../Loading";
+import { ErrorMessage } from "../ErrorMessage";
 
 type ProductListProps = {
-    products: Product[];
+    filters: ProductFilters;
 }
 
-export const ProductList: React.FC<ProductListProps> = ({ products }) => {
+export const ProductList: React.FC<ProductListProps> = ({ filters }) => {
+
+    const {
+        data: products,
+        isLoading: isLoadingProducts,
+        isError: isErrorProducts
+    } = useQuery([QUERY_KEYS.PRODUCTS, filters], () => fetchProducts(filters));
+
+    if (isLoadingProducts) {
+        <Loading />
+    }
+
+    if (isErrorProducts) {
+        <ErrorMessage />
+    }
 
     if (!products || products.length === 0) {
         return (
