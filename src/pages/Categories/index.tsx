@@ -46,7 +46,7 @@ export const CategoriesPage = () => {
             <ul className="categories">
                 {(data as Category[]).map((category) => (
                     <li key={category.id} className="category-card">
-                        <Link to={`${APP_ROUTES.PRODUCTS}?category_id=${category.id}`}>
+                        <Link to={`${APP_ROUTES.PRODUCTS}?categoryId=${category.id}`}>
                             <p>{category.name}</p>
                             <img onError={(e) => e.currentTarget.src = IMAGE_PLACEHOLDER.IMAGE_300} src={category.image} alt={category.name} title={category.name} width={300} height={300} />
                         </Link>

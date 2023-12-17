@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useReducer, useState } from "react";
 import styled from "styled-components";
 import { IMAGE_PLACEHOLDER } from "../../../constants";
 import { postCategory } from "../../../api";
 import { Loading } from "../../../shared/components/Loading";
 import { CheckIcon } from "../../../shared/components/CheckIcon";
+import { CREATION_ACTION_TYPES, creationReducer } from "../../../reducers/CreationReducer";
 
 
 const MessageContainer = styled.div`
@@ -66,58 +67,14 @@ const StyleForm = styled.form`
   }
 
 `;
-
-enum CREATION_ACTION_TYPES {
-    SET_IS_LOADING = "SET_IS_LOADING",
-    SET_IS_ERROR = "SET_IS_ERROR",
-    SET_CREATED = "SET_CREATED"
-}
-
-type CreationAction = {
-    type: CREATION_ACTION_TYPES;
-    payload: boolean;
-}
-
-type CreationState = {
-    isLoading: boolean;
-    isError: boolean;
-    created: boolean;
-}
-
-const creationReducer = (state: CreationState, action: CreationAction) => {
-    const newState = {
-        isLoading: false,
-        isError: false,
-        created: false
-    }
-    switch (action.type) {
-        case CREATION_ACTION_TYPES.SET_IS_LOADING:
-            return {
-                ...newState,
-                isLoading: action.payload
-            };
-        case CREATION_ACTION_TYPES.SET_IS_ERROR:
-            return {
-                ...newState,
-                isError: action.payload
-            };
-        case CREATION_ACTION_TYPES.SET_CREATED:
-            return {
-                ...newState,
-                created: action.payload
-            };
-        default:
-            return state;
-    }
-};
-
 export const NewCategoryForm: React.FC = () => {
 
-    const [categoryCreation, dispatch] = React.useReducer(creationReducer, {
+    const [categoryCreation, dispatch] = useReducer(creationReducer, {
         isLoading: false,
         isError: false,
         created: false
     });
+
 
     const [imagePreview, setImagePreview] = useState<string | ArrayBuffer | null>(null);
 
@@ -191,6 +148,7 @@ export const NewCategoryForm: React.FC = () => {
 
     return (
         <StyleForm onSubmit={handleSubmit}>
+
             <label className="image-input">
                 <img
                     src={imagePreview as string || IMAGE_PLACEHOLDER.IMAGE_300}
@@ -202,6 +160,7 @@ export const NewCategoryForm: React.FC = () => {
                     Select an image
                 </div>
             </label>
+
             <input className="text-input" type="text" name="name" placeholder="Category Name" required />
 
             <button className="btn btn-primary" type="submit">
