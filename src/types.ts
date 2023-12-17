@@ -19,8 +19,8 @@ export type PriceRange = {
 }
 
 export type ProductFilters = {
-    price_min: number;
-    price_max: number;
+    price_min?: number;
+    price_max?: number;
     categoryId?: number;
     title?: string;
 }
