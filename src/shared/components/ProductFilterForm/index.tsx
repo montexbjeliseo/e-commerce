@@ -2,6 +2,14 @@ import React, { useState } from "react";
 import { Category, ProductFilters } from "../../../types";
 import { PriceRangeInput } from "../PriceRangeInput";
 import { SelectCategory } from "../SelectCategory";
+import styled from "styled-components";
+
+
+const Form = styled.form`
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+`;
 
 type ProductFilterFormProps = {
     categories: Category[];
@@ -43,7 +51,7 @@ export const ProductFilterForm: React.FC<ProductFilterFormProps> = ({ categories
     }
 
     return (
-        <form method="get" onSubmit={handleSubmit}>
+        <Form method="get" onSubmit={handleSubmit}>
             <h3>Title</h3>
             <input className="text-input" type="text" name="title" id="" placeholder="Product title" value={title} onChange={e => setTitle(e.target.value)} />
             <h3>Category</h3>
@@ -52,6 +60,6 @@ export const ProductFilterForm: React.FC<ProductFilterFormProps> = ({ categories
             <PriceRangeInput min={allowedPriceRange.min} max={allowedPriceRange.max} rangeValue={{ min: filters.price_min || allowedPriceRange.min, max: filters.price_max || allowedPriceRange.max }} />
             <button className="btn btn-primary" type="reset" onClick={handleClear}>Clear filters</button>
             <button className="btn btn-primary" type="submit">Apply filters</button>
-        </form>
+        </Form>
     )
 }
