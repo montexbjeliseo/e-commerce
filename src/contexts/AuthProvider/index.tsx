@@ -1,5 +1,5 @@
 import { createContext, useContext, useState } from "react";
-import { refreshToken as request_refreshToken, login as request_login, register as request_register } from "../../api";
+import { validateToken as requestValidateToken, login as requestLogin, register as requestRegister } from "../../api";
 import { AUTH_LOCAL_STORAGE, ERROR } from "../../constants";
 
 type AuthContextType = {
@@ -18,32 +18,30 @@ type AuthProviderProps = {
 
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
-    const refreshToken = (oldToken: string) => {
-        request_refreshToken(oldToken).then((response) => {
+    const validateToken = (oldToken: string) => {
+        requestValidateToken(oldToken).then((response) => {
             if (response.statusCode >= 400) {
-                setAuthenticated(false);
-            } else {
-                localStorage.setItem(AUTH_LOCAL_STORAGE.ACCESS_TOKEN, response.access_token);
-                setAuthenticated(true);
+                console.log("Could not refresh token", oldToken);
+                logout();
             }
         }).catch(() => {
-            setAuthenticated(false);
+            console.log("Could not refresh token, network error");
         })
     }
 
     const getAccessToken = () => {
         let token = localStorage.getItem(AUTH_LOCAL_STORAGE.ACCESS_TOKEN) || "";
-        // if (token) {
-        //     refreshToken(token);
-        //     token = localStorage.getItem(AUTH_LOCAL_STORAGE.ACCESS_TOKEN) || "";
-        // }
+        if (token) {
+            validateToken(token);
+            token = localStorage.getItem(AUTH_LOCAL_STORAGE.ACCESS_TOKEN) || "";
+        }
         return token;
     }
 
     const [isAuthenticated, setAuthenticated] = useState(getAccessToken() ? true : false);
 
     const login = (email: string, password: string, next: () => void, error: (error: any) => void) => {
-        request_login(email, password).then((response) => {
+        requestLogin(email, password).then((response) => {
             if (response.statusCode >= 400) {
                 error(response);
             } else {
@@ -57,7 +55,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     }
 
     const register = (name: string, email: string, password: string, next: () => void, error: (error: any) => void) => {
-        request_register(name, email, password).then((response) => {
+        requestRegister(name, email, password).then((response) => {
             if (response.statusCode >= 400) {
                 error(response);
             } else {

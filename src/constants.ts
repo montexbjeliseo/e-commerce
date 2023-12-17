@@ -11,7 +11,7 @@ export const API_ENDPOINTS = {
     LOGIN: 'https://api.escuelajs.co/api/v1/auth/login',
     REGISTER: 'https://api.escuelajs.co/api/v1/users/',
 
-    REFRESH_TOKEN: 'https://api.escuelajs.co/api/v1/auth/refresh-token',
+    PROFILE: 'https://api.escuelajs.co/api/v1/auth/profile',
 };
 
 export const IMAGE_PLACEHOLDER = { 

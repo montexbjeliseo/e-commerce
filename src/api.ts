@@ -73,13 +73,13 @@ export const register = async (name: string, email: string, password: string) =>
   return data;
 }
 
-export const refreshToken = async (token: string) => {
-  const response = await fetch(`${API_ENDPOINTS.REFRESH_TOKEN}`, {
-    method: 'POST',
+export const validateToken = async (token: string) => {
+  const response = await fetch(`${API_ENDPOINTS.PROFILE}`, {
+    method: 'GET',
     headers: {
       'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({ refresh_token: token }),
+      'Authorization': `Bearer ${token}`,
+    }
   });
   const data = await response.json();
   return data;
