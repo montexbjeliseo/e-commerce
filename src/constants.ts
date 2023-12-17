@@ -56,3 +56,13 @@ export const DEFAULT_SHIPPING_METHODS = [
         description: '2-5 business days'
     }
 ];
+
+export const HEADERS = {
+    DEFAULT_HEADERS: {
+        'Host': 'localhost:5173',
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Methods': 'POST',
+        'Access-COntrol-Allow-Headers': 'Content-Type',
+      }
+}

@@ -2,6 +2,29 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { IMAGE_PLACEHOLDER } from "../../../constants";
 import { postCategory } from "../../../api";
+import { Loading } from "../../../shared/components/Loading";
+import { CheckIcon } from "../../../shared/components/CheckIcon";
+
+
+const MessageContainer = styled.div`
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    over-flow: hidden;
+    flex-direction: column;
+    gap: 18px;
+
+    .error-icon,
+    .created-icon {
+        width: 48px;
+        height: 48px;
+
+        img {
+            width: 100%;
+        }
+    }
+`;
 
 const StyleForm = styled.form`
   display: flex;
@@ -44,12 +67,57 @@ const StyleForm = styled.form`
 
 `;
 
-type Props = {
+enum CREATION_ACTION_TYPES {
+    SET_IS_LOADING = "SET_IS_LOADING",
+    SET_IS_ERROR = "SET_IS_ERROR",
+    SET_CREATED = "SET_CREATED"
 }
 
-export const NewCategoryForm: React.FC<Props> = () => {
+type CreationAction = {
+    type: CREATION_ACTION_TYPES;
+    payload: boolean;
+}
 
-    const [ isLoading, setIsLoading ] = useState(false);
+type CreationState = {
+    isLoading: boolean;
+    isError: boolean;
+    created: boolean;
+}
+
+const creationReducer = (state: CreationState, action: CreationAction) => {
+    const newState = {
+        isLoading: false,
+        isError: false,
+        created: false
+    }
+    switch (action.type) {
+        case CREATION_ACTION_TYPES.SET_IS_LOADING:
+            return {
+                ...newState,
+                isLoading: action.payload
+            };
+        case CREATION_ACTION_TYPES.SET_IS_ERROR:
+            return {
+                ...newState,
+                isError: action.payload
+            };
+        case CREATION_ACTION_TYPES.SET_CREATED:
+            return {
+                ...newState,
+                created: action.payload
+            };
+        default:
+            return state;
+    }
+};
+
+export const NewCategoryForm: React.FC = () => {
+
+    const [categoryCreation, dispatch] = React.useReducer(creationReducer, {
+        isLoading: false,
+        isError: false,
+        created: false
+    });
 
     const [imagePreview, setImagePreview] = useState<string | ArrayBuffer | null>(null);
 
@@ -69,12 +137,57 @@ export const NewCategoryForm: React.FC<Props> = () => {
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
+
+        dispatch({ type: CREATION_ACTION_TYPES.SET_IS_LOADING, payload: true });
+
         const formData = new FormData(e.target as HTMLFormElement);
-        postCategory({
+        const payload = {
             name: formData.get("name") as string,
             image: IMAGE_PLACEHOLDER.IMAGE_300 as string
-        }).then(console.log).catch(console.error);
+        };
+        postCategory(payload).then(() => {
+            dispatch({ type: CREATION_ACTION_TYPES.SET_CREATED, payload: true });
+        }).catch(() => {
+            dispatch({ type: CREATION_ACTION_TYPES.SET_IS_ERROR, payload: true });
+        });
     };
+
+    if (categoryCreation.isLoading) {
+        return (
+            <MessageContainer>
+                <Loading />
+                <div>
+                    Please wait...
+                </div>
+            </MessageContainer>
+        )
+    }
+
+    if (categoryCreation.isError) {
+        return (
+            <MessageContainer>
+                <div className="error-icon">
+                    <CheckIcon checked={false} />
+                </div>
+                <div className="error-message">
+                    An error has occurred.
+                </div>
+            </MessageContainer>
+        )
+    }
+
+    if (categoryCreation.created) {
+        return (
+            <MessageContainer>
+                <div className="created-icon">
+                    <CheckIcon checked={true} />
+                </div>
+                <div>
+                    Category created successfully.
+                </div>
+            </MessageContainer>
+        )
+    }
 
     return (
         <StyleForm onSubmit={handleSubmit}>
@@ -95,5 +208,6 @@ export const NewCategoryForm: React.FC<Props> = () => {
                 Create Category
             </button>
         </StyleForm>
-    );
+    )
+
 };

@@ -16,7 +16,7 @@ export const CategoriesPage = () => {
         return response.then((res) => res.json());
     })
 
-    const [showNewCategoryForm, setShowNewCategoryForm] = useState(true);
+    const [showNewCategoryForm, setShowNewCategoryForm] = useState(false);
 
     if (isLoading) {
         return (

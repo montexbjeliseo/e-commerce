@@ -1,4 +1,4 @@
-import { API_ENDPOINTS } from "./constants";
+import { API_ENDPOINTS, HEADERS } from "./constants";
 import { ProductFilters } from "./types";
 
 type APIProductFilters = {
@@ -75,19 +75,20 @@ export const register = async (name: string, email: string, password: string) =>
 
 export const postCategory = async (categoryData: any) => {
   const response = await fetch(`${API_ENDPOINTS.CATEGORIES}`, {
+    headers: HEADERS.DEFAULT_HEADERS,
     method: 'POST',
-    body: categoryData,
+    body: JSON.stringify(categoryData),
   });
 
   console.log(response);
 
   if (!response.ok) {
+    console.log('Failed to create category', response.status);
     throw new Error('Failed to create category');
   }
 
   const data = await response.json();
   return data;
-  
 }
 
 export const validateToken = async (token: string) => {
