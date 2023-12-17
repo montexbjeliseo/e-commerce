@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "react-router-dom"
+import { Link, useLocation, useNavigate } from "react-router-dom"
 import { LoginForm } from "../../../shared/components/LoginForm"
 import "./styles.css"
 import { Loading } from "../../../shared/components/Loading"
@@ -18,6 +18,8 @@ export const LoginPage = () => {
 
     const navigate = useNavigate();
 
+    const location = useLocation();
+
     const { isAuthenticated, login } = useAuth();
 
     const handleLoginFormSubmit = (email: string, password: string) => {
@@ -27,7 +29,7 @@ export const LoginPage = () => {
         setError("");
 
         login(email, password, () => {
-            navigate(APP_ROUTES.HOME);
+            location.state?.from ? navigate(location.state.from) : navigate(APP_ROUTES.HOME);
             setIsLoading(false);
         }, (error) => {
             if (error === ERROR.NETWORK_ERROR) {
