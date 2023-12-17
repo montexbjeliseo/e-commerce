@@ -5,6 +5,9 @@ import { Loading } from "../../shared/components/Loading";
 import { API_ENDPOINTS, APP_ROUTES, IMAGE_PLACEHOLDER, QUERY_KEYS } from "../../constants";
 import { Link } from "react-router-dom";
 import { Category } from "../../types";
+import { NewCategoryForm } from "./NewCategoryForm";
+import { useState } from "react";
+import { Modal } from "../../shared/components/Modal";
 
 export const CategoriesPage = () => {
 
@@ -12,6 +15,8 @@ export const CategoriesPage = () => {
         const response = fetch(API_ENDPOINTS.CATEGORIES);
         return response.then((res) => res.json());
     })
+
+    const [showNewCategoryForm, setShowNewCategoryForm] = useState(true);
 
     if (isLoading) {
         return (
@@ -28,6 +33,16 @@ export const CategoriesPage = () => {
     return (
         <div className="container center">
             <h1 className="title">Categories</h1>
+            <div>
+                {showNewCategoryForm ? (
+                    <Modal isOpen={showNewCategoryForm} onClose={() => setShowNewCategoryForm(false)}>
+                        <NewCategoryForm />
+                    </Modal>
+                ) : (
+                    <button className="btn btn-primary" onClick={() => setShowNewCategoryForm(true)}>New Category</button>
+                )}
+            </div>
+            <p className="title">Browse our categories</p>
             <ul className="categories">
                 {(data as Category[]).map((category) => (
                     <li key={category.id} className="category-card">

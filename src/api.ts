@@ -66,3 +66,19 @@ export const register = async (name: string, email: string, password: string) =>
   const data = await response.json();
   return data;
 }
+
+export const postCategory = async (categoryData: any) => {
+  const response = await fetch(`${API_ENDPOINTS.CATEGORIES}`, {
+    method: 'POST',
+    body: categoryData,
+  });
+
+  console.log(response);
+
+  if (!response.ok) {
+    throw new Error('Failed to create category');
+  }
+
+  const data = await response.json();
+  return data;
+}
