@@ -72,3 +72,15 @@ export const register = async (name: string, email: string, password: string) =>
   const data = await response.json();
   return data;
 }
+
+export const validateToken = async (token: string) => {
+  const response = await fetch(`${API_ENDPOINTS.PROFILE}`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`,
+    }
+  });
+  const data = await response.json();
+  return data;
+}
