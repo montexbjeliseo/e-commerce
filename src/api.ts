@@ -2,18 +2,24 @@ import { API_ENDPOINTS } from "./constants";
 import { ProductFilters } from "./types";
 
 type APIProductFilters = {
-    price_min?: number;
-    price_max?: number;
-    categoryId?: number;
-    title?: string;
+  price_min?: number;
+  price_max?: number;
+  categoryId?: number;
+  title?: string;
 }
 
 export const fetchProductById = async (id: number) => {
   const response = await fetch(`${API_ENDPOINTS.PRODUCTS}/${id}`);
-  if(!response.ok) {
+  if (!response.ok) {
     throw new Error('Product not found');
   }
   return response.json();
+}
+
+export const fetchCategories = async () => {
+  const response = await fetch(API_ENDPOINTS.CATEGORIES);
+  const json = await response.json();
+  return json;
 }
 
 export const fetchProducts = async (filters: ProductFilters) => {
@@ -79,6 +85,19 @@ export const postCategory = async (categoryData: any) => {
     throw new Error('Failed to create category');
   }
 
+  const data = await response.json();
+  return data;
+  
+}
+
+export const validateToken = async (token: string) => {
+  const response = await fetch(`${API_ENDPOINTS.PROFILE}`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`,
+    }
+  });
   const data = await response.json();
   return data;
 }

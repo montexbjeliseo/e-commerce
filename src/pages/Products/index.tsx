@@ -1,61 +1,90 @@
 import { useQuery } from "react-query";
-import { API_ENDPOINTS, QUERY_KEYS } from "../../constants";
+import { QUERY_KEYS } from "../../constants";
 import "./styles.css"
 import { Loading } from "../../shared/components/Loading";
 import { ErrorMessage } from "../../shared/components/ErrorMessage";
-import { Category, Product } from "../../types";
+import { Category, ProductFilters } from "../../types";
 import { ProductList } from "../../shared/components/ProductList";
 import { ProductFilterForm } from "../../shared/components/ProductFilterForm";
 import { useState } from "react";
-import { fetchProducts } from "../../api";
+import { fetchCategories } from "../../api";
+import { useLocation, useNavigate } from "react-router-dom";
 
 
 export const ProductsPage = () => {
 
-    const [filters, setFilters] = useState({
-        price_min: 0,
-        price_max: 0,
-        categoryId: 0,
-        title: ''
-    });
+    const location = useLocation();
 
-    const { data: products, isLoading: isLoadingProducts, isError: isErrorProducts, refetch } = useQuery([QUERY_KEYS.PRODUCTS, filters], () => fetchProducts(filters));
+    const navigate = useNavigate();
 
-    const { data: categories, isLoading: isLoadingCategories, isError: isErrorCategories } = useQuery(QUERY_KEYS.CATEGORIES, async () => {
-        const response = fetch(API_ENDPOINTS.CATEGORIES);
-        const res = await response;
-        return await res.json();
-    })
+    const searchParams = new URLSearchParams(location.search);
 
-    function getAllowedPriceRange() {
+    const readSearchParams = (): ProductFilters => {
 
-        if (!products) {
-            return {
-                min: 0,
-                max: 0
-            }
+        const filters = {
+            
+        } as ProductFilters;
+
+        const title = searchParams.get("title");
+
+        if (title && title.length > 0 && title.length < 100) {
+            filters["title"] = title;
         }
 
-        const minPrice = Math.min(...(products as Product[]).map((product) => product.price));
-        const maxPrice = Math.max(...(products as Product[]).map((product) => product.price));
+        const price_min = searchParams.get("price_min");
+        const price_max = searchParams.get("price_max");
 
-        return {
-            min: minPrice,
-            max: maxPrice
+        if (price_min && price_max && price_min.length > 0 && price_max.length > 0) {
+            filters["price_min"] = Number(price_min);
+            filters["price_max"] = Number(price_max);
+            
         }
 
+        const categoryId = searchParams.get("categoryId");
+
+        if (categoryId && categoryId.length > 0) {
+            filters["categoryId"] = Number(categoryId);
+        }
+
+        return filters;
     }
 
-    if (isLoadingCategories || isLoadingProducts) {
+    const [filters, setFilters] = useState<ProductFilters>(readSearchParams());
+
+    
+
+    const { data: categories, isLoading: isLoadingCategories, isError: isErrorCategories } = useQuery(QUERY_KEYS.CATEGORIES, () => fetchCategories());
+
+    if (isLoadingCategories && !categories) {
         return (
             <Loading />
         )
     }
 
-    if (isErrorCategories || isErrorProducts) {
+    if ((isErrorCategories && !categories)) {
         return (
             <ErrorMessage />
         )
+    }
+
+    const filterChangeHandler = (newFilters: ProductFilters) => {
+        
+        const newSearchParams = new URLSearchParams();
+
+        Object.entries(newFilters).forEach(([key, value]) => {
+            newSearchParams.set(key, value as string);
+        });
+
+        navigate(`?${newSearchParams.toString()}`, { replace: true });
+
+        setFilters(newFilters);
+
+    }
+
+    const clearFiltersHandler = () => {
+        const newSearchParams = new URLSearchParams();
+        navigate(`?${newSearchParams.toString()}`, { replace: true });
+        setFilters({});
     }
 
     return (
@@ -67,17 +96,15 @@ export const ProductsPage = () => {
                         <h2>Filters</h2>
                         <ProductFilterForm
                             categories={categories as Category[]}
-                            allowedPriceRange={getAllowedPriceRange()}
+                            allowedPriceRange={{min: 0, max: 99999}}
                             filters={filters}
-                            handleFilterChange={(newFilters) => {
-                                setFilters(newFilters as any);
-                                refetch();
-                            }}
+                            handleFilterChange={filterChangeHandler}
+                            handleClear={clearFiltersHandler}
                         />
 
                     </aside>
                     <main>
-                        <ProductList products={products as Product[]} />
+                        <ProductList filters={filters} />
                     </main>
                 </div>
             </section>
