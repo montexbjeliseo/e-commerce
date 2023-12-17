@@ -3,11 +3,11 @@ import { QUERY_KEYS } from "../../constants";
 import "./styles.css"
 import { Loading } from "../../shared/components/Loading";
 import { ErrorMessage } from "../../shared/components/ErrorMessage";
-import { Category, Product, ProductFilters } from "../../types";
+import { Category, ProductFilters } from "../../types";
 import { ProductList } from "../../shared/components/ProductList";
 import { ProductFilterForm } from "../../shared/components/ProductFilterForm";
 import { useState } from "react";
-import { fetchCategories, fetchProducts } from "../../api";
+import { fetchCategories } from "../../api";
 import { useLocation, useNavigate } from "react-router-dom";
 
 
@@ -51,21 +51,17 @@ export const ProductsPage = () => {
 
     const [filters, setFilters] = useState<ProductFilters>(readSearchParams());
 
-    const {
-        data: products,
-        isLoading: isLoadingProducts,
-        isError: isErrorProducts
-    } = useQuery([QUERY_KEYS.PRODUCTS, filters], () => fetchProducts(filters));
+    
 
     const { data: categories, isLoading: isLoadingCategories, isError: isErrorCategories } = useQuery(QUERY_KEYS.CATEGORIES, () => fetchCategories());
 
-    if (isLoadingProducts || (isLoadingCategories && !categories)) {
+    if (isLoadingCategories && !categories) {
         return (
             <Loading />
         )
     }
 
-    if ((isErrorCategories && !categories) || isErrorProducts) {
+    if ((isErrorCategories && !categories)) {
         return (
             <ErrorMessage />
         )
@@ -108,7 +104,7 @@ export const ProductsPage = () => {
 
                     </aside>
                     <main>
-                        <ProductList products={products as Product[]} />
+                        <ProductList filters={filters} />
                     </main>
                 </div>
             </section>
