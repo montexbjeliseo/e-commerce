@@ -2,13 +2,14 @@ import { useQuery } from "react-query";
 import "./styles.css";
 import { ErrorMessage } from "../../shared/components/ErrorMessage";
 import { Loading } from "../../shared/components/Loading";
-import { API_ENDPOINTS, APP_ROUTES, IMAGE_PLACEHOLDER, QUERY_KEYS } from "../../constants";
-import { Link } from "react-router-dom";
+import { API_ENDPOINTS, QUERY_KEYS } from "../../constants";
 import { Category } from "../../types";
 import { NewCategoryForm } from "./NewCategoryForm";
-import { useState } from "react";
+import { useReducer, useState } from "react";
 import { Modal } from "../../shared/components/Modal";
 import styled from "styled-components";
+import { CategoryCard } from "../../shared/components/CategoryCard";
+import { UpdateCategoryForm } from "./UpdateCategoryForm";
 
 const NewCategoryLink = styled.b`
     cursor: pointer;
@@ -20,6 +21,52 @@ const NewCategoryLink = styled.b`
     }
 `;
 
+type ModifyCategoryState = {
+    category: Category | null;
+    askedToDelete: boolean;
+    askedToEdit: boolean;
+}
+
+enum MODIFY_CATEGORY_ACTIONS {
+    ASK_DELETE,
+    ASK_EDIT,
+    CANCEL
+}
+
+type ModifyCategoryAction = {
+    type: MODIFY_CATEGORY_ACTIONS;
+    payload: Category | null;
+}
+
+const modifyCategoryReducer = (state: ModifyCategoryState, action: ModifyCategoryAction) => {
+    const newState = {
+        category: null,
+        askedToDelete: false,
+        askedToEdit: false
+    }
+
+    switch (action.type) {
+        case MODIFY_CATEGORY_ACTIONS.ASK_DELETE:
+            return {
+                ...newState,
+                category: action.payload,
+                askedToDelete: true
+            }
+        case MODIFY_CATEGORY_ACTIONS.ASK_EDIT:
+            return {
+                ...newState,
+                category: action.payload,
+                askedToEdit: true
+            }
+        case MODIFY_CATEGORY_ACTIONS.CANCEL:
+            return {
+                ...newState
+            }
+        default:
+            return state;
+    }
+}
+
 export const CategoriesPage = () => {
 
     const { data, isLoading, isError } = useQuery(QUERY_KEYS.CATEGORIES, () => {
@@ -28,6 +75,20 @@ export const CategoriesPage = () => {
     })
 
     const [showNewCategoryForm, setShowNewCategoryForm] = useState(false);
+
+    const [askedFor, dispatch] = useReducer(modifyCategoryReducer, {
+        category: null,
+        askedToDelete: false,
+        askedToEdit: false
+    })
+
+    const handleAskEditCategory = (category: Category) => {
+        dispatch({ type: MODIFY_CATEGORY_ACTIONS.ASK_EDIT, payload: category })
+    }
+
+    const handleAskDeleteCategory = (category: Category) => {
+        dispatch({ type: MODIFY_CATEGORY_ACTIONS.ASK_DELETE, payload: category })
+    }
 
     if (isLoading) {
         return (
@@ -49,17 +110,30 @@ export const CategoriesPage = () => {
                     <Modal isOpen={showNewCategoryForm} onClose={() => setShowNewCategoryForm(false)}>
                         <NewCategoryForm />
                     </Modal>
-                ) : null }
+                ) : null}
+            </div>
+            <div>
+                {askedFor.category ? (
+                    <Modal isOpen={askedFor.askedToDelete} onClose={() => dispatch({ type: MODIFY_CATEGORY_ACTIONS.CANCEL, payload: null })}>
+                        <p>Are you sure you want to delete this category?</p>
+                        <button>Delete</button>
+                    </Modal>
+                ) : null}
+                {askedFor.category ? (
+                    <Modal isOpen={askedFor.askedToEdit} onClose={() => dispatch({ type: MODIFY_CATEGORY_ACTIONS.CANCEL, payload: null })}>
+                        <UpdateCategoryForm data={askedFor.category} />
+                    </Modal>
+                ) : null}
             </div>
             <p className="title">Browse our categories | <NewCategoryLink onClick={() => setShowNewCategoryForm(true)}>Create new</NewCategoryLink></p>
             <ul className="categories">
                 {(data as Category[]).map((category) => (
-                    <li key={category.id} className="category-card">
-                        <Link to={`${APP_ROUTES.PRODUCTS}?categoryId=${category.id}`}>
-                            <p>{category.name}</p>
-                            <img onError={(e) => e.currentTarget.src = IMAGE_PLACEHOLDER.IMAGE_300} src={category.image} alt={category.name} title={category.name} width={300} height={300} />
-                        </Link>
-                    </li>
+                    <CategoryCard
+                        key={category.id}
+                        data={category}
+                        onEdit={handleAskEditCategory}
+                        onDelete={handleAskDeleteCategory}
+                    />
                 ))}
             </ul>
         </div>

@@ -115,6 +115,35 @@ export const postCategory = async (categoryData: FormData, image: Blob) => {
   return data;
 }
 
+export const updateCategory = async (categoryData: FormData, image: Blob | null, id: string) => {
+  const newCategoryPayload = {
+    name: categoryData.get('name') as string
+  } as any
+
+  if (image) {
+    const { location: imageUrl } = await uploadImage(image);
+    newCategoryPayload['image'] = imageUrl;
+  }
+
+  if (!id) {
+    throw new Error('Failed to update category: no id');
+  }
+
+  const response = await fetch(`${API_ENDPOINTS.CATEGORIES}/${id}`, {
+    headers: HEADERS.DEFAULT_HEADERS,
+    method: 'PUT',
+    body: JSON.stringify(newCategoryPayload),
+  });
+
+  if (!response.ok) {
+    throw new Error('Failed to update category');
+  }
+
+  const data = await response.json();
+  return data;
+
+}
+
 export const validateToken = async (token: string) => {
   const response = await fetch(`${API_ENDPOINTS.PROFILE}`, {
     method: 'GET',
