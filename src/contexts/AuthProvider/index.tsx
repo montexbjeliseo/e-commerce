@@ -77,6 +77,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     const logout = () => {
         localStorage.removeItem(AUTH_LOCAL_STORAGE.ACCESS_TOKEN);
         setAuthenticated(false);
+        setIsAdmin(false);
     }
 
     return (
