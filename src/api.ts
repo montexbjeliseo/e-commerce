@@ -1,4 +1,4 @@
-import { API_ENDPOINTS } from "./constants";
+import { API_ENDPOINTS, HEADERS } from "./constants";
 import { ProductFilters } from "./types";
 
 type APIProductFilters = {
@@ -69,6 +69,93 @@ export const register = async (name: string, email: string, password: string) =>
     },
     body: JSON.stringify({ name, email, password, avatar: 'https://picsum.photos/800' }),
   });
+  const data = await response.json();
+  return data;
+}
+
+const uploadImage = async (image: Blob) => {
+  const formData = new FormData();
+  formData.append('file', image);
+
+  const response = await fetch(`${API_ENDPOINTS.UPLOAD}`, {
+    method: 'POST',
+    body: formData,
+  });
+
+  if (!response.ok) {
+    throw new Error('Failed to upload image XD');
+  }
+
+  const data = await response.json();
+  return data;
+}
+
+export const postCategory = async (categoryData: FormData, image: Blob) => {
+
+  const newCategoryPayload = {
+    name: categoryData.get('name') as string,
+    image: ''
+  }
+  const { location: imageUrl } = await uploadImage(image);
+
+  newCategoryPayload.image = imageUrl;
+
+  const response = await fetch(`${API_ENDPOINTS.CATEGORIES}`, {
+    headers: HEADERS.DEFAULT_HEADERS,
+    method: 'POST',
+    body: JSON.stringify(newCategoryPayload),
+  });
+
+  if (!response.ok) {
+
+    throw new Error('Failed to create category');
+  }
+
+  const data = await response.json();
+  return data;
+}
+
+export const updateCategory = async (categoryData: FormData, image: Blob | null, id: string) => {
+  const newCategoryPayload = {
+    name: categoryData.get('name') as string
+  } as any
+
+  if (image) {
+    const { location: imageUrl } = await uploadImage(image);
+    newCategoryPayload['image'] = imageUrl;
+  }
+
+  if (!id) {
+    throw new Error('Failed to update category: no id');
+  }
+
+  const response = await fetch(`${API_ENDPOINTS.CATEGORIES}/${id}`, {
+    headers: HEADERS.DEFAULT_HEADERS,
+    method: 'PUT',
+    body: JSON.stringify(newCategoryPayload),
+  });
+
+  if (!response.ok) {
+    throw new Error('Failed to update category');
+  }
+
+  const data = await response.json();
+  return data;
+
+}
+
+export const deleteCategory = async (id: string) => {
+  const response = await fetch(`${API_ENDPOINTS.CATEGORIES}/${id}`, {
+    headers: HEADERS.DEFAULT_HEADERS,
+    method: 'DELETE',
+  });
+
+  console.log(response);
+
+  if(!response.ok) {
+    throw new Error('Failed to delete category');
+  }
+
   const data = await response.json();
   return data;
 }

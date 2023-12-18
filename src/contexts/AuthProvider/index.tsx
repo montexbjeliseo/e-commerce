@@ -21,11 +21,10 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     const validateToken = (oldToken: string) => {
         requestValidateToken(oldToken).then((response) => {
             if (response.statusCode >= 400) {
-                console.log("Could not refresh token", oldToken);
                 logout();
             }
         }).catch(() => {
-            console.log("Could not refresh token, network error");
+            console.error("Could not refresh token, network error");
         })
     }
 
@@ -79,5 +78,9 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 };
 
 export const useAuth = () => {
-    return useContext(AuthContext);
+    const context = useContext(AuthContext);
+    if (!context) {
+        throw new Error("useAuth must be used within an AuthProvider");
+    }
+    return context;
 }
