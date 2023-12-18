@@ -68,7 +68,12 @@ const StyleForm = styled.form`
   }
 
 `;
-export const NewCategoryForm: React.FC = () => {
+
+type Props = {
+    onCreated: () => void
+}
+
+export const NewCategoryForm: React.FC<Props> = ({ onCreated }) => {
 
     const [categoryCreation, dispatch] = useReducer(creationReducer, {
         isLoading: false,
@@ -104,6 +109,7 @@ export const NewCategoryForm: React.FC = () => {
 
         postCategory(formData, imageFiles[0]).then(() => {
             dispatch({ type: CREATION_ACTION_TYPES.SET_CREATED, payload: true });
+            onCreated();
         }).catch(() => {
             dispatch({ type: CREATION_ACTION_TYPES.SET_IS_ERROR, payload: true });
         });

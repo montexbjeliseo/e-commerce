@@ -71,10 +71,11 @@ const StyleForm = styled.form`
 `;
 
 type Props = {
-    data: Category
+    data: Category;
+    onUpdated: () => void
 }
 
-export const UpdateCategoryForm: React.FC<Props> = ({ data }) => {
+export const UpdateCategoryForm: React.FC<Props> = ({ data, onUpdated }) => {
 
     const [categoryCreation, dispatch] = useReducer(creationReducer, {
         isLoading: false,
@@ -112,6 +113,7 @@ export const UpdateCategoryForm: React.FC<Props> = ({ data }) => {
 
         updateCategory(formData, imageFiles[0].size ? imageFiles[0] : null, data.id).then(() => {
             dispatch({ type: CREATION_ACTION_TYPES.SET_CREATED, payload: true });
+            onUpdated();
         }).catch(() => {
             dispatch({ type: CREATION_ACTION_TYPES.SET_IS_ERROR, payload: true });
         });

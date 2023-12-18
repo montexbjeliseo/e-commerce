@@ -144,6 +144,22 @@ export const updateCategory = async (categoryData: FormData, image: Blob | null,
 
 }
 
+export const deleteCategory = async (id: string) => {
+  const response = await fetch(`${API_ENDPOINTS.CATEGORIES}/${id}`, {
+    headers: HEADERS.DEFAULT_HEADERS,
+    method: 'DELETE',
+  });
+
+  console.log(response);
+
+  if(!response.ok) {
+    throw new Error('Failed to delete category');
+  }
+
+  const data = await response.json();
+  return data;
+}
+
 export const validateToken = async (token: string) => {
   const response = await fetch(`${API_ENDPOINTS.PROFILE}`, {
     method: 'GET',

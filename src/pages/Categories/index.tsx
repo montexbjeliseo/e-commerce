@@ -10,6 +10,7 @@ import { Modal } from "../../shared/components/Modal";
 import styled from "styled-components";
 import { CategoryCard } from "../../shared/components/CategoryCard";
 import { UpdateCategoryForm } from "./UpdateCategoryForm";
+import { DeleteCategory } from "./DeleteCategory";
 
 const NewCategoryLink = styled.b`
     cursor: pointer;
@@ -69,9 +70,10 @@ const modifyCategoryReducer = (state: ModifyCategoryState, action: ModifyCategor
 
 export const CategoriesPage = () => {
 
-    const { data, isLoading, isError } = useQuery(QUERY_KEYS.CATEGORIES, () => {
+    const { data, isLoading, isError, refetch } = useQuery(QUERY_KEYS.CATEGORIES, async () => {
         const response = fetch(API_ENDPOINTS.CATEGORIES);
-        return response.then((res) => res.json());
+        const res = await response;
+        return await res.json();
     })
 
     const [showNewCategoryForm, setShowNewCategoryForm] = useState(false);
@@ -81,6 +83,10 @@ export const CategoriesPage = () => {
         askedToDelete: false,
         askedToEdit: false
     })
+
+    const onMutate = () => {
+        refetch();
+    }
 
     const handleAskEditCategory = (category: Category) => {
         dispatch({ type: MODIFY_CATEGORY_ACTIONS.ASK_EDIT, payload: category })
@@ -108,20 +114,24 @@ export const CategoriesPage = () => {
             <div>
                 {showNewCategoryForm ? (
                     <Modal isOpen={showNewCategoryForm} onClose={() => setShowNewCategoryForm(false)}>
-                        <NewCategoryForm />
+                        <NewCategoryForm onCreated={onMutate} />
                     </Modal>
                 ) : null}
             </div>
             <div>
                 {askedFor.category ? (
                     <Modal isOpen={askedFor.askedToDelete} onClose={() => dispatch({ type: MODIFY_CATEGORY_ACTIONS.CANCEL, payload: null })}>
-                        <p>Are you sure you want to delete this category?</p>
-                        <button>Delete</button>
+                        <DeleteCategory
+                            data={askedFor.category}
+                            onDeleted={onMutate}
+                        />
                     </Modal>
                 ) : null}
                 {askedFor.category ? (
                     <Modal isOpen={askedFor.askedToEdit} onClose={() => dispatch({ type: MODIFY_CATEGORY_ACTIONS.CANCEL, payload: null })}>
-                        <UpdateCategoryForm data={askedFor.category} />
+                        <UpdateCategoryForm
+                            data={askedFor.category}
+                            onUpdated={onMutate} />
                     </Modal>
                 ) : null}
             </div>
