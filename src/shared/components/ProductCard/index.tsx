@@ -1,19 +1,142 @@
 import { Link } from "react-router-dom"
 import { Product } from "../../../types"
 import { IMAGE_PLACEHOLDER } from "../../../constants"
-import './styles.css'
+import { PencilSquareIcon, TrashIcon } from "../Icons"
+import styled from "styled-components"
+import { useAuth } from "../../../contexts/AuthProvider"
 
-export const ProductCard: React.FC<Product> = ({ id, title, price, images, category }) => {
+const Card = styled.article`
+    img {
+        width: 100%;
+        object-fit: cover;
+        height: 300px;
+    }
+
+    a {
+        color: #111;
+        text-decoration: none;
+    }
+
+    .product-title {
+        color: #000;
+        font-family: Public Sans;
+        font-size: 17px;
+        font-style: normal;
+        font-weight: 700;
+        line-height: 28px;
+        /* 164.706% */
+        letter-spacing: -0.4px;
+    }
+
+    position: relative;
+    .overlay {
+        display: none;
+    }
+
+&:hover .overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.5);
+    color: #fff;
+    font-size: 24px;
+    text-align: center;
+}
+
+    .overlay a {
+        padding: 10px;
+        border: 1px solid #fff;
+        color: #fff;
+        border-radius: 7px;
+        font-size: 14px;
+        font-weight: bold;
+    }
+
+    .overlay-admin {
+        position: absolute;
+        top: 5px;
+        right: 1px;
+        .btn-rounded {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            padding: 5px;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            background: transparent;
+        }
+
+        .btn-rounded:hover {
+            cursor: pointer;
+        }
+
+        .edit-btn {
+            background: #0D0D0D;
+            color: #fff;
+        }
+
+        .edit-btn:hover {
+            background: #000;
+        }
+
+        .delete-btn {
+            background: red;
+            color: #fff;
+        }
+    }
+
+`;
+
+type Props = {
+    data: Product;
+    onDelete: (data: Product) => void,
+    onEdit: (data: Product) => void
+}
+
+export const ProductCard: React.FC<Props> = ({ data, onDelete, onEdit }) => {
+
+    const { isAdmin } = useAuth();
+
     return (
-        <div className="product-card">
-            <img src={images[0]} alt={title} title={title} onError={(e) => e.currentTarget.src = IMAGE_PLACEHOLDER.IMAGE_300} />
-            <p className="product-title">{title} - <i>{category.name}</i></p>
-            <p>${price}</p>
+        <Card>
+            <img
+                src={data.images[0]}
+                alt={data.title}
+                title={data.title}
+                onError={(e) => e.currentTarget.src = IMAGE_PLACEHOLDER.IMAGE_300}
+            />
+            <p
+                className="product-title">{data.title} -
+                <i>{data.category.name}</i>
+            </p>
+            <p>${data.price}</p>
             <div className="overlay">
-                <Link to={`/products/${id}`} title={title}>
+                <Link to={`/products/${data.id}`} title={data.title}>
                     View Details
                 </Link>
             </div>
-        </div>
+            {
+                isAdmin ? (
+                    <div className="overlay-admin">
+                        <button
+                            className="btn-rounded edit-btn"
+                        onClick={() => onEdit(data)}
+                        >
+                            <PencilSquareIcon />
+                        </button>
+                        <button
+                            className="btn-rounded delete-btn"
+                        onClick={() => onDelete(data)}
+                        >
+                            <TrashIcon />
+                        </button>
+                    </div>
+                ) : null
+            }
+        </Card>
     )
 }

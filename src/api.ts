@@ -49,6 +49,20 @@ export const fetchProducts = async (filters: ProductFilters) => {
   return data;
 };
 
+export const deleteProduct = async (id: string) => {
+  const response = await fetch(`${API_ENDPOINTS.PRODUCTS}/${id}`, {
+    headers: HEADERS.DEFAULT_HEADERS,
+    method: 'DELETE',
+  });
+
+  if(!response.ok) {
+    throw new Error('Failed to delete product');
+  }
+
+  const data = await response.json();
+  return data;
+}
+
 export const login = async (email: string, password: string) => {
   const response = await fetch(`${API_ENDPOINTS.LOGIN}`, {
     method: 'POST',
@@ -149,8 +163,6 @@ export const deleteCategory = async (id: string) => {
     headers: HEADERS.DEFAULT_HEADERS,
     method: 'DELETE',
   });
-
-  console.log(response);
 
   if(!response.ok) {
     throw new Error('Failed to delete category');
