@@ -92,17 +92,16 @@ export const NewCategoryForm: React.FC = () => {
         }
     };
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
         dispatch({ type: CREATION_ACTION_TYPES.SET_IS_LOADING, payload: true });
 
         const formData = new FormData(e.target as HTMLFormElement);
-        const payload = {
-            name: formData.get("name") as string,
-            image: IMAGE_PLACEHOLDER.IMAGE_300 as string
-        };
-        postCategory(payload).then(() => {
+
+        const imageFiles = formData.getAll('image') as File[];
+
+        postCategory(formData, imageFiles[0]).then(() => {
             dispatch({ type: CREATION_ACTION_TYPES.SET_CREATED, payload: true });
         }).catch(() => {
             dispatch({ type: CREATION_ACTION_TYPES.SET_IS_ERROR, payload: true });
@@ -147,7 +146,7 @@ export const NewCategoryForm: React.FC = () => {
     }
 
     return (
-        <StyleForm onSubmit={handleSubmit}>
+        <StyleForm onSubmit={handleSubmit} encType="multipart/form-data">
 
             <label className="image-input">
                 <img

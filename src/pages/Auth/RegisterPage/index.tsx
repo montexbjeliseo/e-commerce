@@ -7,11 +7,11 @@ import { Loading } from "../../../shared/components/Loading";
 
 export const RegisterPage = () => {
 
-    const [ isLoading, setIsLoading ] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
 
-    const [ isError, setIsError ] = useState(false);
+    const [isError, setIsError] = useState(false);
 
-    const [ error, setError ] = useState("");
+    const [error, setError] = useState("");
 
     const { isAuthenticated, register, login } = useAuth();
 
@@ -47,8 +47,6 @@ export const RegisterPage = () => {
         if (isAuthenticated) {
             navigate(APP_ROUTES.HOME);
         }
-
-        console.log(isAuthenticated);
 
     }, []);
 

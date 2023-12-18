@@ -7,15 +7,17 @@ export const API_ENDPOINTS = {
     BASE_URL: 'https://api.escuelajs.co/api/v1',
     CATEGORIES: 'https://api.escuelajs.co/api/v1/categories',
     PRODUCTS: 'https://api.escuelajs.co/api/v1/products',
-    
+
     LOGIN: 'https://api.escuelajs.co/api/v1/auth/login',
     REGISTER: 'https://api.escuelajs.co/api/v1/users/',
 
     PROFILE: 'https://api.escuelajs.co/api/v1/auth/profile',
+
+    UPLOAD: 'https://api.escuelajs.co/api/v1/files/upload',
 };
 
-export const IMAGE_PLACEHOLDER = { 
-    IMAGE_300: 'https://via.placeholder.com/300' 
+export const IMAGE_PLACEHOLDER = {
+    IMAGE_300: 'https://via.placeholder.com/300'
 };
 
 export const APP_ROUTES = {
@@ -41,7 +43,7 @@ export const ERROR = {
 }
 
 export const AUTH_LOCAL_STORAGE = {
-    ACCESS_TOKEN: 'accessToken'   
+    ACCESS_TOKEN: 'accessToken'
 }
 
 export const DEFAULT_SHIPPING_METHODS = [
@@ -63,6 +65,13 @@ export const HEADERS = {
         'Content-Type': 'application/json',
         'Access-Control-Allow-Origin': '*',
         'Access-Control-Allow-Methods': 'POST',
-        'Access-COntrol-Allow-Headers': 'Content-Type',
-      }
+        'Access-Control-Allow-Headers': 'Content-Type',
+    },
+    UPLOAD_HEADERS: {
+        'Host': 'http://localhost:5173',
+        'Content-Type': 'multipart/form-data',
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Methods': 'POST',
+        'Access-Control-Allow-Headers': 'Content-Type'
+    }
 }

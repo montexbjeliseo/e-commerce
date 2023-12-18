@@ -73,17 +73,41 @@ export const register = async (name: string, email: string, password: string) =>
   return data;
 }
 
-export const postCategory = async (categoryData: any) => {
+const uploadImage = async (image: Blob) => {
+  const formData = new FormData();
+  formData.append('file', image);
+
+  const response = await fetch(`${API_ENDPOINTS.UPLOAD}`, {
+    method: 'POST',
+    body: formData,
+  });
+
+  if (!response.ok) {
+    throw new Error('Failed to upload image XD');
+  }
+
+  const data = await response.json();
+  return data;
+}
+
+export const postCategory = async (categoryData: FormData, image: Blob) => {
+
+  const newCategoryPayload = {
+    name: categoryData.get('name') as string,
+    image: ''
+  }
+  const { location: imageUrl } = await uploadImage(image);
+
+  newCategoryPayload.image = imageUrl;
+
   const response = await fetch(`${API_ENDPOINTS.CATEGORIES}`, {
     headers: HEADERS.DEFAULT_HEADERS,
     method: 'POST',
-    body: JSON.stringify(categoryData),
+    body: JSON.stringify(newCategoryPayload),
   });
 
-  console.log(response);
-
   if (!response.ok) {
-    console.log('Failed to create category', response.status);
+
     throw new Error('Failed to create category');
   }
 
