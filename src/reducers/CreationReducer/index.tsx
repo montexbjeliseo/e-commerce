@@ -1,7 +1,7 @@
 export enum CREATION_ACTION_TYPES {
-    SET_IS_LOADING = "SET_IS_LOADING",
-    SET_IS_ERROR = "SET_IS_ERROR",
-    SET_CREATED = "SET_CREATED"
+    SET_IS_LOADING,
+    SET_IS_ERROR,
+    SET_CREATED
 }
 
 export type CreationAction = {

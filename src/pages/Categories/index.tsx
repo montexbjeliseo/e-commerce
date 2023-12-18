@@ -11,6 +11,7 @@ import styled from "styled-components";
 import { CategoryCard } from "../../shared/components/CategoryCard";
 import { UpdateCategoryForm } from "./UpdateCategoryForm";
 import { DeleteCategory } from "./DeleteCategory";
+import { useAuth } from "../../contexts/AuthProvider";
 
 const NewCategoryLink = styled.b`
     cursor: pointer;
@@ -69,6 +70,8 @@ const modifyCategoryReducer = (state: ModifyCategoryState, action: ModifyCategor
 }
 
 export const CategoriesPage = () => {
+
+    const { isAdmin } = useAuth();
 
     const { data, isLoading, isError, refetch } = useQuery(QUERY_KEYS.CATEGORIES, async () => {
         const response = fetch(API_ENDPOINTS.CATEGORIES);
@@ -135,7 +138,16 @@ export const CategoriesPage = () => {
                     </Modal>
                 ) : null}
             </div>
-            <p className="title">Browse our categories | <NewCategoryLink onClick={() => setShowNewCategoryForm(true)}>Create new</NewCategoryLink></p>
+            <p className="title">Browse our categories
+                {isAdmin ?
+                    <>
+                        | <NewCategoryLink
+                            onClick={() => setShowNewCategoryForm(true)}>
+                            Create new
+                        </NewCategoryLink>
+                    </>
+                    : null}
+            </p>
             <ul className="categories">
                 {(data as Category[]).map((category) => (
                     <CategoryCard

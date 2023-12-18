@@ -7,7 +7,9 @@ type AuthContextType = {
     getAccessToken: () => string,
     login: (email: string, password: string, next: () => void, error: (error: any) => void) => void,
     register: (name: string, email: string, password: string, next: () => void, error: (error: any) => void) => void,
-    logout: () => void
+    logout: () => void,
+    loginAsAdmin: (pin: string) => void,
+    isAdmin: boolean
 }
 
 const AuthContext: React.Context<AuthContextType> = createContext({} as AuthContextType);
@@ -37,7 +39,14 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         return token;
     }
 
+    const loginAsAdmin = (pin: string) => {
+        const ADMIN_PIN = import.meta.env.VITE_ADMIN_PIN;
+        setIsAdmin(pin === ADMIN_PIN as string);
+    }
+
     const [isAuthenticated, setAuthenticated] = useState(getAccessToken() ? true : false);
+
+    const [isAdmin, setIsAdmin ] = useState(false);
 
     const login = (email: string, password: string, next: () => void, error: (error: any) => void) => {
         requestLogin(email, password).then((response) => {
@@ -71,7 +80,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     }
 
     return (
-        <AuthContext.Provider value={{ isAuthenticated, login, logout, getAccessToken, register }}>
+        <AuthContext.Provider value={{ isAuthenticated, isAdmin, login, logout, getAccessToken, register, loginAsAdmin }}>
             {children}
         </AuthContext.Provider>
     );
