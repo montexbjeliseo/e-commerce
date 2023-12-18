@@ -44,6 +44,7 @@ const StyleForm = styled.form`
         object-fit: cover;
         object-position: center;
         overflow: hidden;
+        height: 300px;
     }
     input {
         display: none;
