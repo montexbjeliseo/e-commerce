@@ -8,6 +8,17 @@ import { Category } from "../../types";
 import { NewCategoryForm } from "./NewCategoryForm";
 import { useState } from "react";
 import { Modal } from "../../shared/components/Modal";
+import styled from "styled-components";
+
+const NewCategoryLink = styled.b`
+    cursor: pointer;
+    color: #111;
+    opacity: 0.5;
+    font-size: 14px;
+    &:hover {
+        opacity: 1;
+    }
+`;
 
 export const CategoriesPage = () => {
 
@@ -38,11 +49,9 @@ export const CategoriesPage = () => {
                     <Modal isOpen={showNewCategoryForm} onClose={() => setShowNewCategoryForm(false)}>
                         <NewCategoryForm />
                     </Modal>
-                ) : (
-                    <button className="btn btn-primary" onClick={() => setShowNewCategoryForm(true)}>New Category</button>
-                )}
+                ) : null }
             </div>
-            <p className="title">Browse our categories</p>
+            <p className="title">Browse our categories | <NewCategoryLink onClick={() => setShowNewCategoryForm(true)}>Create new</NewCategoryLink></p>
             <ul className="categories">
                 {(data as Category[]).map((category) => (
                     <li key={category.id} className="category-card">
