@@ -172,6 +172,21 @@ export const deleteCategory = async (id: string) => {
   return data;
 }
 
+export const updateProduct = async (productData: any, id: string) => {
+  const response = await fetch(`${API_ENDPOINTS.PRODUCTS}/${id}`, {
+    headers: HEADERS.DEFAULT_HEADERS,
+    method: 'PUT',
+    body: JSON.stringify(productData),
+  });
+
+  if (!response.ok) {
+    throw new Error('Failed to update product');
+  }
+
+  const data = await response.json();
+  return data;
+}
+
 export const validateToken = async (token: string) => {
   const response = await fetch(`${API_ENDPOINTS.PROFILE}`, {
     method: 'GET',
