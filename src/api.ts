@@ -176,7 +176,9 @@ export const updateProduct = async (productData: any, id: string) => {
   const response = await fetch(`${API_ENDPOINTS.PRODUCTS}/${id}`, {
     headers: HEADERS.DEFAULT_HEADERS,
     method: 'PUT',
-    body: JSON.stringify(productData),
+    body: JSON.stringify({
+      ...productData
+    }),
   });
 
   if (!response.ok) {

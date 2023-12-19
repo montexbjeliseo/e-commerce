@@ -21,7 +21,7 @@ export const SelectProductCategory: React.FC<SelectCategoryProps> = ({ selected 
     }
 
     return (
-        <select name="categoryId" value={selected} onChange={(e) => e.target.value}>
+        <select name="categoryId" defaultValue={selected}>
             {data && (data as Category[]).map((category) => (
                 <option key={category.id} value={category.id}>{category.name}</option>
             ))}

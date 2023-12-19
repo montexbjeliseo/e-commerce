@@ -74,9 +74,6 @@ export const ProductEditPage = () => {
     } = useQuery([QUERY_KEYS.PRODUCTS, id], () => fetchProductById(id ? parseInt(id, 10) : 0), { enabled: false });
 
     const [product, dispatch] = useReducer(productEditReducer, {
-        title: "",
-        description: "",
-        price: "",
         images: [],
         ...data
     });
@@ -247,7 +244,7 @@ export const ProductEditPage = () => {
                                 </label>
                                 <label>
                                     Category:
-                                    <SelectProductCategory selected={data.categoryId} />
+                                    <SelectProductCategory selected={data.category.id} />
                                 </label>
                                 <label>
                                     Description:
