@@ -2,7 +2,7 @@ import { Product, ProductFilters } from "../../../types"
 import "./styles.css";
 import { ProductCard } from "../ProductCard";
 import { fetchProducts } from "../../../api";
-import { QUERY_KEYS } from "../../../constants";
+import { APP_ROUTES, QUERY_KEYS } from "../../../constants";
 import { useQuery } from "react-query";
 import { Loading } from "../Loading";
 import { ErrorMessage } from "../ErrorMessage";
@@ -10,6 +10,7 @@ import { useReducer } from "react";
 import { MODIFY_RESOURCE_ACTIONS, modifyResourceReducer } from "../../../reducers/ModifyResourceReducer";
 import { Modal } from "../Modal";
 import { DeleteProduct } from "../../../pages/Products/DeleteProduct";
+import { useNavigate } from "react-router-dom";
 
 type ProductListProps = {
     filters: ProductFilters;
@@ -30,12 +31,14 @@ export const ProductList: React.FC<ProductListProps> = ({ filters }) => {
         askedToEdit: false
     })
 
+    const navigate = useNavigate();
+
     const onMutate = () => {
         refetch();
     }
 
     const handleAskEdit = (product: Product) => {
-        dispatch({ type: MODIFY_RESOURCE_ACTIONS.ASK_EDIT, payload: product })
+        navigate(APP_ROUTES.PRODUCT_EDIT.replace(":id", product.id.toString()));
     }
 
     const handleAskDelete = (product: Product) => {
@@ -78,7 +81,7 @@ export const ProductList: React.FC<ProductListProps> = ({ filters }) => {
                                 key={product.id}
                                 data={product}
                                 onDelete={handleAskDelete}
-                                onEdit={handleAskEdit}
+                                onEdit={(handleAskEdit)}
                             />
                         ))}
                     </>

@@ -87,7 +87,7 @@ export const register = async (name: string, email: string, password: string) =>
   return data;
 }
 
-const uploadImage = async (image: Blob) => {
+export const uploadImage = async (image: Blob) => {
   const formData = new FormData();
   formData.append('file', image);
 

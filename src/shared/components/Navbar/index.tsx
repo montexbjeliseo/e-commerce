@@ -61,9 +61,6 @@ export const Navbar = () => {
                         <li>
                             <Link onClick={handleClickLink} to={APP_ROUTES.PRODUCTS}>Products</Link>
                         </li>
-                        <li>
-                            {/* <SearchInput /> */}
-                        </li>
                         <li className="cart-link">
                             <Link onClick={handleClickLink} to={APP_ROUTES.CART}>
                                 <img src={CartIcon} alt="Cart icon" /> <sup>{items.length}</sup>
@@ -72,7 +69,7 @@ export const Navbar = () => {
                         {
                             isAuthenticated ? (
                                 <>
-                                    <li className="register-link"><a onClick={handleClickEnableAdmin} href="#">Admin</a></li>
+                                    <li className="register-link"><a onClick={handleClickEnableAdmin}>Admin</a></li>
                                     <li className="login-link"><Link onClick={handleClickLink} to={APP_ROUTES.LOGOUT}>Logout</Link></li>
                                 </>
                             ) : (
@@ -93,29 +90,29 @@ export const Navbar = () => {
             {showEnableAdminPanel && (
                 <Modal onClose={() => setShowEnableAdminPanel(false)} isOpen={showEnableAdminPanel}>
                     <AdminInfoPanel>
-                    {isAdmin ? (
-                        <>
-                            <strong>Disable Admin Panel</strong>
-                            <p>Admin is enabled</p>
-                            <button className="btn btn-primary" type="button" onClick={handleLoginAsAdmin}>Disable</button>
-                        </>
-                    ) : (
-                        <>
-                            <strong>Enable Admin Panel</strong>
-                            <input
-                                className="text-input"
-                                placeholder="Enter admin password"
-                                type="text"
-                                name="adminPassword"
-                                value={adminPassword}
-                                onChange={(e) => setAdminPassword(e.target.value)}
-                            />
-                            <button
-                                className="btn btn-primary"
-                                type="button"
-                                disabled={!adminPassword} onClick={handleLoginAsAdmin}>Enable</button>
-                        </>
-                    )}
+                        {isAdmin ? (
+                            <>
+                                <strong>Disable Admin Panel</strong>
+                                <p>Admin is enabled</p>
+                                <button className="btn btn-primary" type="button" onClick={handleLoginAsAdmin}>Disable</button>
+                            </>
+                        ) : (
+                            <>
+                                <strong>Enable Admin Panel</strong>
+                                <input
+                                    className="text-input"
+                                    placeholder="Enter admin password"
+                                    type="text"
+                                    name="adminPassword"
+                                    value={adminPassword}
+                                    onChange={(e) => setAdminPassword(e.target.value)}
+                                />
+                                <button
+                                    className="btn btn-primary"
+                                    type="button"
+                                    disabled={!adminPassword} onClick={handleLoginAsAdmin}>Enable</button>
+                            </>
+                        )}
                     </AdminInfoPanel>
                 </Modal>
             )}
