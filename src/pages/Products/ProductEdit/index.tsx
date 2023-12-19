@@ -1,10 +1,9 @@
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { fetchProductById, updateProduct } from "../../../api";
 import { Loading } from "../../../shared/components/Loading";
 import { ErrorMessage } from "../../../shared/components/ErrorMessage";
 import { useQuery } from "react-query";
-import { QUERY_KEYS } from "../../../constants";
-import { Carousel } from "../../../shared/components/Carousel";
+import { APP_ROUTES, QUERY_KEYS } from "../../../constants";
 import { useEffect, useReducer, useState } from "react";
 import { Button } from "../../../shared/components/Styled/Button";
 import { Form } from "../../../shared/components/Styled/Form";
@@ -12,6 +11,8 @@ import { Modal } from "../../../shared/components/Modal";
 import { UploadImage } from "../../../shared/components/UploadImage";
 import { SelectProductCategory } from "../../../shared/components/SelectProductCategory";
 import { CheckIcon } from "../../../shared/components/CheckIcon";
+import { ProductImageCarousel } from "../ProductImageCarousel";
+import { useAuth } from "../../../contexts/AuthProvider";
 
 
 
@@ -66,6 +67,10 @@ export const ProductEditPage = () => {
 
     const { id } = useParams();
 
+    const { isAdmin } = useAuth();
+
+    const navigate = useNavigate();
+
     const {
         data,
         isLoading,
@@ -87,6 +92,13 @@ export const ProductEditPage = () => {
     const addImage = (image: string) => {
         dispatch({
             type: EDIT_PRODUCT_ACTION_TYPES.ADD_IMAGE,
+            payload: image
+        })
+    }
+
+    const removeImage = (image: string) => {
+        dispatch({
+            type: EDIT_PRODUCT_ACTION_TYPES.REMOVE_IMAGE,
             payload: image
         })
     }
@@ -124,13 +136,16 @@ export const ProductEditPage = () => {
     }
 
     useEffect(() => {
-        
-        fetchData();
+        if (!isAdmin) {
+            navigate(APP_ROUTES.LOGIN);
+        } else {
+            fetchData();
+        }
     }, []);
 
     useEffect(() => {
-        
-        if(data){
+
+        if (data) {
             dispatch({
                 type: EDIT_PRODUCT_ACTION_TYPES.SET_IMAGES,
                 payload: data.images
@@ -219,7 +234,7 @@ export const ProductEditPage = () => {
                     <h1>Edit Product</h1>
                     <div className="product-details-container">
                         <div className="product-images-container">
-                            <Carousel images={product.images} />
+                            <ProductImageCarousel images={product.images} onRemoveImage={removeImage} />
                         </div>
                         <div className="product-details-description-container">
                             <h2>Product Information</h2>
