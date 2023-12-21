@@ -3,7 +3,7 @@ import { APP_ROUTES, IMAGE_PLACEHOLDER } from "../../../constants"
 import { Category } from "../../../types"
 import styled from "styled-components"
 import { PencilSquareIcon, TrashIcon } from "../../Icons";
-import { useAuth } from "../../../contexts/AuthProvider";
+import { AdminComponent } from "../../../guards/AdminComponent";
 
 const Card = styled.li`
     position: relative;
@@ -74,27 +74,23 @@ type Props = {
 
 export const CategoryCard: React.FC<Props> = ({ data, onDelete, onEdit }) => {
 
-    const { isAdmin } = useAuth();
-
     return (
         <Card>
             <Link to={`${APP_ROUTES.PRODUCTS}?categoryId=${data.id}`}>
                 <p>{data.name}</p>
                 <img onError={(e) => e.currentTarget.src = IMAGE_PLACEHOLDER.IMAGE_300} src={data.image} alt={data.name} title={data.name} width={300} height={300} />
             </Link>
-            {
-                isAdmin ? (
-                    <div className="overlay">
-                        <button className="btn-rounded edit-btn" onClick={() => onEdit(data)}>
-                            <PencilSquareIcon />
-                        </button>
-                        <button className="btn-rounded delete-btn" onClick={() => onDelete(data)}>
-                            <TrashIcon />
-                        </button>
-                    </div>
-                ) : null
-            }
 
+            <AdminComponent>
+                <div className="overlay">
+                    <button className="btn-rounded edit-btn" onClick={() => onEdit(data)}>
+                        <PencilSquareIcon />
+                    </button>
+                    <button className="btn-rounded delete-btn" onClick={() => onDelete(data)}>
+                        <TrashIcon />
+                    </button>
+                </div>
+            </AdminComponent>
         </Card>
     )
 }
