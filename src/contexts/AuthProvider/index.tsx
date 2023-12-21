@@ -1,13 +1,15 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import { validateToken as requestValidateToken, login as requestLogin, register as requestRegister } from "../../api";
 import { AUTH_LOCAL_STORAGE, ERROR } from "../../constants";
 
 type AuthContextType = {
     isAuthenticated: boolean,
-    getAccessToken: () => string,
+    accessToken: string,
     login: (email: string, password: string, next: () => void, error: (error: any) => void) => void,
     register: (name: string, email: string, password: string, next: () => void, error: (error: any) => void) => void,
-    logout: () => void
+    logout: () => void,
+    loginAsAdmin: (pin: string) => void,
+    isAdmin: boolean
 }
 
 const AuthContext: React.Context<AuthContextType> = createContext({} as AuthContextType);
@@ -18,33 +20,35 @@ type AuthProviderProps = {
 
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
-    const validateToken = (oldToken: string) => {
-        requestValidateToken(oldToken).then((response) => {
-            if (response.statusCode >= 400) {
-                logout();
-            }
-        }).catch(() => {
-            console.error("Could not refresh token, network error");
-        })
+    const [accessToken, setAccessToken] = useState('');
+
+    const [isAuthenticated, setAuthenticated] = useState(false);
+
+    const [isAdmin, setIsAdmin] = useState(false);
+
+    const saveToken = (token: string) => {
+        localStorage.setItem(AUTH_LOCAL_STORAGE.ACCESS_TOKEN, token);
     }
 
     const getAccessToken = () => {
-        let token = localStorage.getItem(AUTH_LOCAL_STORAGE.ACCESS_TOKEN) || "";
-        if (token) {
-            validateToken(token);
-            token = localStorage.getItem(AUTH_LOCAL_STORAGE.ACCESS_TOKEN) || "";
-        }
-        return token;
+        return localStorage.getItem(AUTH_LOCAL_STORAGE.ACCESS_TOKEN) || "";
     }
 
-    const [isAuthenticated, setAuthenticated] = useState(getAccessToken() ? true : false);
+    const clearAccessToken = () => {
+        localStorage.removeItem(AUTH_LOCAL_STORAGE.ACCESS_TOKEN);
+    }
+
+    const loginAsAdmin = (pin: string) => {
+        const ADMIN_PIN = import.meta.env.VITE_ADMIN_PIN;
+        setIsAdmin(pin === ADMIN_PIN as string);
+    }
 
     const login = (email: string, password: string, next: () => void, error: (error: any) => void) => {
         requestLogin(email, password).then((response) => {
             if (response.statusCode >= 400) {
                 error(response);
             } else {
-                localStorage.setItem(AUTH_LOCAL_STORAGE.ACCESS_TOKEN, response.access_token);
+                saveToken(response.access_token);
                 setAuthenticated(true);
                 next();
             }
@@ -68,10 +72,26 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     const logout = () => {
         localStorage.removeItem(AUTH_LOCAL_STORAGE.ACCESS_TOKEN);
         setAuthenticated(false);
+        setIsAdmin(false);
     }
 
+    const readAndCheckTokenFromLocalStorage = async () => {
+        const token = getAccessToken();
+        requestValidateToken(token).then(() => {
+            setAuthenticated(true);
+            setAccessToken(token);
+        }).catch(() => {
+            clearAccessToken();
+            new Error("Could not refresh token, network error");
+        });
+    }
+
+    useEffect(() => {
+        readAndCheckTokenFromLocalStorage();
+    }, []);
+
     return (
-        <AuthContext.Provider value={{ isAuthenticated, login, logout, getAccessToken, register }}>
+        <AuthContext.Provider value={{ isAuthenticated, isAdmin, login, logout, accessToken, register, loginAsAdmin }}>
             {children}
         </AuthContext.Provider>
     );

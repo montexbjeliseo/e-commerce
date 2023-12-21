@@ -18,7 +18,7 @@ const FooterContainer = styled.footer`
 export const Footer = () => {
     return (
         <FooterContainer>
-            <h1>Footer</h1>
+            @montexbjeliseo.  All rights reserved.
         </FooterContainer>
     )
 }

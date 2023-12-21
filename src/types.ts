@@ -58,3 +58,11 @@ export type OrderInfoType = {
     date: Date;
     arrival: Date;
 }
+
+export type ProductPayload = {
+    title: string;
+    description: string;
+    price: number;
+    category_id: number;
+    images: string[];
+}

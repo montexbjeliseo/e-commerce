@@ -1,8 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../../contexts/AuthProvider";
 import styled from "styled-components";
-import { APP_ROUTES } from "../../../constants";
-import { useEffect } from "react";
 
 const ButtonsContainer = styled.div`
     display: flex;
@@ -11,20 +9,14 @@ const ButtonsContainer = styled.div`
 `
 
 export const LogoutPage = () => {
-    const { isAuthenticated, logout } = useAuth();
+    const { logout } = useAuth();
 
     const navigate = useNavigate();
 
     const handleClickLogout = () => {
         logout();
-        navigate(APP_ROUTES.HOME);
+        // navigate(APP_ROUTES.HOME);
     }
-
-    useEffect(() => {
-        if(!isAuthenticated){
-            navigate(APP_ROUTES.HOME);
-        }
-    }, []);
 
     return (
         <div className="container">

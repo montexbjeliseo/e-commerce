@@ -49,6 +49,20 @@ export const fetchProducts = async (filters: ProductFilters) => {
   return data;
 };
 
+export const deleteProduct = async (id: string) => {
+  const response = await fetch(`${API_ENDPOINTS.PRODUCTS}/${id}`, {
+    headers: HEADERS.DEFAULT_HEADERS,
+    method: 'DELETE',
+  });
+
+  if(!response.ok) {
+    throw new Error('Failed to delete product');
+  }
+
+  const data = await response.json();
+  return data;
+}
+
 export const login = async (email: string, password: string) => {
   const response = await fetch(`${API_ENDPOINTS.LOGIN}`, {
     method: 'POST',
@@ -73,7 +87,7 @@ export const register = async (name: string, email: string, password: string) =>
   return data;
 }
 
-const uploadImage = async (image: Blob) => {
+export const uploadImage = async (image: Blob) => {
   const formData = new FormData();
   formData.append('file', image);
 
@@ -150,10 +164,42 @@ export const deleteCategory = async (id: string) => {
     method: 'DELETE',
   });
 
-  console.log(response);
-
   if(!response.ok) {
     throw new Error('Failed to delete category');
+  }
+
+  const data = await response.json();
+  return data;
+}
+
+export const createProduct = async (productData: any) => {
+  const response = await fetch(`${API_ENDPOINTS.PRODUCTS}`, {
+    headers: HEADERS.DEFAULT_HEADERS,
+    method: 'POST',
+    body: JSON.stringify({
+      ...productData
+    }),
+  });
+
+  if (!response.ok) {
+
+    throw new Error('Failed to create product');
+  }
+  const data = await response.json();
+  return data;
+}
+
+export const updateProduct = async (productData: any, id: string) => {
+  const response = await fetch(`${API_ENDPOINTS.PRODUCTS}/${id}`, {
+    headers: HEADERS.DEFAULT_HEADERS,
+    method: 'PUT',
+    body: JSON.stringify({
+      ...productData
+    }),
+  });
+
+  if (!response.ok) {
+    throw new Error('Failed to update product');
   }
 
   const data = await response.json();
@@ -168,6 +214,11 @@ export const validateToken = async (token: string) => {
       'Authorization': `Bearer ${token}`,
     }
   });
+
+  if (!response.ok) {
+    throw new Error('Failed to validate token');
+  }
+
   const data = await response.json();
   return data;
 }

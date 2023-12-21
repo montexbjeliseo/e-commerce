@@ -11,6 +11,8 @@ import styled from "styled-components";
 import { CategoryCard } from "../../shared/components/CategoryCard";
 import { UpdateCategoryForm } from "./UpdateCategoryForm";
 import { DeleteCategory } from "./DeleteCategory";
+import { MODIFY_RESOURCE_ACTIONS, modifyResourceReducer } from "../../reducers/ModifyResourceReducer";
+import { AdminComponent } from "../../guards/AdminComponent";
 
 const NewCategoryLink = styled.b`
     cursor: pointer;
@@ -22,51 +24,7 @@ const NewCategoryLink = styled.b`
     }
 `;
 
-type ModifyCategoryState = {
-    category: Category | null;
-    askedToDelete: boolean;
-    askedToEdit: boolean;
-}
 
-enum MODIFY_CATEGORY_ACTIONS {
-    ASK_DELETE,
-    ASK_EDIT,
-    CANCEL
-}
-
-type ModifyCategoryAction = {
-    type: MODIFY_CATEGORY_ACTIONS;
-    payload: Category | null;
-}
-
-const modifyCategoryReducer = (state: ModifyCategoryState, action: ModifyCategoryAction) => {
-    const newState = {
-        category: null,
-        askedToDelete: false,
-        askedToEdit: false
-    }
-
-    switch (action.type) {
-        case MODIFY_CATEGORY_ACTIONS.ASK_DELETE:
-            return {
-                ...newState,
-                category: action.payload,
-                askedToDelete: true
-            }
-        case MODIFY_CATEGORY_ACTIONS.ASK_EDIT:
-            return {
-                ...newState,
-                category: action.payload,
-                askedToEdit: true
-            }
-        case MODIFY_CATEGORY_ACTIONS.CANCEL:
-            return {
-                ...newState
-            }
-        default:
-            return state;
-    }
-}
 
 export const CategoriesPage = () => {
 
@@ -78,8 +36,8 @@ export const CategoriesPage = () => {
 
     const [showNewCategoryForm, setShowNewCategoryForm] = useState(false);
 
-    const [askedFor, dispatch] = useReducer(modifyCategoryReducer, {
-        category: null,
+    const [askedFor, dispatch] = useReducer(modifyResourceReducer, {
+        resource: null,
         askedToDelete: false,
         askedToEdit: false
     })
@@ -89,11 +47,11 @@ export const CategoriesPage = () => {
     }
 
     const handleAskEditCategory = (category: Category) => {
-        dispatch({ type: MODIFY_CATEGORY_ACTIONS.ASK_EDIT, payload: category })
+        dispatch({ type: MODIFY_RESOURCE_ACTIONS.ASK_EDIT, payload: category })
     }
 
     const handleAskDeleteCategory = (category: Category) => {
-        dispatch({ type: MODIFY_CATEGORY_ACTIONS.ASK_DELETE, payload: category })
+        dispatch({ type: MODIFY_RESOURCE_ACTIONS.ASK_DELETE, payload: category })
     }
 
     if (isLoading) {
@@ -119,23 +77,30 @@ export const CategoriesPage = () => {
                 ) : null}
             </div>
             <div>
-                {askedFor.category ? (
-                    <Modal isOpen={askedFor.askedToDelete} onClose={() => dispatch({ type: MODIFY_CATEGORY_ACTIONS.CANCEL, payload: null })}>
+                {askedFor.resource ? (
+                    <Modal isOpen={askedFor.askedToDelete} onClose={() => dispatch({ type: MODIFY_RESOURCE_ACTIONS.CANCEL, payload: null })}>
                         <DeleteCategory
-                            data={askedFor.category}
+                            data={askedFor.resource as Category}
                             onDeleted={onMutate}
                         />
                     </Modal>
                 ) : null}
-                {askedFor.category ? (
-                    <Modal isOpen={askedFor.askedToEdit} onClose={() => dispatch({ type: MODIFY_CATEGORY_ACTIONS.CANCEL, payload: null })}>
+                {askedFor.resource ? (
+                    <Modal isOpen={askedFor.askedToEdit} onClose={() => dispatch({ type: MODIFY_RESOURCE_ACTIONS.CANCEL, payload: null })}>
                         <UpdateCategoryForm
-                            data={askedFor.category}
+                            data={askedFor.resource as Category}
                             onUpdated={onMutate} />
                     </Modal>
                 ) : null}
             </div>
-            <p className="title">Browse our categories | <NewCategoryLink onClick={() => setShowNewCategoryForm(true)}>Create new</NewCategoryLink></p>
+            <p className="title">Browse our categories
+                <AdminComponent>
+                    | <NewCategoryLink
+                        onClick={() => setShowNewCategoryForm(true)}>
+                        Create new
+                    </NewCategoryLink>
+                </AdminComponent>
+            </p>
             <ul className="categories">
                 {(data as Category[]).map((category) => (
                     <CategoryCard

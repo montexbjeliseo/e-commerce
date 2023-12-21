@@ -1,10 +1,10 @@
 import styled from "styled-components";
-import { Category } from "../../../types";
-import { deleteCategory } from "../../../api";
+import { Product } from "../../../types";
 import { useReducer } from "react";
+import { DeletionActionType, deletionReducer } from "../../../reducers/DeletionReducer";
 import { Loading } from "../../../shared/components/Loading";
 import { useMutation } from "react-query";
-import { DeletionActionType, deletionReducer } from "../../../reducers/DeletionReducer";
+import { deleteProduct } from "../../../api";
 
 const ConfirmMessage = styled.div`
     display: flex;
@@ -24,11 +24,11 @@ const ConfirmMessage = styled.div`
 `;
 
 type Props = {
-    data: Category;
+    data: Product;
     onDeleted: () => void;
 }
 
-export const DeleteCategory: React.FC<Props> = ({ data, onDeleted }) => {
+export const DeleteProduct: React.FC<Props> = ({ data, onDeleted }) => {
 
     const [deletionState, dispatch] = useReducer(deletionReducer, {
         isLoading: false,
@@ -36,7 +36,7 @@ export const DeleteCategory: React.FC<Props> = ({ data, onDeleted }) => {
         deleted: false
     })
 
-    const deleteMutation = useMutation(deleteCategory, {
+    const deleteMutation = useMutation(deleteProduct, {
         onSuccess: () => {
             dispatch({
                 type: DeletionActionType.SET_DELETED
@@ -57,7 +57,7 @@ export const DeleteCategory: React.FC<Props> = ({ data, onDeleted }) => {
             type: DeletionActionType.SET_IS_LOADING
         });
 
-        deleteMutation.mutate(data.id);
+        deleteMutation.mutate(data.id.toString());
     }
 
     if(deletionState.isLoading) {
@@ -73,7 +73,7 @@ export const DeleteCategory: React.FC<Props> = ({ data, onDeleted }) => {
         return (
             <ConfirmMessage>
                 <strong className="title">Error</strong>
-                <p>There was an error deleting the category.</p>
+                <p>There was an error deleting the product.</p>
             </ConfirmMessage>
         )
     }
@@ -81,16 +81,16 @@ export const DeleteCategory: React.FC<Props> = ({ data, onDeleted }) => {
     if(deletionState.deleted) {
         return (
             <ConfirmMessage>
-                <strong className="title">Category Deleted</strong>
-                <p>{data.name} has been deleted.</p>
+                <strong className="title">Product Deleted</strong>
+                <p>{data.title} has been deleted.</p>
             </ConfirmMessage>
         )
     }
-    
+
     return (
         <ConfirmMessage>
-            <strong className="title">Confirm Delete "{data.name}"</strong>
-            <p>Are you sure you want to delete this category?</p>
+            <strong className="title">Confirm Delete "{data.title}"</strong>
+            <p>Are you sure you want to delete this Product?</p>
             <button className="btn btn-primary" onClick={handleDelete}>Confirm Delete</button>
         </ConfirmMessage>
     )

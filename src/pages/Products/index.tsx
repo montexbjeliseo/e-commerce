@@ -9,6 +9,7 @@ import { ProductFilterForm } from "../../shared/components/ProductFilterForm";
 import { useState } from "react";
 import { fetchCategories } from "../../api";
 import { useLocation, useNavigate } from "react-router-dom";
+import { readProductFiltersFromSearchParams } from "../../utils/functions";
 
 
 export const ProductsPage = () => {
@@ -19,41 +20,16 @@ export const ProductsPage = () => {
 
     const searchParams = new URLSearchParams(location.search);
 
-    const readSearchParams = (): ProductFilters => {
+    const [filters, setFilters] = useState<ProductFilters>(
+        readProductFiltersFromSearchParams(searchParams)
+    );
 
-        const filters = {
-            
-        } as ProductFilters;
-
-        const title = searchParams.get("title");
-
-        if (title && title.length > 0 && title.length < 100) {
-            filters["title"] = title;
-        }
-
-        const price_min = searchParams.get("price_min");
-        const price_max = searchParams.get("price_max");
-
-        if (price_min && price_max && price_min.length > 0 && price_max.length > 0) {
-            filters["price_min"] = Number(price_min);
-            filters["price_max"] = Number(price_max);
-            
-        }
-
-        const categoryId = searchParams.get("categoryId");
-
-        if (categoryId && categoryId.length > 0) {
-            filters["categoryId"] = Number(categoryId);
-        }
-
-        return filters;
-    }
-
-    const [filters, setFilters] = useState<ProductFilters>(readSearchParams());
-
-    
-
-    const { data: categories, isLoading: isLoadingCategories, isError: isErrorCategories } = useQuery(QUERY_KEYS.CATEGORIES, () => fetchCategories());
+    const {
+        data: categories,
+        isLoading:
+        isLoadingCategories,
+        isError: isErrorCategories
+    } = useQuery(QUERY_KEYS.CATEGORIES, () => fetchCategories());
 
     if (isLoadingCategories && !categories) {
         return (
@@ -68,7 +44,7 @@ export const ProductsPage = () => {
     }
 
     const filterChangeHandler = (newFilters: ProductFilters) => {
-        
+
         const newSearchParams = new URLSearchParams();
 
         Object.entries(newFilters).forEach(([key, value]) => {
@@ -96,7 +72,7 @@ export const ProductsPage = () => {
                         <h2>Filters</h2>
                         <ProductFilterForm
                             categories={categories as Category[]}
-                            allowedPriceRange={{min: 0, max: 99999}}
+                            allowedPriceRange={{ min: 0, max: 99999 }}
                             filters={filters}
                             handleFilterChange={filterChangeHandler}
                             handleClear={clearFiltersHandler}
