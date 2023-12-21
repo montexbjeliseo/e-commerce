@@ -1,7 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../../contexts/AuthProvider";
 import styled from "styled-components";
-import { APP_ROUTES } from "../../../constants";
 
 const ButtonsContainer = styled.div`
     display: flex;
