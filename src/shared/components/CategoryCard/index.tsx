@@ -2,7 +2,7 @@ import { Link } from "react-router-dom"
 import { APP_ROUTES, IMAGE_PLACEHOLDER } from "../../../constants"
 import { Category } from "../../../types"
 import styled from "styled-components"
-import { PencilSquareIcon, TrashIcon } from "../Icons";
+import { PencilSquareIcon, TrashIcon } from "../../Icons";
 import { useAuth } from "../../../contexts/AuthProvider";
 
 const Card = styled.li`

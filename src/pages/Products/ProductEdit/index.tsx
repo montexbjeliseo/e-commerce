@@ -1,9 +1,9 @@
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { fetchProductById, updateProduct } from "../../../api";
 import { Loading } from "../../../shared/components/Loading";
 import { ErrorMessage } from "../../../shared/components/ErrorMessage";
 import { useQuery } from "react-query";
-import { APP_ROUTES, QUERY_KEYS } from "../../../constants";
+import { QUERY_KEYS } from "../../../constants";
 import { useEffect, useReducer, useState } from "react";
 import { Button } from "../../../shared/components/Styled/Button";
 import { Form } from "../../../shared/components/Styled/Form";
@@ -12,8 +12,6 @@ import { UploadImage } from "../../../shared/components/UploadImage";
 import { SelectProductCategory } from "../../../shared/components/SelectProductCategory";
 import { CheckIcon } from "../../../shared/components/CheckIcon";
 import { ProductImageCarousel } from "../ProductImageCarousel";
-import { useAuth } from "../../../contexts/AuthProvider";
-
 
 
 
@@ -66,10 +64,6 @@ const productEditReducer = (state: ProductState, action: EditProductAction) => {
 export const ProductEditPage = () => {
 
     const { id } = useParams();
-
-    const { isAdmin } = useAuth();
-
-    const navigate = useNavigate();
 
     const {
         data,
@@ -136,11 +130,7 @@ export const ProductEditPage = () => {
     }
 
     useEffect(() => {
-        if (!isAdmin) {
-            navigate(APP_ROUTES.LOGIN);
-        } else {
             fetchData();
-        }
     }, []);
 
     useEffect(() => {

@@ -10,7 +10,23 @@ import { useReducer } from "react";
 import { MODIFY_RESOURCE_ACTIONS, modifyResourceReducer } from "../../../reducers/ModifyResourceReducer";
 import { Modal } from "../Modal";
 import { DeleteProduct } from "../../../pages/Products/DeleteProduct";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import styled from "styled-components";
+
+const CreateNewText = styled.p`
+    a {
+        opacity: 0.5;
+        font-weight: bold;
+        padding: 5px;
+        user-select: none;
+        color: #0D0D0D;
+        text-decoration: none;
+        &:hover {
+            opacity: 1;
+            cursor: pointer;
+        }
+    }
+`;
 
 type ProductListProps = {
     filters: ProductFilters;
@@ -69,7 +85,12 @@ export const ProductList: React.FC<ProductListProps> = ({ filters }) => {
                     </Modal>
                 ) : null}
             </div>
-            <p>Create new</p>
+            <CreateNewText>
+                <Link to={APP_ROUTES.PRODUCT_CREATE}>
+                    Create new
+                </Link>
+            </CreateNewText>
+
             <div className="product-list">
 
                 {!products || products.length === 0 ? (

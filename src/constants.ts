@@ -35,6 +35,7 @@ export const APP_ROUTES = {
     CHECKOUT_ADDRESS: '/checkout/address',
     CHECKOUT_SHIPPING: '/checkout/shipping',
     CHECKOUT_PAYMENT: '/checkout/payment',
+    ID: ':id',
 }
 
 export const ERROR = {

@@ -8,7 +8,6 @@ import { useShopping } from "../../../contexts/ShoppingProvider";
 import { AddressInfoType } from "../../../types";
 import { SwitchInput } from "../../../shared/components/SwitchInput";
 import { useCart } from "../../../contexts/CartProvider";
-import { useAuth } from "../../../contexts/AuthProvider";
 
 const Container = styled.section`
     display: grid;
@@ -53,8 +52,6 @@ const Container = styled.section`
 
 export const CheckoutAddressPage = () => {
 
-    const auth = useAuth();
-
     const { saveAddressInfo } = useShopping();
 
     const { items } = useCart();
@@ -73,10 +70,6 @@ export const CheckoutAddressPage = () => {
     }
 
     useEffect(() => {
-
-        if (!auth.isAuthenticated) {
-            navigate(APP_ROUTES.LOGIN, { state: { from: APP_ROUTES.CHECKOUT_ADDRESS } });
-        }
 
         if (items.length === 0) {
             navigate(APP_ROUTES.CHECKOUT_ADDRESS);

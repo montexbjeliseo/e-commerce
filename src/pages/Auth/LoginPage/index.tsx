@@ -29,7 +29,7 @@ export const LoginPage = () => {
         setError("");
 
         login(email, password, () => {
-            location.state?.from ? navigate(location.state.from) : navigate(APP_ROUTES.HOME);
+            navigate(location.state?.from ? location.state.from : APP_ROUTES.HOME);
             setIsLoading(false);
         }, (error) => {
             if (error === ERROR.NETWORK_ERROR) {
@@ -44,10 +44,11 @@ export const LoginPage = () => {
     }
 
     useEffect(() => {
+        console.log(isAuthenticated)
         if (isAuthenticated) {
             navigate(APP_ROUTES.HOME);
         }
-    }, []);
+    }, [isAuthenticated, navigate]);
 
     return (
         <div className="container">
@@ -61,9 +62,9 @@ export const LoginPage = () => {
                     <Loading />
                 </div>
             </div>
-            <p className="text-create-account">Don't have an account? <Link to={APP_ROUTES.REGISTER}>Register</Link></p>
-
+            <p className="text-create-account">Don't have an account? 
+                <Link to={APP_ROUTES.REGISTER}>Register</Link>
+            </p>
         </div>
-
     )
 }

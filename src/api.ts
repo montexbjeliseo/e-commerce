@@ -197,6 +197,11 @@ export const validateToken = async (token: string) => {
       'Authorization': `Bearer ${token}`,
     }
   });
+
+  if (!response.ok) {
+    throw new Error('Failed to validate token');
+  }
+
   const data = await response.json();
   return data;
 }

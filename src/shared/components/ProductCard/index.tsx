@@ -1,9 +1,9 @@
 import { Link } from "react-router-dom"
 import { Product } from "../../../types"
-import { IMAGE_PLACEHOLDER } from "../../../constants"
-import { PencilSquareIcon, TrashIcon } from "../Icons"
+import { APP_ROUTES, IMAGE_PLACEHOLDER } from "../../../constants"
+import { PencilSquareIcon, TrashIcon } from "../../Icons"
 import styled from "styled-components"
-import { useAuth } from "../../../contexts/AuthProvider"
+import { AdminComponent } from "../../../guards/AdminComponent"
 
 const Card = styled.article`
     img {
@@ -99,8 +99,6 @@ type Props = {
 
 export const ProductCard: React.FC<Props> = ({ data, onDelete, onEdit }) => {
 
-    const { isAdmin } = useAuth();
-
     return (
         <Card>
             <img
@@ -115,28 +113,26 @@ export const ProductCard: React.FC<Props> = ({ data, onDelete, onEdit }) => {
             </p>
             <p>${data.price}</p>
             <div className="overlay">
-                <Link to={`/products/${data.id}`} title={data.title}>
+                <Link to={APP_ROUTES.PRODUCT_DETAILS.replace(APP_ROUTES.ID, data.id.toString())} title={data.title}>
                     View Details
                 </Link>
             </div>
-            {
-                isAdmin ? (
-                    <div className="overlay-admin">
-                        <button
-                            className="btn-rounded edit-btn"
+            <AdminComponent>
+                <div className="overlay-admin">
+                    <button
+                        className="btn-rounded edit-btn"
                         onClick={() => onEdit(data)}
-                        >
-                            <PencilSquareIcon />
-                        </button>
-                        <button
-                            className="btn-rounded delete-btn"
+                    >
+                        <PencilSquareIcon />
+                    </button>
+                    <button
+                        className="btn-rounded delete-btn"
                         onClick={() => onDelete(data)}
-                        >
-                            <TrashIcon />
-                        </button>
-                    </div>
-                ) : null
-            }
+                    >
+                        <TrashIcon />
+                    </button>
+                </div>
+            </AdminComponent>
         </Card>
     )
 }

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import "./styles.css"
-import { TrashIcon } from '../../../shared/components/Icons';
+import { TrashIcon } from '../../../shared/Icons';
 import { Modal } from '../../../shared/components/Modal';
 import styled from 'styled-components';
 
