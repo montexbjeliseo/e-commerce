@@ -52,6 +52,14 @@ export const ProductImageCarousel: React.FC<CarouselProps> = ({ images, onRemove
 
     }
 
+    if (images.length === 0) {
+        return (
+            <div>
+                No images
+            </div>
+        )
+    }
+
     return (
         <>
             <Modal isOpen={showRemoveImageModal} onClose={() => setShowRemoveImageModal(false)}>
