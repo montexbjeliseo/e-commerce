@@ -4,6 +4,7 @@ import { CartItem, Product } from "../../types";
 type CartContextType = {
     items: CartItem[];
     addItem: (product_id: number, product: Product, quantity: number) => void;
+    updateItem: (product_id: number, quantity: number) => void;
     removeItem: (product_id: number) => void;
     clear: () => void;
 }
@@ -34,6 +35,10 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
         setItems([...items, {product_id, product, quantity}]);
     }
 
+    const updateItem = (product_id: number, quantity: number) => {
+        setItems(items.map((item) => item.product_id === product_id ? {...item, quantity} : item));
+    }
+
     const removeItem = (product_id: number) => {
         setItems(items.filter((item) => item.product_id !== product_id));
     }
@@ -47,7 +52,7 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
     }, [items]);
 
     return (
-        <CartContext.Provider value={{items, addItem, removeItem, clear}}>
+        <CartContext.Provider value={{items, addItem, updateItem, removeItem, clear}}>
             {children}
         </CartContext.Provider>
     )

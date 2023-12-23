@@ -18,7 +18,7 @@ export const ProductDetailPage = () => {
 
     const [quantity, setQuantity] = useState(1);
 
-    const { items, addItem } = useCart();
+    const { items, addItem, updateItem } = useCart();
 
     const incrementQuantity = () => {
         setQuantity(quantity + 1);
@@ -34,7 +34,11 @@ export const ProductDetailPage = () => {
             return;
         }
 
-        addItem(data.id, data, quantity);
+        if (isProductInCart()) {
+            updateItem(data.id, quantity);
+        } else {
+            addItem(data.id, data, quantity);
+        }
     }
 
     const isProductInCart = () => {
@@ -70,8 +74,17 @@ export const ProductDetailPage = () => {
                         decrementQuantity={decrementQuantity}
                         onChange={(e) => setQuantity(parseInt(e.target.value, 10))}
                     />
+                    {
+                        isProductInCart() && (
+                            <div>
+                                <p>
+                                    * The product is already in the cart
+                                </p>
+                            </div>
+                        )
+                    }
                     <div>
-                        <button disabled={isProductInCart()} className="btn btn-primary" type="button" onClick={handleAddToCart}>{isProductInCart() ? 'Is already in cart' : 'Add to cart $' + data.price * quantity}</button> <button className="btn btn-cta" type="button">Buy now</button>
+                        <button className="btn btn-primary" type="button" onClick={handleAddToCart}>{isProductInCart() ? 'Update cart ' : 'Add to cart '} {'$' + data.price * quantity}</button>
                     </div>
                 </div>
             </div>
