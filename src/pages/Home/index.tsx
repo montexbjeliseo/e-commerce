@@ -4,12 +4,12 @@ import { HeroCarousel } from "./HeroCarousel"
 import { HeroProductCard } from "./HeroProductCard"
 import { Product } from "../../types"
 import { APP_ROUTES, QUERY_KEYS } from "../../constants"
-import { CategoryCard } from "../../shared/components/CategoryCard"
 import styled from "styled-components"
 import { LatestProductCard } from "./LatestProductCard"
 import { Link } from "react-router-dom"
 import { Loading } from "../../shared/components/Loading"
 import { ErrorMessage } from "../../shared/components/ErrorMessage"
+import { MonthCategoryCard } from "./MonthCategoryCard"
 
 const CategoryOfMonth = styled.ul`
     display: grid;
@@ -77,11 +77,11 @@ export const HomePage = () => {
     const { data: products, isLoading, isError } = useQuery(QUERY_KEYS.PRODUCTS, () => fetchProducts({}));
     const { data: categories } = useQuery(QUERY_KEYS.CATEGORIES, () => fetchCategories());
 
-    if(isLoading){
+    if (isLoading) {
         return <Loading />
     }
 
-    if(isError){
+    if (isError) {
         return <ErrorMessage />
     }
 
@@ -105,14 +105,14 @@ export const HomePage = () => {
                 <div>
                     {categories ? (
                         <CategoryOfMonth>
-                            {(categories as any[]).slice(0, 4).map(category => (
-                                <CategoryCard
-                                    key={category.id}
-                                    data={category}
-                                    onDelete={() => null}
-                                    onEdit={() => null}
-                                />
-                            ))}
+                            {(categories as any[]).slice(0, 4).map(category => {
+                                return (
+                                    <MonthCategoryCard
+                                        key={category.id}
+                                        data={category}
+                                         />
+                                )
+                            })}
                         </CategoryOfMonth>
                     ) : null}
                 </div>
