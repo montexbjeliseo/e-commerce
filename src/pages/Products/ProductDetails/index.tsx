@@ -9,6 +9,8 @@ import { Carousel } from "../../../shared/components/Carousel";
 import { QuantityInput } from "../../../shared/components/QuantityInput";
 import { useState } from "react";
 import { useCart } from "../../../contexts/CartProvider";
+import { LoggedUserComponent } from "../../../guards/LoggedUserComponent";
+import { NoLoggedUserComponent } from "../../../guards/NoLoggedUserComponent";
 
 export const ProductDetailPage = () => {
 
@@ -68,24 +70,31 @@ export const ProductDetailPage = () => {
                     <p><b>{data.category.name}</b></p>
                     <p><b>Description: </b>{data.description}</p>
                     <p><b>Price: </b>${data.price}</p>
-                    <QuantityInput
-                        quantity={quantity}
-                        incrementQuantity={incrementQuantity}
-                        decrementQuantity={decrementQuantity}
-                        onChange={(e) => setQuantity(parseInt(e.target.value, 10))}
-                    />
-                    {
-                        isProductInCart() && (
-                            <div>
-                                <p>
-                                    * The product is already in the cart
-                                </p>
-                            </div>
-                        )
-                    }
-                    <div>
-                        <button className="btn btn-primary" type="button" onClick={handleAddToCart}>{isProductInCart() ? 'Update cart ' : 'Add to cart '} {'$' + data.price * quantity}</button>
-                    </div>
+                    <LoggedUserComponent>
+                        <QuantityInput
+                            quantity={quantity}
+                            incrementQuantity={incrementQuantity}
+                            decrementQuantity={decrementQuantity}
+                            onChange={(e) => setQuantity(parseInt(e.target.value, 10))}
+                        />
+                        {
+                            isProductInCart() && (
+                                <div>
+                                    <p>
+                                        * The product is already in the cart
+                                    </p>
+                                </div>
+                            )
+                        }
+                        <div>
+                            <button className="btn btn-primary" type="button" onClick={handleAddToCart}>{isProductInCart() ? 'Update cart ' : 'Add to cart '} {'$' + data.price * quantity}</button>
+                        </div>
+                    </LoggedUserComponent>
+                    <NoLoggedUserComponent>
+                        <p>
+                            * You must be logged in to add products to the cart
+                        </p>
+                    </NoLoggedUserComponent>
                 </div>
             </div>
         </div>

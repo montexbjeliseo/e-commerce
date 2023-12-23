@@ -8,6 +8,8 @@ import { APP_ROUTES } from "../../../constants";
 import { useCart } from "../../../contexts/CartProvider";
 import { Modal } from "../Modal";
 import styled from "styled-components";
+import { LoggedUserComponent } from "../../../guards/LoggedUserComponent";
+import { NoLoggedUserComponent } from "../../../guards/NoLoggedUserComponent";
 
 const AdminInfoPanel = styled.div`
     display: flex;
@@ -23,7 +25,7 @@ export const Navbar = () => {
 
     const [adminPassword, setAdminPassword] = useState("");
 
-    const { isAuthenticated, isAdmin, loginAsAdmin } = useAuth();
+    const { isAdmin, loginAsAdmin } = useAuth();
 
     const [toggleShowLinks, setToggleShowLinks] = useState(false);
 
@@ -63,26 +65,23 @@ export const Navbar = () => {
                         </li>
                         <li className="cart-link">
                             <Link onClick={handleClickLink} to={APP_ROUTES.CART}>
-                                <img src={CartIcon} alt="Cart icon" /> <sup>{items.length}</sup>
+                                <img src={CartIcon} alt="Cart icon" />
+                                <LoggedUserComponent><sup>{items.length}</sup></LoggedUserComponent>
                             </Link>
                         </li>
-                        {
-                            isAuthenticated ? (
-                                <>
-                                    <li className="register-link"><a onClick={handleClickEnableAdmin}>Admin</a></li>
-                                    <li className="login-link"><Link onClick={handleClickLink} to={APP_ROUTES.LOGOUT}>Logout</Link></li>
-                                </>
-                            ) : (
-                                <>
-                                    <li className="login-link">
-                                        <Link onClick={handleClickLink} to={APP_ROUTES.LOGIN}>Login</Link>
-                                    </li>
-                                    <li className="register-link">
-                                        <Link onClick={handleClickLink} to={APP_ROUTES.REGISTER}>Register</Link>
-                                    </li>
-                                </>
-                            )
-                        }
+
+                        <LoggedUserComponent>
+                            <li className="register-link"><a onClick={handleClickEnableAdmin}>Admin</a></li>
+                            <li className="login-link"><Link onClick={handleClickLink} to={APP_ROUTES.LOGOUT}>Logout</Link></li>
+                        </LoggedUserComponent>
+                        <NoLoggedUserComponent>
+                            <li className="login-link">
+                                <Link onClick={handleClickLink} to={APP_ROUTES.LOGIN}>Login</Link>
+                            </li>
+                            <li className="register-link">
+                                <Link onClick={handleClickLink} to={APP_ROUTES.REGISTER}>Register</Link>
+                            </li>
+                        </NoLoggedUserComponent>
                     </ul>
                 </nav>
 
