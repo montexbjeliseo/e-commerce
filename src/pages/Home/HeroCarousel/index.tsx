@@ -73,7 +73,8 @@ const SlideShowDots = styled.div`
         transition: background-color 0.6s ease;
 	}
 
-	.dot:hover {
+	.dot.active,
+  .dot:hover {
 		background-color: #717171;
 	}
 `;
