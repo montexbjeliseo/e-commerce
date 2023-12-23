@@ -44,7 +44,7 @@ export const Navbar = () => {
                         </li>
 
                         <LoggedUserComponent>
-                            <li className="register-link"><a>Profile</a></li>
+                            {/* <li className="register-link"><a>Profile</a></li> */}
                             <li className="login-link"><Link onClick={handleClickLink} to={APP_ROUTES.LOGOUT}>Logout</Link></li>
                         </LoggedUserComponent>
                         <NoLoggedUserComponent>

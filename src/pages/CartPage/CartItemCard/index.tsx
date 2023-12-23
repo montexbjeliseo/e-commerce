@@ -1,5 +1,8 @@
 import styled from "styled-components"
 import { CartItem } from "../../../types"
+import { QuantityInput } from "../../../shared/components/QuantityInput";
+import { useEffect, useState } from "react";
+import { useCart } from "../../../contexts/CartProvider";
 
 const CartItemCardContainer = styled.div`
 display: flex;
@@ -18,7 +21,7 @@ img {
 .content {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 5x;
     color: #000;
 
     /* Paragraph 04 */
@@ -66,6 +69,23 @@ type Props = {
 
 
 export const CartItemCard: React.FC<Props> = ({ item, handleRemove, allowRemove }) => {
+
+    const { updateItem } = useCart();
+
+    const [quantity, setQuantity] = useState(item.quantity);
+
+    const incrementQuantity = () => {
+        setQuantity((prev) => prev + 1);
+    }
+
+    const decrementQuantity = () => {
+        setQuantity((prev) => Math.max(prev - 1, 1));
+    }
+
+    useEffect(() => {
+        updateItem(item.product_id, quantity);
+    }, [quantity]);
+
     return (
         <CartItemCardContainer>
             <div className="image">
@@ -73,7 +93,12 @@ export const CartItemCard: React.FC<Props> = ({ item, handleRemove, allowRemove 
             </div>
             <div className="content">
                 <p className="title">{item.product.title}</p>
-                <p>Quantity: {item.quantity}</p>
+                <QuantityInput
+                    quantity={quantity}
+                    incrementQuantity={incrementQuantity}
+                    decrementQuantity={decrementQuantity}
+                    onChange={(e) => setQuantity(parseInt(e.target.value, 10))}
+                />
                 <p className="price">${item.product.price}</p>
             </div>
             {
