@@ -93,12 +93,18 @@ export const CartItemCard: React.FC<Props> = ({ item, handleRemove, allowRemove 
             </div>
             <div className="content">
                 <p className="title">{item.product.title}</p>
-                <QuantityInput
-                    quantity={quantity}
-                    incrementQuantity={incrementQuantity}
-                    decrementQuantity={decrementQuantity}
-                    onChange={(e) => setQuantity(parseInt(e.target.value, 10))}
-                />
+                {
+                    allowRemove ? (
+                        <QuantityInput
+                            quantity={quantity}
+                            incrementQuantity={incrementQuantity}
+                            decrementQuantity={decrementQuantity}
+                            onChange={(e) => setQuantity(parseInt(e.target.value, 10))}
+                        />
+                    ) : (
+                        <p>Quantity: {quantity}</p>
+                    )
+                }
                 <p className="price">${item.product.price}</p>
             </div>
             {
