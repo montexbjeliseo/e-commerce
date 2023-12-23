@@ -8,6 +8,8 @@ import { CategoryCard } from "../../shared/components/CategoryCard"
 import styled from "styled-components"
 import { LatestProductCard } from "./LatestProductCard"
 import { Link } from "react-router-dom"
+import { Loading } from "../../shared/components/Loading"
+import { ErrorMessage } from "../../shared/components/ErrorMessage"
 
 const CategoryOfMonth = styled.ul`
     display: grid;
@@ -72,8 +74,16 @@ const Banner = styled.div`
 
 export const HomePage = () => {
 
-    const { data: products } = useQuery(QUERY_KEYS.PRODUCTS, () => fetchProducts({}));
+    const { data: products, isLoading, isError } = useQuery(QUERY_KEYS.PRODUCTS, () => fetchProducts({}));
     const { data: categories } = useQuery(QUERY_KEYS.CATEGORIES, () => fetchCategories());
+
+    if(isLoading){
+        return <Loading />
+    }
+
+    if(isError){
+        return <ErrorMessage />
+    }
 
     return (
         <>

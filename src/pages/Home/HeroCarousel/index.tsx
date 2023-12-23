@@ -110,7 +110,7 @@ export const HeroCarousel: React.FC<Props> = ({ children }) => {
       </SlideShowContainer>
       <br />
       <SlideShowDots>
-        {children.map((child, index) => {
+        {[...Array(children.length).keys()].map((index) => {
           return (
             <span className={`dot ${index === currentSlide ? 'active' : ''}`} onClick={() => setCurrentSlide(index)}></span>
           )
