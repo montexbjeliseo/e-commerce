@@ -123,14 +123,13 @@ export const ProductEditPage = () => {
                 type: EDIT_PRODUCT_ACTION_TYPES.SET_IS_ERROR,
                 payload: true
             });
-            console.log(error)
         });
 
 
     }
 
     useEffect(() => {
-            fetchData();
+        fetchData();
     }, []);
 
     useEffect(() => {
@@ -140,8 +139,6 @@ export const ProductEditPage = () => {
                 type: EDIT_PRODUCT_ACTION_TYPES.SET_IMAGES,
                 payload: data.images
             })
-        } else {
-            console.log("There is no data yet")
         }
     }, [data]);
 

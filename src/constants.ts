@@ -76,3 +76,8 @@ export const HEADERS = {
         'Access-Control-Allow-Headers': 'Content-Type'
     }
 }
+
+export enum USER_ROLES {
+    ADMIN = 'admin',
+    CUSTOMER = 'customer'
+}

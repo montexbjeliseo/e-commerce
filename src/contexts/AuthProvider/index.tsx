@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { validateToken as requestValidateToken, login as requestLogin, register as requestRegister } from "../../api";
-import { AUTH_LOCAL_STORAGE, ERROR } from "../../constants";
+import { AUTH_LOCAL_STORAGE, ERROR, USER_ROLES } from "../../constants";
 
 type AuthContextType = {
     isAuthenticated: boolean,
@@ -8,7 +8,6 @@ type AuthContextType = {
     login: (email: string, password: string, next: () => void, error: (error: any) => void) => void,
     register: (name: string, email: string, password: string, next: () => void, error: (error: any) => void) => void,
     logout: () => void,
-    loginAsAdmin: (pin: string) => void,
     isAdmin: boolean
 }
 
@@ -38,11 +37,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         localStorage.removeItem(AUTH_LOCAL_STORAGE.ACCESS_TOKEN);
     }
 
-    const loginAsAdmin = (pin: string) => {
-        const ADMIN_PIN = import.meta.env.VITE_ADMIN_PIN;
-        setIsAdmin(pin === ADMIN_PIN as string);
-    }
-
     const login = (email: string, password: string, next: () => void, error: (error: any) => void) => {
         requestLogin(email, password).then((response) => {
             if (response.statusCode >= 400) {
@@ -50,6 +44,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
             } else {
                 saveToken(response.access_token);
                 setAuthenticated(true);
+                checkIsAdmin(response.access_token);
                 next();
             }
         }).catch(() => {
@@ -75,11 +70,27 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         setIsAdmin(false);
     }
 
-    const readAndCheckTokenFromLocalStorage = async () => {
+    const readStoredAccessToken = () => {
         const token = getAccessToken();
-        requestValidateToken(token).then(() => {
-            setAuthenticated(true);
+        if (token) {
             setAccessToken(token);
+        }
+    }
+
+    const checkIsAdmin = (token: string) => {
+        requestValidateToken(token).then((data) => {
+            if (data.role === USER_ROLES.ADMIN) {
+                setIsAdmin(true);
+            }
+        })
+    }
+
+    const validateLocalAccessToken = async () => {
+        requestValidateToken(accessToken).then((data) => {
+            if (data.role === USER_ROLES.ADMIN) {
+                setIsAdmin(true);
+            }
+            setAuthenticated(true);
         }).catch(() => {
             clearAccessToken();
             new Error("Could not refresh token, network error");
@@ -87,11 +98,17 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     }
 
     useEffect(() => {
-        readAndCheckTokenFromLocalStorage();
+        readStoredAccessToken();
     }, []);
 
+    useEffect(() => {
+        if(accessToken){
+            validateLocalAccessToken();
+        }
+    }, [accessToken]);
+
     return (
-        <AuthContext.Provider value={{ isAuthenticated, isAdmin, login, logout, accessToken, register, loginAsAdmin }}>
+        <AuthContext.Provider value={{ isAuthenticated, isAdmin, login, logout, accessToken, register }}>
             {children}
         </AuthContext.Provider>
     );

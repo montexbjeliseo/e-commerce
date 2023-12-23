@@ -44,7 +44,6 @@ export const LoginPage = () => {
     }
 
     useEffect(() => {
-        console.log(isAuthenticated)
         if (isAuthenticated) {
             navigate(APP_ROUTES.HOME);
         }
@@ -62,7 +61,7 @@ export const LoginPage = () => {
                     <Loading />
                 </div>
             </div>
-            <p className="text-create-account">Don't have an account? 
+            <p className="text-create-account">Don't have an account?
                 <Link to={APP_ROUTES.REGISTER}>Register</Link>
             </p>
         </div>

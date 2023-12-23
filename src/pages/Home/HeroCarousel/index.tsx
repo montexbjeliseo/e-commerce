@@ -101,7 +101,7 @@ export const HeroCarousel: React.FC<Props> = ({ children }) => {
       <SlideShowContainer>
         {children.map((child, index) => {
           return (
-            <div className={`mySlides fade ${index === currentSlide ? 'active' : ''}`}>
+            <div key={crypto.randomUUID()} className={`mySlides fade ${index === currentSlide ? 'active' : ''}`}>
               {child}
             </div>
           )
@@ -113,7 +113,7 @@ export const HeroCarousel: React.FC<Props> = ({ children }) => {
       <SlideShowDots>
         {[...Array(children.length).keys()].map((index) => {
           return (
-            <span className={`dot ${index === currentSlide ? 'active' : ''}`} onClick={() => setCurrentSlide(index)}></span>
+            <span key={crypto.randomUUID()} className={`dot ${index === currentSlide ? 'active' : ''}`} onClick={() => setCurrentSlide(index)}></span>
           )
         })}
       </SlideShowDots>
