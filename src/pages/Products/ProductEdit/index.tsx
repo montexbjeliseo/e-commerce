@@ -118,7 +118,7 @@ export const ProductEditPage = () => {
                 type: EDIT_PRODUCT_ACTION_TYPES.SET_IS_SUCCESS,
                 payload: true
             });
-        }).catch((error) => {
+        }).catch(() => {
             dispatch({
                 type: EDIT_PRODUCT_ACTION_TYPES.SET_IS_ERROR,
                 payload: true
