@@ -1,6 +1,7 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { validateToken as requestValidateToken, login as requestLogin, register as requestRegister } from "../../api";
 import { AUTH_LOCAL_STORAGE, ERROR, USER_ROLES } from "../../constants";
+import { UserData } from "../../types";
 
 type AuthContextType = {
     isAuthenticated: boolean,
@@ -8,7 +9,8 @@ type AuthContextType = {
     login: (email: string, password: string, next: () => void, error: (error: any) => void) => void,
     register: (name: string, email: string, password: string, next: () => void, error: (error: any) => void) => void,
     logout: () => void,
-    isAdmin: boolean
+    isAdmin: boolean,
+    currentUser: UserData;
 }
 
 const AuthContext: React.Context<AuthContextType> = createContext({} as AuthContextType);
@@ -24,6 +26,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     const [isAuthenticated, setAuthenticated] = useState(false);
 
     const [isAdmin, setIsAdmin] = useState(false);
+
+    const [currentUser, setCurrentUser] = useState({} as UserData);
 
     const saveToken = (token: string) => {
         localStorage.setItem(AUTH_LOCAL_STORAGE.ACCESS_TOKEN, token);
@@ -68,6 +72,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         localStorage.removeItem(AUTH_LOCAL_STORAGE.ACCESS_TOKEN);
         setAuthenticated(false);
         setIsAdmin(false);
+        setCurrentUser({} as UserData);
     }
 
     const readStoredAccessToken = () => {
@@ -79,6 +84,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
     const checkIsAdmin = (token: string) => {
         requestValidateToken(token).then((data) => {
+            setCurrentUser(data);
             if (data.role === USER_ROLES.ADMIN) {
                 setIsAdmin(true);
             }
@@ -91,6 +97,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
                 setIsAdmin(true);
             }
             setAuthenticated(true);
+            setCurrentUser(data);
         }).catch(() => {
             clearAccessToken();
             new Error("Could not refresh token, network error");
@@ -108,7 +115,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     }, [accessToken]);
 
     return (
-        <AuthContext.Provider value={{ isAuthenticated, isAdmin, login, logout, accessToken, register }}>
+        <AuthContext.Provider value={{ isAuthenticated, isAdmin, login, logout, accessToken, register, currentUser }}>
             {children}
         </AuthContext.Provider>
     );

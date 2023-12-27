@@ -47,7 +47,7 @@ export type ShippingInfoType = {
 }
 
 export type PaymentInfoType = {
-    
+
 }
 
 export type OrderInfoType = {
@@ -65,4 +65,13 @@ export type ProductPayload = {
     price: number;
     category_id: number;
     images: string[];
+}
+
+export type UserData = {
+    id: String;
+    email: String;
+    password: String;
+    name: String;
+    role: String;
+    avatar: String;
 }

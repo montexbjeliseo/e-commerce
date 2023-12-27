@@ -1,5 +1,6 @@
 import { createContext, useContext, useEffect, useState } from "react"
 import { CartItem, Product } from "../../types";
+import { useAuth } from "../AuthProvider";
 
 type CartContextType = {
     items: CartItem[];
@@ -17,26 +18,31 @@ type CartProviderProps = {
 
 export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
 
-    const loadCart = () : CartItem[] => {
-        const storedCart = localStorage.getItem('cart');
+    const { currentUser, isAuthenticated } = useAuth();
+
+    const [items, setItems] = useState<CartItem[]>([]);
+
+    const loadCart = (): void => {
+
+        const storedCart = localStorage.getItem('cart_' + currentUser.email);
+
         if (storedCart) {
-            return JSON.parse(storedCart);
+            setItems(JSON.parse(storedCart));
         }
-        return [];
     }
 
-    const [items, setItems] = useState<CartItem[]>(loadCart());
-
     const saveCart = () => {
-        localStorage.setItem('cart', JSON.stringify(items));
+        if (currentUser && currentUser.email) {
+            localStorage.setItem('cart_' + currentUser.email, JSON.stringify(items));
+        }
     }
 
     const addItem = (product_id: number, product: Product, quantity: number) => {
-        setItems([...items, {product_id, product, quantity}]);
+        setItems([...items, { product_id, product, quantity }]);
     }
 
     const updateItem = (product_id: number, quantity: number) => {
-        setItems(items.map((item) => item.product_id === product_id ? {...item, quantity} : item));
+        setItems(items.map((item) => item.product_id === product_id ? { ...item, quantity } : item));
     }
 
     const removeItem = (product_id: number) => {
@@ -48,15 +54,26 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
     }
 
     useEffect(() => {
-        saveCart();
+
+        if (isAuthenticated && currentUser) {
+            loadCart();
+        } else {
+            setItems([]);
+        }
+    }, [isAuthenticated, currentUser]);
+
+    useEffect(() => {
+        if (isAuthenticated) {
+            saveCart();
+        }
     }, [items]);
 
     return (
-        <CartContext.Provider value={{items, addItem, updateItem, removeItem, clear}}>
+        <CartContext.Provider value={{ items, addItem, updateItem, removeItem, clear }}>
             {children}
         </CartContext.Provider>
     )
-    
+
 }
 
 export const useCart = () => {
