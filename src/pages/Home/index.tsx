@@ -4,73 +4,15 @@ import { HeroCarousel } from "./HeroCarousel"
 import { HeroProductCard } from "./HeroProductCard"
 import { Product } from "../../types"
 import { APP_ROUTES, QUERY_KEYS } from "../../constants"
-import styled from "styled-components"
 import { LatestProductCard } from "./LatestProductCard"
 import { Link } from "react-router-dom"
 import { Loading } from "../../shared/components/Loading"
 import { ErrorMessage } from "../../shared/components/ErrorMessage"
 import { MonthCategoryCard } from "./MonthCategoryCard"
-
-const CategoryOfMonth = styled.ul`
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 30px;
-    padding: 0 20px;
-    list-style: none;
-    list-style-type: none;
-`;
-
-const ProductArrivals = styled.ul`
-    list-style: none;
-    list-style-type: none;
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    flex-direction: column;
-    gap: 20px;
-`;
-
-const SectionTitle = styled.h1`
-    padding-top: 50px;
-    text-align: center;
-    font-size: 2.5rem;
-    font-weight: lighter;
-    opacity: 0.7;
-`;
-
-const SectionDescription = styled.p`
-    text-align: center;
-    font-size: 1.2rem;
-    padding: 10px 0;
-`;
-
-const Banner = styled.div`
-    margin: 20px 0;
-    width: 100%;
-    padding: 20px;
-    display: flex;
-    justify-content: center;
-
-    &.primary {
-        background: #0D0D0D;
-        a {
-            color: #fff;
-            text-decoration: none;
-            font-weight: 700;
-            font-size: 1.2rem;
-
-        }
-    }
-    &.secondary {
-        background: #a5a5a5;
-        a {
-            color: #fff;
-            text-decoration: none;
-            font-weight: 700;
-            font-size: 1.2rem;
-            
-        }
-    }
-`;
+import { HomeSection } from "./HomeSection"
+import { Banner } from "../../shared/components/Banner"
+import { ProductArrivals } from "./ProductArrival"
+import { CategoryOfMonth } from "./CategoryOfMonth"
 
 export const HomePage = () => {
 
@@ -99,9 +41,10 @@ export const HomePage = () => {
                     </HeroCarousel>
                 ) : null}
             </section>
-            <section className="container bg-gray">
-                <SectionTitle>Categories of the Month</SectionTitle>
-                <SectionDescription>Our top selling categories</SectionDescription>
+            <HomeSection
+                title="Categories of the Month"
+                description="Our top selling categories"
+            >
                 <div>
                     {categories ? (
                         <CategoryOfMonth>
@@ -110,19 +53,19 @@ export const HomePage = () => {
                                     <MonthCategoryCard
                                         key={category.id}
                                         data={category}
-                                         />
+                                    />
                                 )
                             })}
                         </CategoryOfMonth>
                     ) : null}
                 </div>
-            </section>
+            </HomeSection>
             <Banner className="secondary">
                 <Link to={APP_ROUTES.CATEGORIES}>View all categories</Link>
             </Banner>
-            <section className="container">
-                <SectionTitle>Latest Arrivals</SectionTitle>
-                <SectionDescription>Our latest product arrivals</SectionDescription>
+            <HomeSection
+                title="Latest Products"
+                description="Our latest products">
                 <div>
                     {products ? (
                         <ProductArrivals>
@@ -135,7 +78,7 @@ export const HomePage = () => {
                         </ProductArrivals>
                     ) : null}
                 </div>
-            </section>
+            </HomeSection>
             <Banner className="primary">
                 <Link to={APP_ROUTES.PRODUCTS}>View all products</Link>
             </Banner>
