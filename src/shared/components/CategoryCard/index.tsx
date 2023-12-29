@@ -3,7 +3,7 @@ import { APP_ROUTES, IMAGE_PLACEHOLDER } from "../../../constants"
 import { Category } from "../../../types"
 import styled from "styled-components"
 import { PencilSquareIcon, TrashIcon } from "../../Icons";
-import { AdminComponent } from "../../../guards/AdminComponent";
+import { AdminComponentGuard } from "../../../guards/AdminComponent";
 
 const Card = styled.li`
     position: relative;
@@ -81,7 +81,7 @@ export const CategoryCard: React.FC<Props> = ({ data, onDelete, onEdit }) => {
                 <img onError={(e) => e.currentTarget.src = IMAGE_PLACEHOLDER.IMAGE_300} src={data.image} alt={data.name} title={data.name} width={300} height={300} />
             </Link>
 
-            <AdminComponent>
+            <AdminComponentGuard>
                 <div className="overlay">
                     <button className="btn-rounded edit-btn" onClick={() => onEdit(data)}>
                         <PencilSquareIcon />
@@ -90,7 +90,7 @@ export const CategoryCard: React.FC<Props> = ({ data, onDelete, onEdit }) => {
                         <TrashIcon />
                     </button>
                 </div>
-            </AdminComponent>
+            </AdminComponentGuard>
         </Card>
     )
 }

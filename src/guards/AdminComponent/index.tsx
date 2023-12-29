@@ -4,7 +4,7 @@ type Props = {
     children: React.ReactNode
 }
 
-export const AdminComponent: React.FC<Props> = ({ children }) => {
+export const AdminComponentGuard: React.FC<Props> = ({ children }) => {
 
     const { isAdmin } = useAuth();
 

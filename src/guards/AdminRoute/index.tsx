@@ -12,7 +12,7 @@ type Props = {
     children: React.ReactNode
 }
 
-export const AdminRequired: React.FC<Props> = ({ children }) => {
+export const AdminRouteGuard: React.FC<Props> = ({ children }) => {
 
     const { isAdmin } = useAuth();
 

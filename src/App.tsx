@@ -20,9 +20,9 @@ import { CheckoutAddressPage } from "./pages/CheckoutPage/Address"
 import { CheckoutShippingPage } from "./pages/CheckoutPage/Shipping"
 import { CheckoutPaymentPage } from "./pages/CheckoutPage/Payment"
 import { ShoppingProvider } from "./contexts/ShoppingProvider"
-import { LoginRequired } from "./guards/LoginRequired"
-import { NoAuthOnly } from "./guards/NoAuthOnly"
-import { AdminRequired } from "./guards/AdminRequired"
+import { NoAuthenticatedRouteGuard } from "./guards/NoAuthenticatedRoute"
+import { AuthenticatedRouteGuard } from "./guards/AuthenticatedRoute"
+import { AdminRouteGuard } from "./guards/AdminRoute"
 
 
 const queryClient = new QueryClient();
@@ -40,54 +40,54 @@ function App() {
                   <Route element={<Layout />}>
                     <Route path={APP_ROUTES.HOME} element={<HomePage />} />
                     <Route path={APP_ROUTES.LOGIN} element={
-                      <NoAuthOnly>
+                      <NoAuthenticatedRouteGuard>
                         <LoginPage />
-                      </NoAuthOnly>
+                      </NoAuthenticatedRouteGuard>
                     } />
                     <Route path={APP_ROUTES.LOGOUT} element={
-                      <LoginRequired>
+                      <AuthenticatedRouteGuard>
                         <LogoutPage />
-                      </LoginRequired>
+                      </AuthenticatedRouteGuard>
                     } />
                     <Route path={APP_ROUTES.REGISTER} element={
-                      <NoAuthOnly>
+                      <NoAuthenticatedRouteGuard>
                         <RegisterPage />
-                      </NoAuthOnly>
+                      </NoAuthenticatedRouteGuard>
                     } />
                     <Route path={APP_ROUTES.CATEGORIES} element={<CategoriesPage />} />
                     <Route path={APP_ROUTES.PRODUCTS} element={<ProductsPage />} />
                     <Route path={APP_ROUTES.PRODUCT_DETAILS} element={<ProductDetailPage />} />
 
                     <Route path={APP_ROUTES.PRODUCT_CREATE} element={
-                      <AdminRequired>
+                      <AdminRouteGuard>
                         <ProductCreatePage />
-                      </AdminRequired>
+                      </AdminRouteGuard>
                     } />
                     <Route path={APP_ROUTES.PRODUCT_EDIT} element={
-                      <AdminRequired>
+                      <AdminRouteGuard>
                         <ProductEditPage />
-                      </AdminRequired>
+                      </AdminRouteGuard>
                     } />
                     <Route path={APP_ROUTES.CART} element={
-                      <LoginRequired>
+                      <AuthenticatedRouteGuard>
                         <CartPage />
-                      </LoginRequired>
+                      </AuthenticatedRouteGuard>
                     } />
                     <Route path={APP_ROUTES.ABOUT} element={<AboutPage />} />
                     <Route path={APP_ROUTES.CHECKOUT_ADDRESS} element={
-                      <LoginRequired>
+                      <AuthenticatedRouteGuard>
                         <CheckoutAddressPage />
-                      </LoginRequired>
+                      </AuthenticatedRouteGuard>
                     } />
                     <Route path={APP_ROUTES.CHECKOUT_SHIPPING} element={
-                      <LoginRequired>
+                      <AuthenticatedRouteGuard>
                         <CheckoutShippingPage />
-                      </LoginRequired>
+                      </AuthenticatedRouteGuard>
                     } />
                     <Route path={APP_ROUTES.CHECKOUT_PAYMENT} element={
-                      <LoginRequired>
+                      <AuthenticatedRouteGuard>
                         <CheckoutPaymentPage />
-                      </LoginRequired>
+                      </AuthenticatedRouteGuard>
                     } />
                     <Route path="*" element={<NotFoundPage />} />
                   </Route>

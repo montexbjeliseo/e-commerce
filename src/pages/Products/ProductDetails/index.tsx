@@ -9,8 +9,8 @@ import { Carousel } from "../../../shared/components/Carousel";
 import { QuantityInput } from "../../../shared/components/QuantityInput";
 import { useState } from "react";
 import { useCart } from "../../../contexts/CartProvider";
-import { LoggedUserComponent } from "../../../guards/LoggedUserComponent";
-import { NoLoggedUserComponent } from "../../../guards/NoLoggedUserComponent";
+import { AuthenticatedComponentGuard } from "../../../guards/AuthenticatedComponent";
+import { NoAuthenticatedComponentGuard } from "../../../guards/NoAuthenticatedComponent";
 
 export const ProductDetailPage = () => {
 
@@ -70,7 +70,7 @@ export const ProductDetailPage = () => {
                     <p><b>{data.category.name}</b></p>
                     <p><b>Description: </b>{data.description}</p>
                     <p><b>Price: </b>${data.price}</p>
-                    <LoggedUserComponent>
+                    <AuthenticatedComponentGuard>
                         <QuantityInput
                             quantity={quantity}
                             incrementQuantity={incrementQuantity}
@@ -89,12 +89,12 @@ export const ProductDetailPage = () => {
                         <div>
                             <button className="btn btn-primary" type="button" onClick={handleAddToCart}>{isProductInCart() ? 'Update cart ' : 'Add to cart '} {'$' + data.price * quantity}</button>
                         </div>
-                    </LoggedUserComponent>
-                    <NoLoggedUserComponent>
+                    </AuthenticatedComponentGuard>
+                    <NoAuthenticatedComponentGuard>
                         <p>
                             * You must be logged in to add products to the cart
                         </p>
-                    </NoLoggedUserComponent>
+                    </NoAuthenticatedComponentGuard>
                 </div>
             </div>
         </div>

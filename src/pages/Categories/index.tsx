@@ -12,7 +12,7 @@ import { CategoryCard } from "../../shared/components/CategoryCard";
 import { UpdateCategoryForm } from "./UpdateCategoryForm";
 import { DeleteCategory } from "./DeleteCategory";
 import { MODIFY_RESOURCE_ACTIONS, modifyResourceReducer } from "../../reducers/ModifyResourceReducer";
-import { AdminComponent } from "../../guards/AdminComponent";
+import { AdminComponentGuard } from "../../guards/AdminComponent";
 
 const NewCategoryLink = styled.b`
     cursor: pointer;
@@ -94,12 +94,12 @@ export const CategoriesPage = () => {
                 ) : null}
             </div>
             <p className="title">Browse our categories
-                <AdminComponent>
+                <AdminComponentGuard>
                     | <NewCategoryLink
                         onClick={() => setShowNewCategoryForm(true)}>
                         Create new
                     </NewCategoryLink>
-                </AdminComponent>
+                </AdminComponentGuard>
             </p>
             <ul className="categories">
                 {(data as Category[]).map((category) => (

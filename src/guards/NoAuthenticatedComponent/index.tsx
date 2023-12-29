@@ -4,7 +4,7 @@ type Props = {
     children: React.ReactNode
 }
 
-export const NoLoggedUserComponent: React.FC<Props> = ({ children }) => {
+export const NoAuthenticatedComponentGuard: React.FC<Props> = ({ children }) => {
 
     const { isAuthenticated } = useAuth();
  
