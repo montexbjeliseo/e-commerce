@@ -6,7 +6,7 @@ type Props = {
     children: React.ReactNode
 }
 
-export const LoginRequired: React.FC<Props> = ({ children }) => {
+export const AuthenticatedRouteGuard: React.FC<Props> = ({ children }) => {
     
     const { isAuthenticated } = useAuth();
 

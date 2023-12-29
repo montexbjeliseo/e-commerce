@@ -12,7 +12,7 @@ import { Modal } from "../Modal";
 import { DeleteProduct } from "../../../pages/Products/DeleteProduct";
 import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { AdminComponent } from "../../../guards/AdminComponent";
+import { AdminComponentGuard } from "../../../guards/AdminComponent";
 
 const CreateNewText = styled.p`
     a {
@@ -86,13 +86,13 @@ export const ProductList: React.FC<ProductListProps> = ({ filters }) => {
                     </Modal>
                 ) : null}
             </div>
-            <AdminComponent>
+            <AdminComponentGuard>
                 <CreateNewText>
                     <Link to={APP_ROUTES.PRODUCT_CREATE}>
                         Create new
                     </Link>
                 </CreateNewText>
-            </AdminComponent>
+            </AdminComponentGuard>
 
             <div className="product-list">
 

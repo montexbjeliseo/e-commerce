@@ -3,7 +3,7 @@ import { Product } from "../../../types"
 import { APP_ROUTES, IMAGE_PLACEHOLDER } from "../../../constants"
 import { PencilSquareIcon, TrashIcon } from "../../Icons"
 import styled from "styled-components"
-import { AdminComponent } from "../../../guards/AdminComponent"
+import { AdminComponentGuard } from "../../../guards/AdminComponent"
 
 const Card = styled.article`
     img {
@@ -117,7 +117,7 @@ export const ProductCard: React.FC<Props> = ({ data, onDelete, onEdit }) => {
                     View Details
                 </Link>
             </div>
-            <AdminComponent>
+            <AdminComponentGuard>
                 <div className="overlay-admin">
                     <button
                         className="btn-rounded edit-btn"
@@ -132,7 +132,7 @@ export const ProductCard: React.FC<Props> = ({ data, onDelete, onEdit }) => {
                         <TrashIcon />
                     </button>
                 </div>
-            </AdminComponent>
+            </AdminComponentGuard>
         </Card>
     )
 }

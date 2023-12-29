@@ -5,8 +5,8 @@ import { useState } from "react";
 import { BurgerButton } from "../BurgerButton";
 import { APP_ROUTES } from "../../../constants";
 import { useCart } from "../../../contexts/CartProvider";
-import { LoggedUserComponent } from "../../../guards/LoggedUserComponent";
-import { NoLoggedUserComponent } from "../../../guards/NoLoggedUserComponent";
+import { NoAuthenticatedComponentGuard } from "../../../guards/NoAuthenticatedComponent";
+import { AuthenticatedComponentGuard } from "../../../guards/AuthenticatedComponent";
 
 export const Navbar = () => {
 
@@ -39,22 +39,22 @@ export const Navbar = () => {
                         <li className="cart-link">
                             <Link onClick={handleClickLink} to={APP_ROUTES.CART}>
                                 <img src={CartIcon} alt="Cart icon" />
-                                <LoggedUserComponent><sup>{items.length}</sup></LoggedUserComponent>
+                                <AuthenticatedComponentGuard><sup>{items.length}</sup></AuthenticatedComponentGuard>
                             </Link>
                         </li>
 
-                        <LoggedUserComponent>
+                        <AuthenticatedComponentGuard>
                             {/* <li className="register-link"><a>Profile</a></li> */}
                             <li className="login-link"><Link onClick={handleClickLink} to={APP_ROUTES.LOGOUT}>Logout</Link></li>
-                        </LoggedUserComponent>
-                        <NoLoggedUserComponent>
+                        </AuthenticatedComponentGuard>
+                        <NoAuthenticatedComponentGuard>
                             <li className="login-link">
                                 <Link onClick={handleClickLink} to={APP_ROUTES.LOGIN}>Login</Link>
                             </li>
                             <li className="register-link">
                                 <Link onClick={handleClickLink} to={APP_ROUTES.REGISTER}>Register</Link>
                             </li>
-                        </NoLoggedUserComponent>
+                        </NoAuthenticatedComponentGuard>
                     </ul>
                 </nav>
 
