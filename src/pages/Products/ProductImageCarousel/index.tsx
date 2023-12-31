@@ -3,7 +3,7 @@ import "./styles.css"
 import { TrashIcon } from '../../../shared/Icons';
 import { Modal } from '../../../shared/components/Modal';
 import styled from 'styled-components';
-
+import { v4 as uuidv4 } from 'uuid';
 
 const Slide = styled.div`
 position: relative;
@@ -84,7 +84,7 @@ export const ProductImageCarousel: React.FC<CarouselProps> = ({ images, onRemove
             <div className="slideshow-container">
 
                 {images.map((image, index) => (
-                    <Slide key={crypto.randomUUID()} className={`mySlides fade ${index === currentIndex ? 'active' : ''}`}>
+                    <Slide key={uuidv4()} className={`mySlides fade ${index === currentIndex ? 'active' : ''}`}>
                         <div className="numbertext">{`${currentIndex + 1} / ${images.length}`}</div>
                         <img src={image} />
                         <div className="overlay">

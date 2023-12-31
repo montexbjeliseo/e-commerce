@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import "./styles.css"
+import { v4 as uuidv4 } from 'uuid';
 
 type CarouselProps = {
     images: string[];
@@ -21,7 +22,7 @@ export const Carousel: React.FC<CarouselProps> = ({ images }) => {
             <div className="slideshow-container">
 
                 {images.map((image, index) => (
-                    <div key={crypto.randomUUID()} className={`mySlides fade ${index === currentIndex ? 'active' : ''}`}>
+                    <div key={uuidv4()} className={`mySlides fade ${index === currentIndex ? 'active' : ''}`}>
                         <div className="numbertext">{`${currentIndex + 1} / ${images.length}`}</div>
                         <img src={image} />
                     </div>

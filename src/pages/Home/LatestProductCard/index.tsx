@@ -10,8 +10,7 @@ type Props = {
 
 const LatestProductCardContainer = styled.article`
     display: flex;
-    width: 100%;
-
+    
     .col1 {
         grid-area: col1;
     }
@@ -48,6 +47,15 @@ const LatestProductCardContainer = styled.article`
     &.flip {
        flex-direction: row-reverse;
        justify-content: space-between;
+    }
+
+    @media (max-width: 576px) {
+        width: 100%;
+        flex-direction: column;
+        padding: 0 20px;
+        img {
+            width: 100%;
+        }
     }
 `;
 

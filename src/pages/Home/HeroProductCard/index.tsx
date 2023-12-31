@@ -37,6 +37,12 @@ const HeroProductCardContainer = styled.div`
             color: #fff;
             background: #0D0D0D;
         }
+
+        @media (max-width: 576px) {
+            color: #fff;
+            text-shadow: 0 0 10px #000;
+            position: absolute;
+        }
     }
 
     .product-price {
@@ -45,6 +51,10 @@ const HeroProductCardContainer = styled.div`
     .product-description {
         opacity: 0.5;
         font-size: 1.1rem;
+    }
+
+    @media (max-width: 576px) {
+        grid-template-columns: 1fr;
     }
 `;
 

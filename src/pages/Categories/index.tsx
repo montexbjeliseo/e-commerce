@@ -24,8 +24,6 @@ const NewCategoryLink = styled.b`
     }
 `;
 
-
-
 export const CategoriesPage = () => {
 
     const { data, isLoading, isError, refetch } = useQuery(QUERY_KEYS.CATEGORIES, async () => {

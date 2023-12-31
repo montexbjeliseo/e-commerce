@@ -7,4 +7,8 @@ export const CategoryOfMonth = styled.ul`
     padding: 0 20px;
     list-style: none;
     list-style-type: none;
+
+    @media screen and (max-width: 576px) {
+        grid-template-columns: repeat(1, 1fr);
+    }
 `;

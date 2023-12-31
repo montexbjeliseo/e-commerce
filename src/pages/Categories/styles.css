@@ -15,13 +15,11 @@
     display: grid;
     list-style-type: none;
     list-style: none;
-    gap: 10px;
+    gap: 20px;
     grid-template-columns: repeat(4, minmax(100px, 1fr));
     max-width: 900px;
     margin: auto;
 }
-
-
 
 .center {
     display: flex;
@@ -33,4 +31,12 @@
     .categories {
         grid-template-columns: repeat(3, minmax(90px, 1fr));
     }
+}
+
+@media screen and (max-width: 576px) {
+    .categories {
+        grid-template-columns: 1fr;
+        padding: 0 20px;
+    }
+    
 }
