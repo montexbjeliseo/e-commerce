@@ -8,6 +8,7 @@ const SlideShowContainer = styled.section`
   }
   width: 100%;
   height: 80vh;
+  max-height: 600px;
   position: relative;
 
 /* Hide the images by default */

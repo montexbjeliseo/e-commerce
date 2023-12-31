@@ -11,6 +11,7 @@ const HeroProductCardContainer = styled.div`
     .product-info {
         width: 100%;
         height: 80vh;
+        max-height: 600px;
     }
     .product-image {
         img {

@@ -30,6 +30,9 @@
     flex-shrink: 0;
     cursor: pointer;
 }
+.close-filter {
+    display: none;
+}
 
 @media screen and (max-width: 768px) {
     .product-container {
@@ -72,6 +75,7 @@
         cursor: pointer;
         font-size: 2rem;
         opacity: 0.5;
+        display: block;
     }
 
     .close-filter:active {
