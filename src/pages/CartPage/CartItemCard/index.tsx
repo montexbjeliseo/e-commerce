@@ -8,6 +8,9 @@ const CartItemCardContainer = styled.div`
 display: flex;
 gap: 20px;
 position: relative;
+
+
+
 img {
     width: 100%;
     height: 100%;
@@ -58,6 +61,15 @@ img {
 .btn-remove:hover {
     opacity: 1;
     cursor: pointer;
+}
+
+@media screen and (max-width: 576px) {
+    flex-direction: column;
+
+    .image {
+        width: 100%;
+        height: 129px;
+    }
 }
 `;
 

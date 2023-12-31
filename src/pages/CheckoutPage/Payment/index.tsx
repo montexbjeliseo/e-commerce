@@ -50,6 +50,18 @@ const Container = styled.div`
             gap: 18px;
         }
     }
+
+    @media screen and (max-width: 576px) {
+        grid-template-columns: 1fr;
+        padding: 20px;
+        box-sizing: border-box;
+
+        form {
+            .cols-3 {
+                grid-template-columns: 1fr;
+            }
+        }
+    }
 `;
 
 type CreditCard = {

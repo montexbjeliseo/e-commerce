@@ -29,6 +29,11 @@ const Container = styled.div`
         gap: 20px;
         height: 100%;
     }
+
+    @media screen and (max-width: 576px) {
+        grid-template-columns: 1fr;
+        padding: 20px;
+    }
 `;
 
 const Label = styled.label`

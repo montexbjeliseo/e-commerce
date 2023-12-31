@@ -22,13 +22,11 @@
 .cart-page-container .section-caption {
     padding: 10px 0;
     color: #000;
-
-/* Paragraph 03 */
     font-family: Public Sans;
     font-size: 16px;
     font-style: normal;
     font-weight: 500;
-    line-height: 26px; /* 162.5% */
+    line-height: 26px;
     letter-spacing: -0.2px;
 }
 
@@ -58,4 +56,19 @@
     line-height: 44px;
     /* 122.222% */
     letter-spacing: -1.5px;
+}
+
+@media screen and (max-width: 576px) {
+    .cart-page-container {
+        grid-template-columns: repeat(1, 1fr);
+    }
+
+    .cart-page-container section,
+    .cart-page-title {
+        padding: 0 20px;
+    }
+
+    .cart-page-container aside {
+        width: 100%;
+    }
 }

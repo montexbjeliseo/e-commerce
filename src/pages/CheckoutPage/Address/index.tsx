@@ -48,6 +48,11 @@ const Container = styled.section`
     .mb-1 {
         margin-bottom: 1rem;
     }
+
+    @media screen and (max-width: 576px) {
+        grid-template-columns: 1fr;
+        padding: 20px;
+    }
 `;
 
 export const CheckoutAddressPage = () => {
