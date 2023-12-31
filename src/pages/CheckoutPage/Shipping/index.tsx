@@ -34,6 +34,9 @@ const Container = styled.div`
         grid-template-columns: 1fr;
         padding: 20px;
     }
+    @media screen and (max-width: 768px) {
+        padding: 0 20px;
+    }
 `;
 
 const Label = styled.label`

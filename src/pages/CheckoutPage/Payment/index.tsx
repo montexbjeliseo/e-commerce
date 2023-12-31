@@ -51,7 +51,7 @@ const Container = styled.div`
         }
     }
 
-    @media screen and (max-width: 576px) {
+    @media screen and (max-width: 768px) {
         grid-template-columns: 1fr;
         padding: 20px;
         box-sizing: border-box;

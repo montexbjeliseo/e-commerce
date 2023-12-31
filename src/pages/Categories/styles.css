@@ -40,3 +40,10 @@
     }
     
 }
+
+@media screen and (min-width: 576px) and (max-width: 768px) {
+    .categories {
+        padding: 0 20px;
+        grid-template-columns: repeat(2, minmax(90px, 1fr));
+    }   
+}

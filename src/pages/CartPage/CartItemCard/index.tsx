@@ -63,7 +63,7 @@ img {
     cursor: pointer;
 }
 
-@media screen and (max-width: 576px) {
+@media screen and (max-width: 768px) {
     flex-direction: column;
 
     .image {
