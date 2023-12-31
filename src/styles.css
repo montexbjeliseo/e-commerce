@@ -87,3 +87,10 @@ body {
 .search-input {
     background-color: transparent;
 }
+
+@media screen and (max-width: 576px) {
+    .container {
+        width: 100%;
+    }
+    
+}

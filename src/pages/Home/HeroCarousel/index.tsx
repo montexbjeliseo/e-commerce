@@ -1,5 +1,6 @@
 import { useState } from "react";
 import styled from "styled-components"
+import { v4 as uuidv4 } from 'uuid';
 
 const SlideShowContainer = styled.section`
   *, & {
@@ -101,7 +102,7 @@ export const HeroCarousel: React.FC<Props> = ({ children }) => {
       <SlideShowContainer>
         {children.map((child, index) => {
           return (
-            <div key={crypto.randomUUID()} className={`mySlides fade ${index === currentSlide ? 'active' : ''}`}>
+            <div key={uuidv4()} className={`mySlides fade ${index === currentSlide ? 'active' : ''}`}>
               {child}
             </div>
           )
@@ -113,7 +114,7 @@ export const HeroCarousel: React.FC<Props> = ({ children }) => {
       <SlideShowDots>
         {[...Array(children.length).keys()].map((index) => {
           return (
-            <span key={crypto.randomUUID()} className={`dot ${index === currentSlide ? 'active' : ''}`} onClick={() => setCurrentSlide(index)}></span>
+            <span key={uuidv4()} className={`dot ${index === currentSlide ? 'active' : ''}`} onClick={() => setCurrentSlide(index)}></span>
           )
         })}
       </SlideShowDots>
