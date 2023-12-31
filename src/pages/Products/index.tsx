@@ -10,6 +10,7 @@ import { useState } from "react";
 import { fetchCategories } from "../../api";
 import { useLocation, useNavigate } from "react-router-dom";
 import { readProductFiltersFromSearchParams } from "../../utils/functions";
+import { FunnelIcon } from "../../shared/Icons";
 
 
 export const ProductsPage = () => {
@@ -23,6 +24,8 @@ export const ProductsPage = () => {
     const [filters, setFilters] = useState<ProductFilters>(
         readProductFiltersFromSearchParams(searchParams)
     );
+
+    const [filtersAsModal, setFiltersAsModal] = useState(false);
 
     const {
         data: categories,
@@ -55,12 +58,19 @@ export const ProductsPage = () => {
 
         setFilters(newFilters);
 
+        setFiltersAsModal(false);
+
     }
 
     const clearFiltersHandler = () => {
         const newSearchParams = new URLSearchParams();
         navigate(`?${newSearchParams.toString()}`, { replace: true });
         setFilters({});
+        setFiltersAsModal(false);
+    }
+
+    const handleFilterModal = () => {
+        setFiltersAsModal(!filtersAsModal);
     }
 
     return (
@@ -68,7 +78,9 @@ export const ProductsPage = () => {
             <section className="container center">
                 <h1 className="title">Products</h1>
                 <div className="product-container">
-                    <aside>
+                    <button className={`toggle-filter-btn ${!filtersAsModal ? "active" : ""}`} onClick={handleFilterModal}><FunnelIcon /></button>
+                    <aside className={`${filtersAsModal ? "asModal" : ""}`}>
+                    <button className={`close-filter ${filtersAsModal ? "active" : ""}`} onClick={handleFilterModal}>X</button>
                         <h2>Filters</h2>
                         <ProductFilterForm
                             categories={categories as Category[]}

@@ -7,8 +7,6 @@ const TopButtonStyled = styled.button`
     position: fixed;
     bottom: 20px;
     right: 20px;
-    width: 32px;
-    height: 32px;
 
     &.visible {
         display: block;
@@ -42,7 +40,7 @@ export const TopButton = () => {
   }, []);
 
   return (
-    <TopButtonStyled className={`scroll-btn ${isVisible ? 'visible' : ''}`} onClick={scrollToTop}>
+    <TopButtonStyled className={`btn scroll-btn ${isVisible ? 'visible' : ''}`} onClick={scrollToTop}>
       <ArrowUpIcon />
     </TopButtonStyled>
   );
