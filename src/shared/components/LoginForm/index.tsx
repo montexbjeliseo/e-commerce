@@ -26,7 +26,7 @@ export const LoginForm: React.FC<LoginFormProps> = ({ handleFormSubmit }) => {
                     <input type="checkbox" name="" id="" /> Remember me
                 </div>
                 <div>
-                    <a href="">Forgot password?</a>
+                    <a href="#">Forgot password?</a>
                 </div>
             </div>
             <input className="btn btn-primary" type="submit" value="Login" />
