@@ -18,7 +18,7 @@ const FooterContainer = styled.footer`
 export const Footer = () => {
     return (
         <FooterContainer>
-            @montexbjeliseo.  All rights reserved.
+            © 2024 montexbjeliseo.  All rights reserved.
         </FooterContainer>
     )
 }
