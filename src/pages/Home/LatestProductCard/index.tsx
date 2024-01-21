@@ -5,31 +5,39 @@ import { Link } from "react-router-dom";
 
 type Props = {
     product: Product;
-    flip?: boolean;
 }
 
 const LatestProductCardContainer = styled.article`
+    max-height: 200px; 
+    padding: 0;
+    box-sizing: border-box;
     display: flex;
-    
-    .col1 {
-        grid-area: col1;
-    }
+    width: 100%;
 
-    .col2 {
-        grid-area: col2;
-        padding: 20px;
+    border: 2px solid rgb(43, 43, 43);
+    border-radius: 7px;
+
+    .product-information {
+        width: 100%;
+        padding: 0;
+        margin: 0;
+        padding-left: 10px;
         display: flex;
         flex-direction: column;
         justify-content: space-between;
-        gap: 18px;
 
         a {
             text-decoration: none;
             background-color: #0D0D0D;
             color: #fff;
             font-weight: 700;
-            padding: 12px;
-            border: 1px solid #0D0D0D;
+            padding: 10px;
+            border: 2px solid rgb(43, 43, 43);
+            border-radius: 7px;
+        }
+
+        a:hover {
+            background-color: #010101;
         }
 
         a:active {
@@ -39,37 +47,30 @@ const LatestProductCardContainer = styled.article`
     }
 
     img {
-        width: 300px;
-        height: 300px;
+        max-width: 200px;
+        max-height: 200px;
         object-fit: cover;
-    }
-
-    &.flip {
-       flex-direction: row-reverse;
-       justify-content: space-between;
     }
 
     @media (max-width: 576px) {
         width: 100%;
         flex-direction: column;
-        padding: 0 20px;
         img {
             width: 100%;
         }
     }
 `;
 
-export const LatestProductCard: React.FC<Props> = ({ product, flip }) => {
+export const LatestProductCard: React.FC<Props> = ({ product }) => {
 
     return (
-        <LatestProductCardContainer className={flip ? "flip" : ""}>
-            <div className="col1 product-image">
+        <LatestProductCardContainer>
+            <div>
                 <img src={product.images[0]} alt={product.title} onError={(e) => e.currentTarget.src = IMAGE_PLACEHOLDER.IMAGE_300} />
             </div>
-            <div className="col2 product-info">
+            <div className="product-information">
                 <h1>{product.title}</h1>
-                <p className="product-description">{product.description}</p>
-                <p className="product-price">${product.price}</p>
+                <p>${product.price}</p>
                 <p><Link to={APP_ROUTES.PRODUCT_DETAILS.replace(':id', product.id.toString())}>View Details</Link></p>
             </div>
         </LatestProductCardContainer>

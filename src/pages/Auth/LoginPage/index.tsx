@@ -1,14 +1,31 @@
 import { Link, useLocation, useNavigate } from "react-router-dom"
 import { LoginForm } from "../../../shared/components/LoginForm"
-import "./styles.css"
 import { Loading } from "../../../shared/components/Loading"
 import { useEffect, useState } from "react"
 import { useAuth } from "../../../contexts/AuthProvider"
 import { APP_ROUTES, ERROR } from "../../../constants"
+import { FullContainer } from "../../../shared/components/FullContainer"
+import { Overlay } from "../../../shared/components/Overlay"
+import { FormContainer } from "../FormContainer"
+import styled from "styled-components"
+import { DangerText } from "../../../shared/components/DangerText"
+
+const DontHaveAnAccountText = styled.p`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    margin-top: 30px;
+    color: #A9ABBD;
+
+    a {
+        text-decoration: none;
+        color: #A9ABBD;
+        font-weight: bold;
+    }
+`;
 
 export const LoginPage = () => {
-
-    // !May be better to use reducer here
 
     const [isLoading, setIsLoading] = useState(false);
 
@@ -50,20 +67,22 @@ export const LoginPage = () => {
     }, [isAuthenticated, navigate]);
 
     return (
-        <div className="container">
-            <div className="form-container login-container">
-                <h1 className="title center">Welcome back!</h1>
-                <div className="error-message">
+        <FullContainer>
+            <FormContainer>
+                <h2>Welcome back!</h2>
+                <DangerText>
                     {isError ? `${error}` : ""}
-                </div>
+                </DangerText>
                 <LoginForm handleFormSubmit={handleLoginFormSubmit} />
-                <div className={`loader-overlay ${isLoading ? 'active' : ''}`}>
+                <Overlay active={isLoading}>
                     <Loading />
-                </div>
-            </div>
-            <p className="text-create-account">Don't have an account?
+                </Overlay>
+            </FormContainer>
+
+            <DontHaveAnAccountText>Don't have an account?
                 <Link to={APP_ROUTES.REGISTER}>Register</Link>
-            </p>
-        </div>
+            </DontHaveAnAccountText>
+
+        </FullContainer>
     )
 }

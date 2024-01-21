@@ -1,4 +1,5 @@
 import { useId } from "react";
+import { InputText } from "../InputText";
 
 type LabeledInputProps = {
     label: string;
@@ -15,7 +16,7 @@ export const LabeledInput: React.FC<LabeledInputProps> = ({ label, name, type, p
     return (
         <>
             <label htmlFor={textInputId}>{label}</label>
-            <input required={required} className="text-input" placeholder={placeholder} type={type} name={name} id={textInputId} />
+            <InputText required={required} className="text-input" placeholder={placeholder} type={type} name={name} id={textInputId} />
         </>
     )
 }

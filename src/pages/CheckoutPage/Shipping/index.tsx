@@ -5,37 +5,19 @@ import { FormEvent, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { APP_ROUTES } from "../../../constants";
 import { useShopping } from "../../../contexts/ShoppingProvider";
+import { FullContainer } from "../../../shared/components/FullContainer";
+import { CartPageLayout } from "../../CartPage/CartPageLayout";
+import { Button } from "../../../shared/components/Button";
 
-const Container = styled.div`
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 40px;
-
-    .options {
-        display: flex;
-        flex-direction: column;
-        gap: 18px;
-    }
-    .options li {
+const Options = styled.ul`
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    li {
         list-style: none;
         height: 89px;
-        background: #fff;
+        // background: #fff;
         padding: 20px;
-    }
-
-    form {
-        display: flex;
-        flex-direction: column;
-        gap: 20px;
-        height: 100%;
-    }
-
-    @media screen and (max-width: 576px) {
-        grid-template-columns: 1fr;
-        padding: 20px;
-    }
-    @media screen and (max-width: 768px) {
-        padding: 0 20px;
     }
 `;
 
@@ -62,39 +44,41 @@ export const CheckoutShippingPage = () => {
     }
 
     useEffect(() => {
-        if(!isAddressInfoValid()){
+        if (!isAddressInfoValid()) {
             navigate(APP_ROUTES.CHECKOUT_ADDRESS);
         }
     }, []);
 
     return (
-        <main className="container p-3">
-            <h1>Checkout Address</h1>
-            <Container>
-                <section>
-                    <CheckoutSteps position={2} />
-                    <form onSubmit={handleSubmit}>
-                        <ul className="options">
-                            {shippingMethods && shippingMethods.map((method, index) => (
-                                <li key={method.id}>
-                                    <Label>
-                                        <p>
-                                            <input type="radio" name="shipping" id="" value={method.id} defaultChecked={index === 0} />
-                                        </p>
-                                        <p>
-                                            <strong>{method.name}</strong>
-                                            <br />
-                                            {method.description}
-                                        </p>
-                                    </Label>
-                                </li>
-                            ))}
-                        </ul>
-                        <button className="btn btn-primary">Continue</button>
-                    </form>
-                </section>
-                <PreviewCartItem />
-            </Container>
-        </main>
+        <FullContainer>
+            <main className="container p-3">
+                <h2>Checkout Address</h2>
+                <CartPageLayout>
+                    <section>
+                        <CheckoutSteps position={2} />
+                        <form onSubmit={handleSubmit}>
+                            <Options>
+                                {shippingMethods && shippingMethods.map((method, index) => (
+                                    <li key={method.id}>
+                                        <Label>
+                                            <p>
+                                                <input type="radio" name="shipping" value={method.id} defaultChecked={index === 0} />
+                                            </p>
+                                            <p>
+                                                <strong>{method.name}</strong>
+                                                <br />
+                                                {method.description}
+                                            </p>
+                                        </Label>
+                                    </li>
+                                ))}
+                            </Options>
+                            <Button>Continue</Button>
+                        </form>
+                    </section>
+                    <PreviewCartItem />
+                </CartPageLayout>
+            </main>
+        </FullContainer>
     )
 }

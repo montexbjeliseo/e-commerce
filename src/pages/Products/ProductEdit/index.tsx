@@ -5,13 +5,17 @@ import { ErrorMessage } from "../../../shared/components/ErrorMessage";
 import { useQuery } from "react-query";
 import { QUERY_KEYS } from "../../../constants";
 import { useEffect, useReducer, useState } from "react";
-import { Button } from "../../../shared/components/Styled/Button";
 import { Form } from "../../../shared/components/Styled/Form";
 import { Modal } from "../../../shared/components/Modal";
 import { UploadImage } from "../../../shared/components/UploadImage";
 import { SelectProductCategory } from "../../../shared/components/SelectProductCategory";
 import { CheckIcon } from "../../../shared/components/CheckIcon";
 import { ProductImageCarousel } from "../ProductImageCarousel";
+import { Button } from "../../../shared/components/Button";
+import { InputText } from "../../../shared/components/InputText";
+import { Textarea } from "../../../shared/components/Textarea";
+import { FullContainer } from "../../../shared/components/FullContainer";
+import { ProductDetailContainer, ProductInformationContainer } from "../ProductLayout";
 
 
 
@@ -156,115 +160,115 @@ export const ProductEditPage = () => {
     }
 
     return (
-        <div className="container">
-            <Modal
-                isOpen={showAddImage}
-                onClose={() => setShowAddImage(false)}
-            >
-                <UploadImage
-                    onUpload={addImage} />
-            </Modal>
+        <FullContainer>
+            <main>
+                <Modal
+                    isOpen={showAddImage}
+                    onClose={() => setShowAddImage(false)}
+                >
+                    <UploadImage
+                        onUpload={addImage} />
+                </Modal>
 
-            <Modal
-                isOpen={product.isLoading}
-                onClose={() => {
-                    dispatch({
-                        type: EDIT_PRODUCT_ACTION_TYPES.SET_IS_LOADING,
-                        payload: false
-                    })
-                }}
-            >
-                <div>
-                    <Loading />
-                    <p>Please wait...</p>
-                </div>
-            </Modal>
-
-            <Modal
-                isOpen={product.isError}
-                onClose={() => {
-                    dispatch({
-                        type: EDIT_PRODUCT_ACTION_TYPES.SET_IS_ERROR,
-                        payload: false
-                    })
-                }}
-            >
-                <div>
-                    <div className="error-icon">
-                        <CheckIcon checked={false} />
-                    </div>
-                    <div className="error-message">
-                        An error has occurred.
-                    </div>
-                </div>
-            </Modal>
-            <Modal
-                isOpen={product.isSuccess}
-                onClose={() => {
-                    dispatch({
-                        type: EDIT_PRODUCT_ACTION_TYPES.SET_IS_SUCCESS,
-                        payload: false
-                    })
-                }}
-            >
-                <div>
-                    <div className="error-icon">
-                        <CheckIcon checked={true} />
-                    </div>
+                <Modal
+                    isOpen={product.isLoading}
+                    onClose={() => {
+                        dispatch({
+                            type: EDIT_PRODUCT_ACTION_TYPES.SET_IS_LOADING,
+                            payload: false
+                        })
+                    }}
+                >
                     <div>
-                        Product updated successfully.
+                        <Loading />
+                        <p>Please wait...</p>
                     </div>
-                </div>
-            </Modal>
-            {data ? (
-                <>
-                    <h1>Edit Product</h1>
-                    <div className="product-details-container">
-                        <div className="product-images-container">
+                </Modal>
+
+                <Modal
+                    isOpen={product.isError}
+                    onClose={() => {
+                        dispatch({
+                            type: EDIT_PRODUCT_ACTION_TYPES.SET_IS_ERROR,
+                            payload: false
+                        })
+                    }}
+                >
+                    <div>
+                        <div className="error-icon">
+                            <CheckIcon checked={false} />
+                        </div>
+                        <div className="error-message">
+                            An error has occurred.
+                        </div>
+                    </div>
+                </Modal>
+                <Modal
+                    isOpen={product.isSuccess}
+                    onClose={() => {
+                        dispatch({
+                            type: EDIT_PRODUCT_ACTION_TYPES.SET_IS_SUCCESS,
+                            payload: false
+                        })
+                    }}
+                >
+                    <div>
+                        <div className="error-icon">
+                            <CheckIcon checked={true} />
+                        </div>
+                        <div>
+                            Product updated successfully.
+                        </div>
+                    </div>
+                </Modal>
+                {data ? (
+                    <>
+                        <h1>Edit Product</h1>
+                        <ProductDetailContainer>
                             <ProductImageCarousel images={product.images} onRemoveImage={removeImage} />
-                        </div>
-                        <div className="product-details-description-container">
-                            <h2>Product Information</h2>
-                            <Form onSubmit={handleSubmit}>
-                                <label>
-                                    Title:
-                                    <input
-                                        type="text"
-                                        name="title"
-                                        placeholder="Enter product title"
-                                        defaultValue={data.title}
-                                    />
-                                </label>
-                                <label>
-                                    Price:
-                                    <input
-                                        type="number"
-                                        name="price"
-                                        placeholder="Enter product price"
-                                        defaultValue={data.price}
-                                    />
-                                </label>
-                                <label>
-                                    Category:
-                                    <SelectProductCategory selected={data.category.id} />
-                                </label>
-                                <label>
-                                    Description:
-                                    <textarea
-                                        name="description"
-                                        placeholder="Enter product description"
-                                        defaultValue={data.description}
-                                        rows={5}></textarea>
-                                </label>
-                                <div>
-                                    <Button type="button" onClick={handleClickAddImage}>Add Image</Button>
-                                    <Button type="submit">Save product</Button>
-                                </div>
-                            </Form>
-                        </div>
-                    </div>
-                </>
-            ) : null}
-        </div>
+                            <ProductInformationContainer>
+                                <h2>Product Information</h2>
+                                <Form onSubmit={handleSubmit}>
+                                    <label>
+                                        Title:
+                                        <InputText
+                                            type="text"
+                                            name="title"
+                                            placeholder="Enter product title"
+                                            defaultValue={data.title}
+                                        />
+                                    </label>
+                                    <label>
+                                        Price:
+                                        <InputText
+                                            type="number"
+                                            name="price"
+                                            placeholder="Enter product price"
+                                            defaultValue={data.price}
+                                        />
+                                    </label>
+                                    <label>
+                                        Category:
+                                        <SelectProductCategory selected={data.category.id} />
+                                    </label>
+                                    <label>
+                                        Description:
+                                        <Textarea
+                                            name="description"
+                                            placeholder="Enter product description"
+                                            defaultValue={data.description}
+                                            rows={5}></Textarea>
+                                    </label>
+                                    <div>
+                                        <Button type="button" onClick={handleClickAddImage}>Add Image</Button>
+                                        <Button type="submit">Save product</Button>
+                                    </div>
+                                </Form>
+                            </ProductInformationContainer>
+                        </ProductDetailContainer>
+                    </>
+                ) : null}
+            </main>
+        </FullContainer>
     )
 }

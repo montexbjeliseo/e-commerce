@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import checkIcon from '../../../assets/icons/check.png';
 import invalidIcon from '../../../assets/icons/invalid.png';
+import { InputText } from "../InputText";
 
 const Container = styled.div`
     display: flex;
@@ -33,7 +34,7 @@ type Props = {
 export const ValidableField: React.FC<Props> = ({ name, value, onChange, placeholder, isValid }) => {
     return (
         <Container>
-            <input
+            <InputText
                 className="text-input"
                 type="text"
                 name={name}

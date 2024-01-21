@@ -12,6 +12,9 @@ import { APP_ROUTES } from "../../../constants";
 import { ValidableField } from "../../../shared/components/ValidableField";
 import { CreditCardIcon } from "../../../shared/components/CreditCardIcon";
 import { CheckIcon } from "../../../shared/components/CheckIcon";
+import { FullContainer } from "../../../shared/components/FullContainer";
+import { InputText } from "../../../shared/components/InputText";
+import { Button } from "../../../shared/components/Button";
 
 const Container = styled.div`
     display: grid;
@@ -168,8 +171,6 @@ export const CheckoutPaymentPage = () => {
     const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
-        // const formData = Object.fromEntries(new FormData(e.target as HTMLFormElement));
-
         if (
             creditCard.cardHolderValidation?.isValid &&
             creditCard.cardNumberValidation?.isValid &&
@@ -203,92 +204,94 @@ export const CheckoutPaymentPage = () => {
     }, []);
 
     return (
-        <main className="container p-3">
-            <h1>Checkout</h1>
-            <Container>
-                <section>
-                    <CheckoutSteps position={3} />
-                    <div>
-                        {shopSuccess ? <h2>Thank you for your order!</h2> : <h2>Payment</h2>}
-                    </div>
-                    {shopSuccess ? (
-                        <p className="success-message">Your order has been placed! We will send you a confirmation email shortly.</p>
-                    ) : (
-                        <form onSubmit={handleSubmit}>
-                            <ValidableField
-                                name="card_holder"
-                                placeholder="Card Holder"
-                                value={creditCard.cardHolder}
-                                onChange={(e) => dispatch({ type: ACTION_TYPES.setCardHolder, payload: e.currentTarget.value })}
-                                isValid={creditCard.cardHolderValidation?.isValid && creditCard.cardHolder.length > 5 ? true : false}
-                            />
-                            <div className="card-number">
-                                <input
-                                    className="text-input"
-                                    type="text"
-                                    name="card_number"
-                                    placeholder="Card Number"
-                                    value={creditCard.cardNumber}
-                                    onChange={(e) => dispatch({ type: ACTION_TYPES.setCardNumber, payload: e.currentTarget.value })} />
-                                <div className="card-icon">
-                                    
-                                    <CreditCardIcon
-                                        number={creditCard.cardNumber}
-                                    />
-                                    <CheckIcon
-                                        checked={
-                                            creditCard.cardNumberValidation?.isValid || false
+        <FullContainer>
+            <main className="container p-3">
+                <h2>Checkout</h2>
+                <Container>
+                    <section>
+                        <CheckoutSteps position={3} />
+                        <div>
+                            {shopSuccess ? <h3>Thank you for your order!</h3> : <h3>Payment</h3>}
+                        </div>
+                        {shopSuccess ? (
+                            <p className="success-message">Your order has been placed! We will send you a confirmation email shortly.</p>
+                        ) : (
+                            <form onSubmit={handleSubmit}>
+                                <ValidableField
+                                    name="card_holder"
+                                    placeholder="Card Holder"
+                                    value={creditCard.cardHolder}
+                                    onChange={(e) => dispatch({ type: ACTION_TYPES.setCardHolder, payload: e.currentTarget.value })}
+                                    isValid={creditCard.cardHolderValidation?.isValid && creditCard.cardHolder.length > 5 ? true : false}
+                                />
+                                <div className="card-number">
+                                    <InputText
+                                        className="text-input"
+                                        type="text"
+                                        name="card_number"
+                                        placeholder="Card Number"
+                                        value={creditCard.cardNumber}
+                                        onChange={(e) => dispatch({ type: ACTION_TYPES.setCardNumber, payload: e.currentTarget.value })} />
+                                    <div className="card-icon">
+
+                                        <CreditCardIcon
+                                            number={creditCard.cardNumber}
+                                        />
+                                        <CheckIcon
+                                            checked={
+                                                creditCard.cardNumberValidation?.isValid || false
+                                            }
+                                        />
+                                    </div>
+                                </div>
+
+                                <div className="cols-3">
+                                    <ValidableField
+                                        name="month"
+                                        placeholder="MM"
+                                        value={creditCard.cardExpiryMonth}
+                                        onChange={
+                                            (e) => dispatch(
+                                                {
+                                                    type: ACTION_TYPES.setCardExpiryMonth,
+                                                    payload: e.currentTarget.value
+                                                })
                                         }
+                                        isValid={
+                                            creditCard.cardMonthValidation?.isValid &&
+                                                creditCard.cardExpiryMonth.length === 2 ? true : false}
+                                    />
+                                    <ValidableField
+                                        name="year"
+                                        placeholder="YY"
+                                        value={creditCard.cardExpiryYear}
+                                        onChange={(e) => dispatch({ type: ACTION_TYPES.setCardExpiryYear, payload: e.currentTarget.value })}
+                                        isValid={
+                                            ((creditCard.cardYearValidation?.isValid &&
+                                                !creditCard.cardYearValidation?.isCurrentYear) ||
+                                                (creditCard.cardYearValidation?.isValid &&
+                                                    creditCard.cardYearValidation?.isCurrentYear &&
+                                                    creditCard.cardMonthValidation?.isValidForThisYear)) &&
+                                                creditCard.cardExpiryYear.length === 2 ? true : false}
+                                    />
+                                    <ValidableField
+                                        name="cvv"
+                                        placeholder="CVV"
+                                        value={creditCard.cardCVV}
+                                        onChange={(e) => dispatch({ type: ACTION_TYPES.setCardCVV, payload: e.currentTarget.value })}
+                                        isValid={creditCard.cardCVVValidation?.isValid && creditCard.cardCVV.length === 3 ? true : false}
                                     />
                                 </div>
-                            </div>
-
-                            <div className="cols-3">
-                                <ValidableField
-                                    name="month"
-                                    placeholder="MM"
-                                    value={creditCard.cardExpiryMonth}
-                                    onChange={
-                                        (e) => dispatch(
-                                            {
-                                                type: ACTION_TYPES.setCardExpiryMonth,
-                                                payload: e.currentTarget.value
-                                            })
-                                    }
-                                    isValid={
-                                        creditCard.cardMonthValidation?.isValid &&
-                                            creditCard.cardExpiryMonth.length === 2 ? true : false}
-                                />
-                                <ValidableField
-                                    name="year"
-                                    placeholder="YY"
-                                    value={creditCard.cardExpiryYear}
-                                    onChange={(e) => dispatch({ type: ACTION_TYPES.setCardExpiryYear, payload: e.currentTarget.value })}
-                                    isValid={
-                                        ((creditCard.cardYearValidation?.isValid &&
-                                            !creditCard.cardYearValidation?.isCurrentYear) ||
-                                            (creditCard.cardYearValidation?.isValid &&
-                                                creditCard.cardYearValidation?.isCurrentYear &&
-                                                creditCard.cardMonthValidation?.isValidForThisYear)) &&
-                                            creditCard.cardExpiryYear.length === 2 ? true : false}
-                                />
-                                <ValidableField
-                                    name="cvv"
-                                    placeholder="CVV"
-                                    value={creditCard.cardCVV}
-                                    onChange={(e) => dispatch({ type: ACTION_TYPES.setCardCVV, payload: e.currentTarget.value })}
-                                    isValid={creditCard.cardCVVValidation?.isValid && creditCard.cardCVV.length === 3 ? true : false}
-                                />
-                            </div>
-                            <div>
-                                <CheckboxInput name="terms" label="I agree with terms and conditions" value={"true"} />
-                            </div>
-                            <button className="btn btn-primary">Pay with card</button>
-                        </form>
-                    )}
-                </section>
-                <PreviewCartItem />
-            </Container>
-        </main>
+                                <div>
+                                    <CheckboxInput name="terms" label="I agree with terms and conditions" value={"true"} />
+                                </div>
+                                <Button className="btn btn-primary">Pay with card</Button>
+                            </form>
+                        )}
+                    </section>
+                    <PreviewCartItem />
+                </Container>
+            </main>
+        </FullContainer>
     )
 }

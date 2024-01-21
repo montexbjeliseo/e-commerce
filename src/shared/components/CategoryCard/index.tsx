@@ -5,7 +5,7 @@ import styled from "styled-components"
 import { PencilSquareIcon, TrashIcon } from "../../Icons";
 import { AdminComponentGuard } from "../../../guards/AdminComponent";
 
-const Card = styled.li`
+const Card = styled.article`
     position: relative;
 
     &:hover {
@@ -13,7 +13,7 @@ const Card = styled.li`
         opacity: 0.8;
     }
 
-    p {
+    a {
         position: absolute;
         top: 0;
         left: 0;
@@ -26,6 +26,7 @@ const Card = styled.li`
         color: #fff;
         font-size: 24px;
         text-align: center;
+        text-decoration: none;
     }
     img {  
         width: 100%;
@@ -76,9 +77,9 @@ export const CategoryCard: React.FC<Props> = ({ data, onDelete, onEdit }) => {
 
     return (
         <Card>
+            <img onError={(e) => e.currentTarget.src = IMAGE_PLACEHOLDER.IMAGE_300} src={data.image} alt={data.name} title={data.name} />
             <Link to={`${APP_ROUTES.PRODUCTS}?categoryId=${data.id}`}>
-                <p>{data.name}</p>
-                <img onError={(e) => e.currentTarget.src = IMAGE_PLACEHOLDER.IMAGE_300} src={data.image} alt={data.name} title={data.name} width={300} height={300} />
+                {data.name}
             </Link>
 
             <AdminComponentGuard>

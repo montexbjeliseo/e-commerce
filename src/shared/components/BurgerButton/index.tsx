@@ -10,7 +10,8 @@ const NavIcon = styled.div`
     display: inline-block;
   }
   .nav-icon-5 span{
-    background-color:#111;
+    background-color: #fff;
+    opacity: .5;
     position: absolute;
     border-radius: 2px;
     transition: .3s cubic-bezier(.8, .5, .2, 1.4);
@@ -25,7 +26,7 @@ const NavIcon = styled.div`
   .nav-icon-5 span:nth-child(2){
     top:13px;
     left: 0px;
-    opacity:1;
+    opacity:.5;
   }
   .nav-icon-5 span:nth-child(3){
     bottom:0px;

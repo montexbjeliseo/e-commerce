@@ -5,6 +5,7 @@ import { DeletionActionType, deletionReducer } from "../../../reducers/DeletionR
 import { Loading } from "../../../shared/components/Loading";
 import { useMutation } from "react-query";
 import { deleteProduct } from "../../../api";
+import { Button } from "../../../shared/components/Button";
 
 const ConfirmMessage = styled.div`
     display: flex;
@@ -14,7 +15,6 @@ const ConfirmMessage = styled.div`
     justify-content: center;
 
     p {
-        color: #111;
         font-size: 20px;
     }
 
@@ -91,7 +91,7 @@ export const DeleteProduct: React.FC<Props> = ({ data, onDeleted }) => {
         <ConfirmMessage>
             <strong className="title">Confirm Delete "{data.title}"</strong>
             <p>Are you sure you want to delete this Product?</p>
-            <button className="btn btn-primary" onClick={handleDelete}>Confirm Delete</button>
+            <Button onClick={handleDelete}>Confirm Delete</Button>
         </ConfirmMessage>
     )
 }

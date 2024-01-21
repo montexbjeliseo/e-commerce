@@ -4,7 +4,7 @@ import { APP_ROUTES } from "../../../constants";
 import styled from "styled-components";
 
 const HeroProductCardContainer = styled.div`
-    
+    box-sizing: border-box;
     display: grid;
     grid-template-columns: 1fr 1fr;
     .product-image, 
@@ -70,8 +70,7 @@ export const HeroProductCard: React.FC<Props> = ({ product }) => {
             </div>
             <div className="product-info">
                 <h1>{product.title}</h1>
-                <p className="product-description">{product.description}</p>
-                <p className="product-price">${product.price}</p>
+                <p className="product-description">{product.description.substring(0, 60) + '...'}</p>
                 <p><Link to={APP_ROUTES.PRODUCT_DETAILS.replace(':id', product.id.toString())}>View Details</Link></p>
             </div>
         </HeroProductCardContainer>

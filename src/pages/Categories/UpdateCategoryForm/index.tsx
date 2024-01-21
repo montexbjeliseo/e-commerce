@@ -6,6 +6,8 @@ import { Loading } from "../../../shared/components/Loading";
 import { CheckIcon } from "../../../shared/components/CheckIcon";
 import { CREATION_ACTION_TYPES, creationReducer } from "../../../reducers/CreationReducer";
 import { Category } from "../../../types";
+import { Button } from "../../../shared/components/Button";
+import { InputText } from "../../../shared/components/InputText";
 
 
 const MessageContainer = styled.div`
@@ -171,7 +173,7 @@ export const UpdateCategoryForm: React.FC<Props> = ({ data, onUpdated }) => {
                 </div>
             </label>
 
-            <input
+            <InputText
                 className="text-input"
                 type="text"
                 name="name"
@@ -179,9 +181,9 @@ export const UpdateCategoryForm: React.FC<Props> = ({ data, onUpdated }) => {
                 value={name}
                 onChange={(e) => setName(e.target.value)} />
 
-            <button className="btn btn-primary" type="submit">
+            <Button className="btn btn-primary" type="submit">
                 Update Category
-            </button>
+            </Button>
         </StyleForm>
     )
 

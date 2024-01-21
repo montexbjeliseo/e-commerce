@@ -11,6 +11,7 @@ import { fetchCategories } from "../../api";
 import { useLocation, useNavigate } from "react-router-dom";
 import { readProductFiltersFromSearchParams } from "../../utils/functions";
 import { FunnelIcon } from "../../shared/Icons";
+import { FullContainer } from "../../shared/components/FullContainer";
 
 
 export const ProductsPage = () => {
@@ -75,13 +76,13 @@ export const ProductsPage = () => {
 
     return (
         <>
-            <section className="container center">
-                <h1 className="title">Products</h1>
+            <FullContainer>
+                <h2 className="title">Products</h2>
                 <div className="product-container">
                     <button className={`toggle-filter-btn ${!filtersAsModal ? "active" : ""}`} onClick={handleFilterModal}><FunnelIcon /></button>
                     <aside className={`${filtersAsModal ? "asModal" : ""}`}>
                     <button className={`close-filter ${filtersAsModal ? "active" : ""}`} onClick={handleFilterModal}>X</button>
-                        <h2>Filters</h2>
+                        <h3>Filters</h3>
                         <ProductFilterForm
                             categories={categories as Category[]}
                             allowedPriceRange={{ min: 0, max: 99999 }}
@@ -95,7 +96,7 @@ export const ProductsPage = () => {
                         <ProductList filters={filters} />
                     </main>
                 </div>
-            </section>
+            </FullContainer>
         </>
 
     )

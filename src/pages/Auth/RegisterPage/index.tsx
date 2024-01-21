@@ -4,6 +4,10 @@ import { RegisterForm } from "../../../shared/components/RegisterForm"
 import { APP_ROUTES, ERROR } from "../../../constants";
 import { useNavigate } from "react-router-dom";
 import { Loading } from "../../../shared/components/Loading";
+import { FullContainer } from "../../../shared/components/FullContainer";
+import { FormContainer } from "../FormContainer";
+import { Overlay } from "../../../shared/components/Overlay";
+import { DangerText } from "../../../shared/components/DangerText";
 
 export const RegisterPage = () => {
 
@@ -51,15 +55,15 @@ export const RegisterPage = () => {
     }, []);
 
     return (
-        <div className="container">
-            <div className="form-container login-container">
-                <h1 className="title center">Complete the form and Join us!</h1>
-                <p className="error-message">{isError && `${error}`}</p>
+        <FullContainer>
+            <FormContainer>
+                <h2>Complete the form and Join us!</h2>
+                <DangerText>{isError && `${error}`}</DangerText>
                 <RegisterForm handleFormSubmit={handleRegisterFormSubmit} />
-                <div className={`loader-overlay ${isLoading ? 'active' : ''}`}>
+                <Overlay active={isLoading}>
                     <Loading />
-                </div>
-            </div>
-        </div>
+                </Overlay>
+            </FormContainer>
+        </FullContainer>
     )
 }

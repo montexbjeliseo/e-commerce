@@ -9,13 +9,12 @@ display: flex;
 gap: 20px;
 position: relative;
 
-
-
 img {
     width: 100%;
     height: 100%;
     object-fit: cover;
 }
+
 .image {
     width: 129px;
     height: 129px;
@@ -25,7 +24,6 @@ img {
     display: flex;
     flex-direction: column;
     gap: 5x;
-    color: #000;
 
     /* Paragraph 04 */
     font-family: Public Sans;
@@ -37,10 +35,6 @@ img {
 }
 
 .price, .title {
-    color: #000;
-
-    /* Heading 04 */
-    font-family: Public Sans;
     font-size: 22px;
     font-style: normal;
     font-weight: 600;
@@ -48,7 +42,6 @@ img {
     letter-spacing: -0.55px;
 }
 .btn-remove {
-    color: #000;
     border: none;
     background-color: transparent;
     opacity: 0.5;
