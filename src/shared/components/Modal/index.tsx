@@ -15,8 +15,9 @@ const Container = styled.div`
 
 
 const ModalContent = styled.div`
-  background: white;
+  background: inherit;
   padding: 20px;
+  border: 2px solid rgb(43, 43, 43);
   border-radius: 8px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
   max-width: 400px;

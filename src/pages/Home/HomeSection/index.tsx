@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
-const SectionTitle = styled.h1`
-    padding-top: 50px;
+const SectionTitle = styled.h2`
+    padding-top: 20px;
     text-align: center;
     font-size: 2.5rem;
     font-weight: lighter;
@@ -11,7 +11,7 @@ const SectionTitle = styled.h1`
 const SectionDescription = styled.p`
     text-align: center;
     font-size: 1.2rem;
-    padding: 10px 0;
+    font-style: italic;
 `;
 
 type Props = {
@@ -22,12 +22,12 @@ type Props = {
 
 export const HomeSection: React.FC<Props> = ({ title, description, children }) => {
     return (
-        <section className="container bg-gray">
+        <article>
             <SectionTitle>{title}</SectionTitle>
             <SectionDescription>{description}</SectionDescription>
             <div>
                 {children}
             </div>
-        </section>
+        </article>
     )
 }

@@ -5,6 +5,8 @@ import { postCategory } from "../../../api";
 import { Loading } from "../../../shared/components/Loading";
 import { CheckIcon } from "../../../shared/components/CheckIcon";
 import { CREATION_ACTION_TYPES, creationReducer } from "../../../reducers/CreationReducer";
+import { Button } from "../../../shared/components/Button";
+import { InputText } from "../../../shared/components/InputText";
 
 
 const MessageContainer = styled.div`
@@ -167,11 +169,11 @@ export const NewCategoryForm: React.FC<Props> = ({ onCreated }) => {
                 </div>
             </label>
 
-            <input className="text-input" type="text" name="name" placeholder="Category Name" required />
+            <InputText type="text" name="name" placeholder="Category Name" required />
 
-            <button className="btn btn-primary" type="submit">
+            <Button className="btn btn-primary" type="submit">
                 Create Category
-            </button>
+            </Button>
         </StyleForm>
     )
 

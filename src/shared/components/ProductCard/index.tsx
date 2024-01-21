@@ -9,7 +9,7 @@ const Card = styled.article`
     img {
         width: 100%;
         object-fit: cover;
-        height: 300px;
+        aspect-ratio: 1/1;
     }
 
     a {
@@ -29,26 +29,25 @@ const Card = styled.article`
     }
 
     position: relative;
-    .overlay {
+    .cardInfo {
         display: none;
     }
 
-&:hover .overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: rgba(0, 0, 0, 0.5);
-    color: #fff;
-    font-size: 24px;
-    text-align: center;
-}
+    &:hover .cardInfo {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        background: rgba(0, 0, 0, 0.5);
+        border: 2px solid rgb(43, 43, 43);
+    }
 
-    .overlay a {
+    .cardInfo a {
         padding: 10px;
         border: 1px solid #fff;
         color: #fff;
@@ -107,14 +106,11 @@ export const ProductCard: React.FC<Props> = ({ data, onDelete, onEdit }) => {
                 title={data.title}
                 onError={(e) => e.currentTarget.src = IMAGE_PLACEHOLDER.IMAGE_300}
             />
-            <p
-                className="product-title">{data.title} -
-                <i>{data.category.name}</i>
-            </p>
-            <p>${data.price}</p>
-            <div className="overlay">
+            <div className="cardInfo">
+                <h4>{data.title}</h4>
+                <p>${data.price}</p>
                 <Link to={APP_ROUTES.PRODUCT_DETAILS.replace(APP_ROUTES.ID, data.id.toString())} title={data.title}>
-                    View Details
+                    View
                 </Link>
             </div>
             <AdminComponentGuard>

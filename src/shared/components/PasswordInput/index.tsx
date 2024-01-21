@@ -1,4 +1,5 @@
 import { useId } from "react";
+import { InputText } from "../InputText";
 
 export const PasswordInput = () => {
 
@@ -7,7 +8,7 @@ export const PasswordInput = () => {
     return (
         <>
             <label htmlFor={passwordInputId}>Password</label>
-            <input required={true} className="text-input" type="password" placeholder="Password" name="password" id={passwordInputId} />
+            <InputText required={true} className="text-input" type="password" placeholder="Password" name="password" id={passwordInputId} />
         </>
     )
 }

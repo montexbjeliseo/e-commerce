@@ -3,6 +3,8 @@ import { Category, ProductFilters } from "../../../types";
 import { PriceRangeInput } from "../PriceRangeInput";
 import { SelectCategory } from "../SelectCategory";
 import styled from "styled-components";
+import { Button } from "../Button";
+import { InputText } from "../InputText";
 
 
 const Form = styled.form`
@@ -53,13 +55,13 @@ export const ProductFilterForm: React.FC<ProductFilterFormProps> = ({ categories
     return (
         <Form method="get" onSubmit={handleSubmit}>
             <h3>Title</h3>
-            <input className="text-input" type="text" name="title" id="" placeholder="Product title" value={title} onChange={e => setTitle(e.target.value)} />
+            <InputText type="text" name="title" id="" placeholder="Product title" value={title} onChange={e => setTitle(e.target.value)} />
             <h3>Category</h3>
             <SelectCategory categories={categories} selected={(category && category.toString()) || ''} onChange={(value: string) => setCategory(parseInt(value))} />
             <h3>Price</h3>
             <PriceRangeInput min={allowedPriceRange.min} max={allowedPriceRange.max} rangeValue={{ min: filters.price_min || allowedPriceRange.min, max: filters.price_max || allowedPriceRange.max }} />
-            <button className="btn btn-primary" type="reset" onClick={handleClear}>Clear filters</button>
-            <button className="btn btn-primary" type="submit">Apply filters</button>
+            <Button type="reset" onClick={handleClear}>Clear filters</Button>
+            <Button type="submit">Apply filters</Button>
         </Form>
     )
 }

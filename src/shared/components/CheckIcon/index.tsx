@@ -7,6 +7,6 @@ type Props = {
 
 export const CheckIcon: React.FC<Props> = ({ checked }) => {
     return (
-        <img src={checked ? checkIcon : invalidIcon} alt="" />
+        <img src={checked ? checkIcon : invalidIcon} alt="" width="32" />
     )
 }

@@ -7,18 +7,17 @@ const FooterContainer = styled.footer`
     display: flex;
     align-items: center;
     justify-content: center;
-    font-family: Public Sans;
     font-style: normal;
     font-size: 24px;
     box-sizing: border-box;
-    color: #111;
+    color: rgb(153, 153, 153);
     margin-top: 30px;
 `;
 
 export const Footer = () => {
     return (
         <FooterContainer>
-            © 2024 montexbjeliseo.
+            <p>Made by <a href="https://github.com/montexbjeliseo" target="_blank" rel="noreferrer">montexbjeliseo</a></p>
         </FooterContainer>
     )
 }

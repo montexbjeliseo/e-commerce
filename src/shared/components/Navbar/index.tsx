@@ -1,64 +1,53 @@
-import { Link } from "react-router-dom";
-import "./index.css";
-import CartIcon from "../../../assets/icons/cart.svg";
-import { useState } from "react";
-import { BurgerButton } from "../BurgerButton";
-import { APP_ROUTES } from "../../../constants";
-import { useCart } from "../../../contexts/CartProvider";
-import { NoAuthenticatedComponentGuard } from "../../../guards/NoAuthenticatedComponent";
-import { AuthenticatedComponentGuard } from "../../../guards/AuthenticatedComponent";
+import styled from "styled-components";
 
-export const Navbar = () => {
-
-    const [toggleShowLinks, setToggleShowLinks] = useState(false);
-
-    const { items } = useCart();
-
-    const handleClickLink = () => {
-        setToggleShowLinks(false);
+const StyledNavbar = styled.nav`
+    
+    a {
+        text-decoration: none;
+        color: white;
+        padding: 10px;
+        font-size: 14px;
+        font-weight: 700;
+        opacity: .5;
     }
 
+    a:hover {
+        opacity: 1;
+        color: aqua;
+        border-bottom: 2px solid aqua;
+    }
+
+    a.active {
+        opacity: 1;
+    }
+
+    @media screen and (max-width: 768px) {
+        display: none;
+
+        &.open {
+            display: flex;
+            flex-direction: column;
+            position: absolute;
+            top: 60px;
+            left: 0;
+            right: 0;
+            background: inherit;
+            padding: 0 10px;
+            z-index: 1000;
+            padding: 10px;
+        }
+    }
+`;
+
+type Props = {
+    open: boolean;
+    children: React.ReactNode;
+}
+
+export const Navbar: React.FC<Props> = ({ children, open }) => {
     return (
-        <header className="header">
-            <div className="wrap">
-                <div className="brand-name">E-commerce</div>
-                <div className="toggle-show-links-button">
-                    <BurgerButton open={toggleShowLinks} handleClick={() => setToggleShowLinks(!toggleShowLinks)} />
-                </div>
-                <nav className={toggleShowLinks ? "show-links" : ""}>
-                    <ul>
-                        <li>
-                            <Link onClick={handleClickLink} to={APP_ROUTES.HOME}>Home</Link>
-                        </li>
-                        <li>
-                            <Link onClick={handleClickLink} to={APP_ROUTES.CATEGORIES}>Categories</Link>
-                        </li>
-                        <li>
-                            <Link onClick={handleClickLink} to={APP_ROUTES.PRODUCTS}>Products</Link>
-                        </li>
-                        <li className="cart-link">
-                            <Link onClick={handleClickLink} to={APP_ROUTES.CART}>
-                                <img src={CartIcon} alt="Cart icon" />
-                                <AuthenticatedComponentGuard><sup>{items.length}</sup></AuthenticatedComponentGuard>
-                            </Link>
-                        </li>
-
-                        <AuthenticatedComponentGuard>
-                            {/* <li className="register-link"><a>Profile</a></li> */}
-                            <li className="login-link"><Link onClick={handleClickLink} to={APP_ROUTES.LOGOUT}>Logout</Link></li>
-                        </AuthenticatedComponentGuard>
-                        <NoAuthenticatedComponentGuard>
-                            <li className="login-link">
-                                <Link onClick={handleClickLink} to={APP_ROUTES.LOGIN}>Login</Link>
-                            </li>
-                            <li className="register-link">
-                                <Link onClick={handleClickLink} to={APP_ROUTES.REGISTER}>Register</Link>
-                            </li>
-                        </NoAuthenticatedComponentGuard>
-                    </ul>
-                </nav>
-
-            </div>
-        </header>
+        <StyledNavbar className={open ? 'open' : ''}>
+            {children}
+        </StyledNavbar>
     )
 }

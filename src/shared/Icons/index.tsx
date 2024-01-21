@@ -1,7 +1,7 @@
 export const PencilSquareIcon = () => {
     return (
         <>
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-pencil-square" viewBox="0 0 16 16">
+            <svg width="16" height="16" fill="currentColor" className="bi bi-pencil-square" viewBox="0 0 16 16">
                 <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
                 <path fillRule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z" />
             </svg>
@@ -12,7 +12,7 @@ export const PencilSquareIcon = () => {
 export const TrashIcon = () => {
     return (
         <>
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-trash3-fill" viewBox="0 0 16 16">
+            <svg width="16" height="16" fill="currentColor" className="bi bi-trash3-fill" viewBox="0 0 16 16">
                 <path d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5m-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5M4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06Zm6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528ZM8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5" />
             </svg>
         </>
@@ -22,7 +22,7 @@ export const TrashIcon = () => {
 export const ArrowUpIcon = () => {
     return (
         <>
-            <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" className="bi bi-arrow-up" viewBox="0 0 16 16">
+            <svg width="1em" height="1em" fill="currentColor" className="bi bi-arrow-up" viewBox="0 0 16 16">
                 <path fillRule="evenodd" d="M8 15a.5.5 0 0 0 .5-.5V2.707l3.146 3.147a.5.5 0 0 0 .708-.708l-4-4a.5.5 0 0 0-.708 0l-4 4a.5.5 0 1 0 .708.708L7.5 2.707V14.5a.5.5 0 0 0 .5.5" />
             </svg>
         </>
@@ -32,8 +32,20 @@ export const ArrowUpIcon = () => {
 export const FunnelIcon = () => {
     return (
         <>
-            <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" className="bi bi-funnel" viewBox="0 0 16 16">
+            <svg width="1em" height="1em" fill="currentColor" className="bi bi-funnel" viewBox="0 0 16 16">
                 <path d="M1.5 1.5A.5.5 0 0 1 2 1h12a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.128.334L10 8.692V13.5a.5.5 0 0 1-.342.474l-3 1A.5.5 0 0 1 6 14.5V8.692L1.628 3.834A.5.5 0 0 1 1.5 3.5zm1 .5v1.308l4.372 4.858A.5.5 0 0 1 7 8.5v5.306l2-.666V8.5a.5.5 0 0 1 .128-.334L13.5 3.308V2z" />
+            </svg>
+        </>
+    )
+}
+
+export const CartIcon = () => {
+    return (
+        <>
+            <svg width="19" height="22" viewBox="0 0 19 22" fill="none">
+                <path
+                    d="M18.0178 18.4938L16.4885 6.0293C16.4428 5.8043 16.2635 5.625 16.0385 5.625H12.7531V4.36464C12.7531 1.75428 11.3135 0 9.15313 0C6.99277 0 5.55313 1.75428 5.55313 4.36464V5.625H1.99885C1.77385 5.625 1.59455 5.8043 1.54885 6.0293L0.0195675 18.4938C-0.0700815 19.1231 0.154918 19.7981 0.559207 20.2481C0.963505 20.7438 1.59457 21.0128 2.22385 21.0128H15.7697C16.399 21.0128 17.0301 20.7421 17.4344 20.2481C17.8826 19.7999 18.1076 19.1249 18.018 18.4938H18.0178ZM6.45322 4.4084C6.45322 2.78768 7.17394 0.943757 9.15322 0.943757C11.1325 0.943757 11.8532 2.78948 11.8532 4.4084V5.66876H6.45322V4.4084ZM16.8032 19.6643C16.5325 19.935 16.1739 20.1143 15.8136 20.1143H2.22403C1.81973 20.1143 1.45939 19.935 1.23439 19.6643C1.00939 19.3936 0.874037 18.9893 0.919739 18.585L2.40334 6.56867H15.6324L17.1178 18.6291C17.1635 18.9895 17.0282 19.3938 16.8032 19.6645L16.8032 19.6643Z"
+                    fill="currentColor" />
             </svg>
         </>
     )

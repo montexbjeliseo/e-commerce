@@ -20,7 +20,7 @@ const CreateNewText = styled.p`
         font-weight: bold;
         padding: 5px;
         user-select: none;
-        color: #0D0D0D;
+        color: #FFF;
         text-decoration: none;
         &:hover {
             opacity: 1;
@@ -97,7 +97,7 @@ export const ProductList: React.FC<ProductListProps> = ({ filters }) => {
             <div className="product-list">
 
                 {!products || products.length === 0 ? (
-                    <h2>There are no products : (</h2>
+                    <p>There are no products : (</p>
                 ) : (
                     <>
                         {(products as Product[]).map((product) => (

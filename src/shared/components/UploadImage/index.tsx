@@ -5,7 +5,7 @@ import { CREATION_ACTION_TYPES, creationReducer } from "../../../reducers/Creati
 import { uploadImage } from "../../../api";
 import { Loading } from "../Loading";
 import { CheckIcon } from "../CheckIcon";
-import { Button } from "../Styled/Button";
+import { Button } from "../Button";
 
 
 

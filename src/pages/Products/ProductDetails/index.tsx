@@ -1,16 +1,18 @@
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { fetchProductById } from "../../../api";
 import { Loading } from "../../../shared/components/Loading";
 import { ErrorMessage } from "../../../shared/components/ErrorMessage";
 import { useQuery } from "react-query";
-import { QUERY_KEYS } from "../../../constants";
-import "./styles.css";
+import { APP_ROUTES, QUERY_KEYS } from "../../../constants";
 import { Carousel } from "../../../shared/components/Carousel";
 import { QuantityInput } from "../../../shared/components/QuantityInput";
 import { useState } from "react";
 import { useCart } from "../../../contexts/CartProvider";
 import { AuthenticatedComponentGuard } from "../../../guards/AuthenticatedComponent";
 import { NoAuthenticatedComponentGuard } from "../../../guards/NoAuthenticatedComponent";
+import { FullContainer } from "../../../shared/components/FullContainer";
+import { Button } from "../../../shared/components/Button";
+import { MutedText, ProductDetailContainer, ProductInformationContainer } from "../ProductLayout";
 
 export const ProductDetailPage = () => {
 
@@ -60,43 +62,41 @@ export const ProductDetailPage = () => {
     }
 
     return (
-        <div className="container">
-            <div className="product-details-container">
-                <div className="product-images-container">
+        <FullContainer>
+            <main>
+                <ProductDetailContainer>
                     <Carousel images={data.images} />
-                </div>
-                <div className="product-details-description-container">
-                    <h1 className="product-title">{data.title}</h1>
-                    <p><b>{data.category.name}</b></p>
-                    <p><b>Description: </b>{data.description}</p>
-                    <p><b>Price: </b>${data.price}</p>
-                    <AuthenticatedComponentGuard>
-                        <QuantityInput
-                            quantity={quantity}
-                            incrementQuantity={incrementQuantity}
-                            decrementQuantity={decrementQuantity}
-                            onChange={(e) => setQuantity(parseInt(e.target.value, 10))}
-                        />
-                        {
-                            isProductInCart() && (
-                                <div>
-                                    <p>
+                    <ProductInformationContainer>
+                        <h1 className="product-title">{data.title}</h1>
+                        <p><b>{data.category.name}</b></p>
+                        <p><b>Description: </b>{data.description}</p>
+                        <p><b>Price: </b>${data.price}</p>
+                        <AuthenticatedComponentGuard>
+                            <QuantityInput
+                                quantity={quantity}
+                                incrementQuantity={incrementQuantity}
+                                decrementQuantity={decrementQuantity}
+                                onChange={(e) => setQuantity(parseInt(e.target.value, 10))}
+                            />
+                            {
+                                isProductInCart() && (
+                                    <MutedText>
                                         * The product is already in the cart
-                                    </p>
-                                </div>
-                            )
-                        }
-                        <div>
-                            <button className="btn btn-primary" type="button" onClick={handleAddToCart}>{isProductInCart() ? 'Update cart ' : 'Add to cart '} {'$' + data.price * quantity}</button>
-                        </div>
-                    </AuthenticatedComponentGuard>
-                    <NoAuthenticatedComponentGuard>
-                        <p>
-                            * You must be logged in to add products to the cart
-                        </p>
-                    </NoAuthenticatedComponentGuard>
-                </div>
-            </div>
-        </div>
+                                    </MutedText>
+                                )
+                            }
+                            <div>
+                                <Button type="button" onClick={handleAddToCart}>{isProductInCart() ? 'Update cart ' : 'Add to cart '} {'$' + data.price * quantity}</Button>
+                            </div>
+                        </AuthenticatedComponentGuard>
+                        <NoAuthenticatedComponentGuard>
+                            <p>
+                                * You must <Link to={APP_ROUTES.LOGIN} state={{ from: location.pathname }}>log in</Link> to add products to the cart
+                            </p>
+                        </NoAuthenticatedComponentGuard>
+                    </ProductInformationContainer>
+                </ProductDetailContainer>
+            </main>
+        </FullContainer>
     )
 }

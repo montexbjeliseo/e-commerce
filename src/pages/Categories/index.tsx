@@ -1,5 +1,5 @@
 import { useQuery } from "react-query";
-import "./styles.css";
+// import "./styles.css";
 import { ErrorMessage } from "../../shared/components/ErrorMessage";
 import { Loading } from "../../shared/components/Loading";
 import { API_ENDPOINTS, QUERY_KEYS } from "../../constants";
@@ -13,15 +13,21 @@ import { UpdateCategoryForm } from "./UpdateCategoryForm";
 import { DeleteCategory } from "./DeleteCategory";
 import { MODIFY_RESOURCE_ACTIONS, modifyResourceReducer } from "../../reducers/ModifyResourceReducer";
 import { AdminComponentGuard } from "../../guards/AdminComponent";
+import { FullContainer } from "../../shared/components/FullContainer";
 
 const NewCategoryLink = styled.b`
     cursor: pointer;
-    color: #111;
     opacity: 0.5;
     font-size: 14px;
     &:hover {
         opacity: 1;
     }
+`;
+
+const CategoriesContainer = styled.div`
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 30px;
 `;
 
 export const CategoriesPage = () => {
@@ -65,50 +71,52 @@ export const CategoriesPage = () => {
     }
 
     return (
-        <div className="container center">
-            <h1 className="title">Categories</h1>
-            <div>
-                {showNewCategoryForm ? (
-                    <Modal isOpen={showNewCategoryForm} onClose={() => setShowNewCategoryForm(false)}>
-                        <NewCategoryForm onCreated={onMutate} />
-                    </Modal>
-                ) : null}
-            </div>
-            <div>
-                {askedFor.resource ? (
-                    <Modal isOpen={askedFor.askedToDelete} onClose={() => dispatch({ type: MODIFY_RESOURCE_ACTIONS.CANCEL, payload: null })}>
-                        <DeleteCategory
-                            data={askedFor.resource as Category}
-                            onDeleted={onMutate}
+        <FullContainer>
+            <main>
+                <h2>Categories</h2>
+                <div>
+                    {showNewCategoryForm ? (
+                        <Modal isOpen={showNewCategoryForm} onClose={() => setShowNewCategoryForm(false)}>
+                            <NewCategoryForm onCreated={onMutate} />
+                        </Modal>
+                    ) : null}
+                </div>
+                <div>
+                    {askedFor.resource ? (
+                        <>
+                            <Modal isOpen={askedFor.askedToDelete} onClose={() => dispatch({ type: MODIFY_RESOURCE_ACTIONS.CANCEL, payload: null })}>
+                                <DeleteCategory
+                                    data={askedFor.resource as Category}
+                                    onDeleted={onMutate}
+                                />
+                            </Modal>
+                            <Modal isOpen={askedFor.askedToEdit} onClose={() => dispatch({ type: MODIFY_RESOURCE_ACTIONS.CANCEL, payload: null })}>
+                                <UpdateCategoryForm
+                                    data={askedFor.resource as Category}
+                                    onUpdated={onMutate} />
+                            </Modal>
+                        </>
+                    ) : null}
+                </div>
+                <p className="title">Browse our categories
+                    <AdminComponentGuard>
+                        | <NewCategoryLink
+                            onClick={() => setShowNewCategoryForm(true)}>
+                            Create new
+                        </NewCategoryLink>
+                    </AdminComponentGuard>
+                </p>
+                <CategoriesContainer>
+                    {(data as Category[]).map((category) => (
+                        <CategoryCard
+                            key={category.id}
+                            data={category}
+                            onEdit={handleAskEditCategory}
+                            onDelete={handleAskDeleteCategory}
                         />
-                    </Modal>
-                ) : null}
-                {askedFor.resource ? (
-                    <Modal isOpen={askedFor.askedToEdit} onClose={() => dispatch({ type: MODIFY_RESOURCE_ACTIONS.CANCEL, payload: null })}>
-                        <UpdateCategoryForm
-                            data={askedFor.resource as Category}
-                            onUpdated={onMutate} />
-                    </Modal>
-                ) : null}
-            </div>
-            <p className="title">Browse our categories
-                <AdminComponentGuard>
-                    | <NewCategoryLink
-                        onClick={() => setShowNewCategoryForm(true)}>
-                        Create new
-                    </NewCategoryLink>
-                </AdminComponentGuard>
-            </p>
-            <ul className="categories">
-                {(data as Category[]).map((category) => (
-                    <CategoryCard
-                        key={category.id}
-                        data={category}
-                        onEdit={handleAskEditCategory}
-                        onDelete={handleAskDeleteCategory}
-                    />
-                ))}
-            </ul>
-        </div>
+                    ))}
+                </CategoriesContainer>
+            </main>
+        </FullContainer>
     )
 }

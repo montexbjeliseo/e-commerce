@@ -1,8 +1,9 @@
 import styled from "styled-components";
 import { useCart } from "../../../contexts/CartProvider";
 import { CartItemCard } from "../../../pages/CartPage/CartItemCard";
+import { MutedText } from "../../../pages/Products/ProductLayout";
 
-const UList = styled.ul`
+const ItemContainer = styled.section`
     list-style: none;
     list-style-type: none;
     display: flex;
@@ -20,19 +21,19 @@ export const CartItemList: React.FC<Props> = ({ allowRemove }) => {
     return (
         <>
             {items && items.length > 0 ? (
-                <UList>
+                <ItemContainer>
                     {items.map((item) => (
-                        <li key={item.product.id}>
+                        <article key={item.product.id}>
                             <CartItemCard
                                 item={item}
                                 allowRemove={allowRemove}
                                 handleRemove={removeItem}
                             />
-                        </li>
+                        </article>
                     ))}
-                </UList>
+                </ItemContainer>
             ) : (
-                <p className="text-muted"><i>Your cart is empty</i></p>
+                <MutedText><i>Your cart is empty</i></MutedText>
             )}
         </>
     )
