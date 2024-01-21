@@ -7,7 +7,6 @@ const FooterContainer = styled.footer`
     display: flex;
     align-items: center;
     justify-content: center;
-    font-family: Public Sans;
     font-style: normal;
     font-size: 24px;
     box-sizing: border-box;
