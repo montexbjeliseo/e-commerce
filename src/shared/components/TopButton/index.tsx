@@ -7,7 +7,7 @@ const TopButtonStyled = styled.button`
     position: fixed;
     bottom: 20px;
     right: 20px;
-
+    padding: 12px;
     &.visible {
         display: block;
     }
