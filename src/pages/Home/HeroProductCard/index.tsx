@@ -66,7 +66,7 @@ export const HeroProductCard: React.FC<Props> = ({ product }) => {
     return (
         <HeroProductCardContainer>
             <div className="product-image">
-                <img src={product.images[0]} />
+                <img src={product.images[0]} alt={product.title} />
             </div>
             <div className="product-info">
                 <h1>{product.title}</h1>

@@ -20,7 +20,7 @@ export const Banner = styled.div`
     &.secondary {
         background: #a5a5a5;
         a {
-            color: #fff;
+            color: #2b2b2b;
             text-decoration: none;
             font-weight: 700;
             font-size: 1.2rem;

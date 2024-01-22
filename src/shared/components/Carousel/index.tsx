@@ -24,7 +24,7 @@ export const Carousel: React.FC<CarouselProps> = ({ images }) => {
                 {images.map((image, index) => (
                     <div key={uuidv4()} className={`mySlides fade ${index === currentIndex ? 'active' : ''}`}>
                         <div className="numbertext">{`${currentIndex + 1} / ${images.length}`}</div>
-                        <img src={image} />
+                        <img src={image} alt="" />
                     </div>
                 ))}
 
