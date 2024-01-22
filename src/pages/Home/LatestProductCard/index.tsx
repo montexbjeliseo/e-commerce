@@ -53,10 +53,8 @@ const LatestProductCardContainer = styled.article`
     }
 
     @media (max-width: 576px) {
-        width: 100%;
-        flex-direction: column;
         img {
-            width: 100%;
+            width: 40%;
         }
     }
 `;
@@ -65,9 +63,9 @@ export const LatestProductCard: React.FC<Props> = ({ product }) => {
 
     return (
         <LatestProductCardContainer>
-            <div>
+            {/* <div> */}
                 <img src={product.images[0]} alt={product.title} onError={(e) => e.currentTarget.src = IMAGE_PLACEHOLDER.IMAGE_300} />
-            </div>
+            {/* </div> */}
             <div className="product-information">
                 <h1>{product.title}</h1>
                 <p>${product.price}</p>
