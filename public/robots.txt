@@ -1,2 +1,2 @@
 User-agent: *
-Sitemap: https://www.montexbjeliseo.com.ar/sitemap.xml
+Sitemap: https://storedemo.montexbjeliseo.com.ar/sitemap.xml
