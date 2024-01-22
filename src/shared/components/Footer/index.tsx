@@ -12,6 +12,12 @@ const FooterContainer = styled.footer`
     box-sizing: border-box;
     color: rgb(153, 153, 153);
     margin-top: 30px;
+
+    a {
+        text-decoration: none;
+        color: #A9ABBD;
+        font-weight: bold;
+    }
 `;
 
 export const Footer = () => {
