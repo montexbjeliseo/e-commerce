@@ -2,6 +2,7 @@ html {
     scroll-behavior: smooth;
     font-family: "Roboto", sans-serif;
     color-scheme: light dark;
+    overflow-y: scroll;
 }
 
 body {
@@ -11,4 +12,8 @@ body {
     background-color: rgb(24, 24, 24);
     color: #fff;
     min-height: 80vh;
-}	
+}
+
+::-webkit-scrollbar {
+    width: 12px;
+}

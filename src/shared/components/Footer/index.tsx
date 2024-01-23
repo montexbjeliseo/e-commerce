@@ -11,7 +11,6 @@ const FooterContainer = styled.footer`
     font-size: 24px;
     box-sizing: border-box;
     color: rgb(153, 153, 153);
-    margin-top: 30px;
 
     a {
         text-decoration: none;
