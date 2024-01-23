@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { Product } from "../../../types"
-import { APP_ROUTES } from "../../../constants";
+import { APP_ROUTES, IMAGE_PLACEHOLDER } from "../../../constants";
 import styled from "styled-components";
 
 const HeroProductCardContainer = styled.div`
@@ -66,7 +66,13 @@ export const HeroProductCard: React.FC<Props> = ({ product }) => {
     return (
         <HeroProductCardContainer>
             <div className="product-image">
-                <img src={product.images[0]} alt={product.title} />
+                <img 
+                src={product.images[0]} 
+                alt={product.title}
+                title={product.title}
+                onError={(e) => e.currentTarget.src = IMAGE_PLACEHOLDER.IMAGE_300}
+                loading="lazy"
+                 />
             </div>
             <div className="product-info">
                 <h1>{product.title}</h1>
