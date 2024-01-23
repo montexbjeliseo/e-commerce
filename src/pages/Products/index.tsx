@@ -79,9 +79,17 @@ export const ProductsPage = () => {
             <FullContainer>
                 <h2 className="title">Products</h2>
                 <div className="product-container">
-                    <button className={`toggle-filter-btn ${!filtersAsModal ? "active" : ""}`} onClick={handleFilterModal}><FunnelIcon /></button>
+                    <button
+                        className={`toggle-filter-btn ${!filtersAsModal ? "active" : ""}`}
+                        onClick={handleFilterModal}
+                        aria-label="Open filters"
+                    ><FunnelIcon /></button>
                     <aside className={`${filtersAsModal ? "asModal" : ""}`}>
-                    <button className={`close-filter ${filtersAsModal ? "active" : ""}`} onClick={handleFilterModal}>X</button>
+                        <button
+                            className={`close-filter ${filtersAsModal ? "active" : ""}`}
+                            onClick={handleFilterModal}
+                            aria-label="Close filters"
+                        >X</button>
                         <h3>Filters</h3>
                         <ProductFilterForm
                             categories={categories as Category[]}
