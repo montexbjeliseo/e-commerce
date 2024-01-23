@@ -20,7 +20,7 @@ type Props = {
     children: React.ReactNode;
 }
 
-export const HomeSection: React.FC<Props> = ({ title, description, children }) => {
+const HomeSection: React.FC<Props> = ({ title, description, children }) => {
     return (
         <article>
             <SectionTitle>{title}</SectionTitle>
@@ -31,3 +31,5 @@ export const HomeSection: React.FC<Props> = ({ title, description, children }) =
         </article>
     )
 }
+
+export default HomeSection;
