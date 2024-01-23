@@ -10,7 +10,12 @@ import { InputText } from "../InputText";
 const Form = styled.form`
     display: flex;
     flex-direction: column;
-    gap: 18px;
+    gap: 10px;
+`;
+
+const FormGroup = styled.label`
+    display: flex;
+    flex-direction: column;
 `;
 
 type ProductFilterFormProps = {
@@ -54,12 +59,38 @@ export const ProductFilterForm: React.FC<ProductFilterFormProps> = ({ categories
 
     return (
         <Form method="get" onSubmit={handleSubmit}>
-            <h3>Title</h3>
-            <InputText type="text" name="title" id="" placeholder="Product title" value={title} onChange={e => setTitle(e.target.value)} />
-            <h3>Category</h3>
-            <SelectCategory categories={categories} selected={(category && category.toString()) || ''} onChange={(value: string) => setCategory(parseInt(value))} />
-            <h3>Price</h3>
-            <PriceRangeInput min={allowedPriceRange.min} max={allowedPriceRange.max} rangeValue={{ min: filters.price_min || allowedPriceRange.min, max: filters.price_max || allowedPriceRange.max }} />
+            <FormGroup>
+                Title
+                <InputText
+                    type="text"
+                    name="title"
+                    id=""
+                    placeholder="Product title"
+                    value={title}
+                    onChange={e => setTitle(e.target.value)} />
+            </FormGroup>
+            <FormGroup>
+                Category
+                <SelectCategory
+                    categories={categories}
+                    selected={(category && category.toString()) || ''}
+                    onChange={(value: string) => setCategory(parseInt(value))}
+                />
+            </FormGroup>
+            <FormGroup>
+                Price
+                <PriceRangeInput
+                    min={allowedPriceRange.min}
+                    max={allowedPriceRange.max}
+                    rangeValue={
+                        {
+                            min: filters.price_min ||
+                                allowedPriceRange.min, max: filters.price_max ||
+                                    allowedPriceRange.max
+                        }
+                    }
+                />
+            </FormGroup>
             <Button type="reset" onClick={handleClear}>Clear filters</Button>
             <Button type="submit">Apply filters</Button>
         </Form>

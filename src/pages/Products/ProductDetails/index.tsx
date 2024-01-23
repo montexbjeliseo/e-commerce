@@ -13,6 +13,12 @@ import { NoAuthenticatedComponentGuard } from "../../../guards/NoAuthenticatedCo
 import { FullContainer } from "../../../shared/components/FullContainer";
 import { Button } from "../../../shared/components/Button";
 import { MutedText, ProductDetailContainer, ProductInformationContainer } from "../ProductLayout";
+import styled from "styled-components";
+
+const StyledPrice = styled.p`
+    font-weight: bold;
+    font-size: 24px;
+`;
 
 export const ProductDetailPage = () => {
 
@@ -68,9 +74,8 @@ export const ProductDetailPage = () => {
                     <Carousel images={data.images} />
                     <ProductInformationContainer>
                         <h1 className="product-title">{data.title}</h1>
-                        <p><b>{data.category.name}</b></p>
-                        <p><b>Description: </b>{data.description}</p>
-                        <p><b>Price: </b>${data.price}</p>
+                        <p>{data.description}</p>
+                        <StyledPrice>${data.price}</StyledPrice>
                         <AuthenticatedComponentGuard>
                             <QuantityInput
                                 quantity={quantity}

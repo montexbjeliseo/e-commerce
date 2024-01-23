@@ -90,7 +90,7 @@ export const ProductsPage = () => {
                             onClick={handleFilterModal}
                             aria-label="Close filters"
                         >X</button>
-                        <h3>Filters</h3>
+                        <h3>Filter products by</h3>
                         <ProductFilterForm
                             categories={categories as Category[]}
                             allowedPriceRange={{ min: 0, max: 99999 }}
