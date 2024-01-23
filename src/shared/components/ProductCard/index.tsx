@@ -105,6 +105,7 @@ export const ProductCard: React.FC<Props> = ({ data, onDelete, onEdit }) => {
                 alt={data.title}
                 title={data.title}
                 onError={(e) => e.currentTarget.src = IMAGE_PLACEHOLDER.IMAGE_300}
+                loading="lazy"
             />
             <div className="cardInfo">
                 <h4>{data.title}</h4>

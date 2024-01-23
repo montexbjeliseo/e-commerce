@@ -63,9 +63,12 @@ export const LatestProductCard: React.FC<Props> = ({ product }) => {
 
     return (
         <LatestProductCardContainer>
-            {/* <div> */}
-                <img src={product.images[0]} alt={product.title} onError={(e) => e.currentTarget.src = IMAGE_PLACEHOLDER.IMAGE_300} />
-            {/* </div> */}
+            <img
+                src={product.images[0]}
+                alt={product.title}
+                onError={(e) => e.currentTarget.src = IMAGE_PLACEHOLDER.IMAGE_300}
+                loading="lazy"
+            />
             <div className="product-information">
                 <h1>{product.title}</h1>
                 <p>${product.price}</p>

@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import "./styles.css"
 import { v4 as uuidv4 } from 'uuid';
+import { IMAGE_PLACEHOLDER } from '../../../constants';
 
 type CarouselProps = {
     images: string[];
@@ -24,7 +25,12 @@ export const Carousel: React.FC<CarouselProps> = ({ images }) => {
                 {images.map((image, index) => (
                     <div key={uuidv4()} className={`mySlides fade ${index === currentIndex ? 'active' : ''}`}>
                         <div className="numbertext">{`${currentIndex + 1} / ${images.length}`}</div>
-                        <img src={image} alt="" />
+                        <img
+                            onError={(e) => e.currentTarget.src = IMAGE_PLACEHOLDER.IMAGE_300}
+                            src={image}
+                            alt=""
+                            loading='lazy'
+                        />
                     </div>
                 ))}
 

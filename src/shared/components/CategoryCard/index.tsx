@@ -77,7 +77,13 @@ export const CategoryCard: React.FC<Props> = ({ data, onDelete, onEdit }) => {
 
     return (
         <Card>
-            <img onError={(e) => e.currentTarget.src = IMAGE_PLACEHOLDER.IMAGE_300} src={data.image} alt={data.name} title={data.name} />
+            <img 
+            onError={(e) => e.currentTarget.src = IMAGE_PLACEHOLDER.IMAGE_300} 
+            src={data.image} 
+            alt={data.name} 
+            title={data.name}
+            loading="lazy"
+            />
             <Link to={`${APP_ROUTES.PRODUCTS}?categoryId=${data.id}`}>
                 {data.name}
             </Link>
