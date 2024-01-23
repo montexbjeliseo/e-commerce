@@ -40,7 +40,7 @@ export const TopButton = () => {
   }, []);
 
   return (
-    <TopButtonStyled className={`btn scroll-btn ${isVisible ? 'visible' : ''}`} onClick={scrollToTop}>
+    <TopButtonStyled className={`btn scroll-btn ${isVisible ? 'visible' : ''}`} onClick={scrollToTop} title="Scroll to top" aria-label="Scroll to top">
       <ArrowUpIcon />
     </TopButtonStyled>
   );
